@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-export default function PerfilScreen() {
+export default function NotificationsScreen() {
     return (
         <View>
             <Text></Text>
