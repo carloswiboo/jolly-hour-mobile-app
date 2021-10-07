@@ -1,0 +1,390 @@
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Button,
+  Animated,
+  TouchableHighlight,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Input } from "react-native-elements";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SocialIcon } from "react-native-elements";
+import { FontAwesome } from "@expo/vector-icons";
+import { Formik } from "formik";
+import { LoginUsuario } from "../API/APIUsuario";
+import { CounterContext } from "../../App";
+
+export default function WelcomeScreen({ navigation }) {
+  const { user, login, logout } = React.useContext(CounterContext);
+
+  const [isWelcomeOpen, setIsWelcomeOpen] = React.useState(true);
+  const [isLoginOpen, setIsLoginOpen] = React.useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = React.useState(false);
+
+  const [modalVisible, setModalVisible] = React.useState(false);
+
+  const openLogin = () => {
+    setIsWelcomeOpen(false);
+    setIsSignUpOpen(false);
+    setIsLoginOpen(true);
+  };
+  const openSignUp = () => {
+    setIsWelcomeOpen(false);
+    setIsSignUpOpen(true);
+    setIsLoginOpen(false);
+  };
+
+  const signUpAction = (values) => {
+    alert(JSON.stringify(values));
+    //navigation.navigate("CompleteInformationScreenComponent");
+
+    LoginUsuario(values).then((resultado) => {
+      debugger;
+      
+        login(resultado).then((resultado) => {
+          debugger;
+        });
+        console.log(resultado);
+      
+    });
+  };
+
+
+
+  return (
+    <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={null}> Patrocinado por: </Text>
+
+            <Image
+              style={{ width: "90%", height: 300 }}
+              source={{
+                uri: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/logo-gmcvb-corp.png",
+              }}
+              resizeMode="contain"
+            />
+
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Cerrar Informativo</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+
+      <LinearGradient
+        style={styles.loginBackground}
+        colors={["#FC466B", "#3F5EFB"]}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
+      >
+        <Image
+          style={styles.logoLogin}
+          source={require("../../assets/jollylogoapp.png")}
+        />
+        {/* Div de comienzo */}
+        {isWelcomeOpen ? (
+          <View style={stylesWelcomeMessage.welcomeMessageContainer}>
+            <Text style={stylesWelcomeMessage.textWelcome}>¡Bienvenido!</Text>
+            <Text style={stylesWelcomeMessage.subtitleWelcome}>
+              Nos da mucho gusto
+            </Text>
+            <Text style={stylesWelcomeMessage.subtitleWelcome}>
+              que estés aquí!
+            </Text>
+            <View style={{ paddingVertical: 20 }}>
+              <TouchableOpacity
+                style={stylesWelcomeMessage.buttonBegin}
+                onPress={() => openLogin()}
+              >
+                <Text style={stylesWelcomeMessage.buttonBeginButton}>
+                  Iniciar Sesión
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={stylesWelcomeMessage.buttonBegin}
+                onPress={() => openSignUp()}
+              >
+                <Text style={stylesWelcomeMessage.buttonBeginButton}>
+                  Crear Cuenta
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+        {/* LogIn Content*/}
+        {isLoginOpen ? (
+          <Animated.View style={stylesContainer.containerLogSignUp}>
+            <View style={{ paddingHorizontal: 8 }}>
+              <Text style={loginStyles.titleLogin}>Empecemos</Text>
+              <Text style={loginStyles.titleLogin}>aquí</Text>
+            </View>
+            <View style={{ paddingVertical: 10 }}>
+              <Formik
+                initialValues={{ email: "", password: "" }}
+                onSubmit={(values) => signUpAction(values)}
+              >
+                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                  <View>
+                    <Input
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      placeholder="Correo Electrónico"
+                    />
+                    <Input
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholder="Contraseña"
+                      secureTextEntry={true}
+                    />
+
+                    <TouchableOpacity
+                      onPress={handleSubmit}
+                      style={loginStyles.loginButton}
+                    >
+                      <Text style={loginStyles.loginButtonText}>
+                        Iniciar Sesión
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </Formik>
+            </View>
+
+            <View style={{ paddingBottom: 10 }}>
+              <TouchableOpacity style={buttonStyles.facebookButton}>
+                <Text style={buttonStyles.facebookButtonText}>
+                  <FontAwesome name="facebook-f" size={18} color="white" />
+                  {"  "}Iniciar Sesión con Facebook
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                paddingBottom: 10,
+                paddingTop: 10,
+                alignItems: "center",
+              }}
+            >
+              <Text>¿No tienes cuenta?</Text>
+              <TouchableOpacity onPress={() => openSignUp()}>
+                <Text style={{ color: "#6e24a4" }}> Crear cuenta</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        ) : null}
+        {/* SignUp content */}
+        {isSignUpOpen ? (
+          <Animated.View style={stylesContainer.containerLogSignUp}>
+            <View style={{ paddingHorizontal: 8 }}>
+              <Text style={loginStyles.titleLogin}>Crea tu cuenta</Text>
+              <Text style={loginStyles.titleLogin}>aquí</Text>
+            </View>
+            <View style={{ paddingVertical: 10 }}>
+              <Formik
+                initialValues={{ email: "", name: "", password: "" }}
+                onSubmit={(values) => alert(JSON.stringify(values))}
+              >
+                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                  <View>
+                    <Input
+                      onChangeText={handleChange("name")}
+                      onBlur={handleBlur("name")}
+                      value={values.name}
+                      placeholder="Nombre"
+                    />
+                    <Input
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      placeholder="Correo Electrónico"
+                    />
+                    <Input
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      value={values.password}
+                      placeholder="Contraseña"
+                      secureTextEntry={true}
+                    />
+
+                    <TouchableOpacity
+                      onPress={handleSubmit}
+                      style={loginStyles.loginButton}
+                    >
+                      <Text style={loginStyles.loginButtonText}>
+                        {" "}
+                        Crear Cuenta
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </Formik>
+            </View>
+
+            <View
+              style={{
+                paddingBottom: 10,
+                paddingTop: 10,
+                alignItems: "center",
+              }}
+            >
+              <Text>¿Ya tienes cuenta?</Text>
+              <TouchableOpacity onPress={() => openLogin()}>
+                <Text style={{ color: "#6e24a4" }}> Iniciar Sesión cuenta</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        ) : null}
+      </LinearGradient>
+    </>
+  );
+}
+
+const buttonStyles = StyleSheet.create({
+  facebookButton: {
+    backgroundColor: "#3b5998",
+    padding: 10,
+    textAlign: "center",
+    alignItems: "center",
+    borderRadius: 30,
+  },
+  facebookButtonText: {
+    color: "white",
+    fontSize: 18,
+  },
+});
+
+const loginStyles = StyleSheet.create({
+  titleLogin: {
+    fontSize: 40,
+    fontWeight: "bold",
+  },
+  loginButton: {
+    backgroundColor: "#0043ff",
+    padding: 10,
+    textAlign: "center",
+    alignItems: "center",
+    borderRadius: 30,
+  },
+  loginButtonText: {
+    color: "white",
+    fontSize: 18,
+  },
+});
+
+const styles = StyleSheet.create({
+  loginBackground: {
+    flex: 1,
+    alignItems: "center",
+  },
+  logoLogin: {
+    marginTop: 70,
+    height: 150,
+    resizeMode: "contain",
+  },
+  modalView: {
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: 50,
+  },
+  textStyle: {
+    padding: 9,
+    elevation: 5,
+    borderRadius: 30,
+    color: "white",
+  },
+});
+
+const stylesWelcomeMessage = StyleSheet.create({
+  welcomeMessageContainer: {
+    alignContent: "center",
+    textAlign: "center",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingVertical: 30,
+  },
+  textWelcome: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 40,
+  },
+  subtitleWelcome: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "200",
+    fontSize: 20,
+  },
+  buttonBegin: {
+    marginHorizontal: 70,
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 20,
+    marginVertical: 10,
+    paddingHorizontal: 40,
+    paddingVertical: 10,
+  },
+  buttonBeginButton: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 20,
+  },
+});
+
+const stylesContainer = StyleSheet.create({
+  containerLogSignUp: {
+    backgroundColor: "white",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    paddingVertical: 40,
+    paddingHorizontal: 45,
+  },
+});

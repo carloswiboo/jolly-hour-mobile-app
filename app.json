@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Jolly Hour",
+    "name": "Jolly Hour 2.0",
     "slug": "jolly-hour-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,10 +23,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "com.carloswiboo.jollyhourmobileapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

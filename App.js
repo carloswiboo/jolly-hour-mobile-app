@@ -2,47 +2,57 @@ import React from "react";
 import Navigation from "./app/navigations/Navigation";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
-
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import { useReducerAsync } from "use-reducer-async";
-import { authReducer } from "./app/auth/authReducer";
-import { AuthContext } from "./app/auth/AuthContext";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const init = async () => {
-  try {
+export const CounterContext = React.createContext(0);
+
+const useCounter = () => React.useContext(CounterContext);
+
+const CounterContextProvider = ({ children }) => {
+  const [user, setUser] = React.useState({});
+
+  const login = (values) => {
+
     debugger;
-    const value = await AsyncStorage.getItem("@usuariojolly");
-    console.log(value);
-    return JSON.parse(value) || { logged: false };
-  } catch (e) {
-    // error reading value
-  }
-};
-
-const setValue = async () => {
-  const jsonValue = JSON.stringify(value);
-  await AsyncStorage.setItem("@usuariojolly", JSON.stringify(user));
-};
-
-export default function App() {
-  const [user, dispatch] = React.useReducer(authReducer, {}, init);
+    setUser(values);
+  };
+  const logout = (values) => setUser({});
 
   React.useEffect(() => {
-    const setValue = async (user) => {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@usuariojolly", JSON.stringify(user));
-    };
+    AsyncStorage.setItem("JOLLYHOYR::USERJOLLY", `${JSON.stringify(user)}`);
   }, [user]);
 
+  React.useEffect(() => {
+    AsyncStorage.getItem("JOLLYHOYR::USERJOLLY").then((user) => {
+
+
+      debugger;
+
+      if (user) {
+        setCount(user);
+      }
+    });
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, dispatch }}>
-      <SafeAreaProvider>
-        <StatusBar backgroundColor={"black"} StatusBarStyle={"dark-content"} />
-        <Navigation />
-      </SafeAreaProvider>
-    </AuthContext.Provider>
+    <CounterContext.Provider value={{ user, login, logout }}>
+      {children}
+    </CounterContext.Provider>
+  );
+};
+
+function App() {
+  return (
+    <SafeAreaProvider>
+      <StatusBar backgroundColor={"black"} StatusBarStyle={"dark-content"} />
+      <Navigation />
+    </SafeAreaProvider>
   );
 }
+
+export default () => (
+  <CounterContextProvider>
+    <App />
+  </CounterContextProvider>
+);
