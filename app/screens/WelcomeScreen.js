@@ -18,7 +18,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SocialIcon } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 import { Formik } from "formik";
-import { LoginUsuario } from "../API/APIUsuario";
+import { createAccountByMail, LoginUsuario } from "../API/APIUsuario";
 import { CounterContext } from "../../App";
 
 export default function WelcomeScreen({ navigation }) {
@@ -29,6 +29,8 @@ export default function WelcomeScreen({ navigation }) {
   const [isSignUpOpen, setIsSignUpOpen] = React.useState(false);
 
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  const [disabled, setDisabled] = React.useState(false);
 
   const openLogin = () => {
     setIsWelcomeOpen(false);
@@ -42,21 +44,29 @@ export default function WelcomeScreen({ navigation }) {
   };
 
   const signUpAction = (values) => {
-    alert(JSON.stringify(values));
+    alert("Accediendo a tu cuenta");
     //navigation.navigate("CompleteInformationScreenComponent");
 
     LoginUsuario(values).then((resultado) => {
-      debugger;
-      
-        login(resultado).then((resultado) => {
-          debugger;
-        });
-        console.log(resultado);
-      
+      login(resultado).then((resultado) => {});
+      console.log(resultado);
     });
   };
 
+  const createAccount = (values) => {
+    debugger;
 
+    alert(JSON.stringify(values));
+    //navigation.navigate("CompleteInformationScreenComponent");
+
+    createAccountByMail(values).then((resultado) => {
+      debugger;
+      login(resultado).then((resultado) => {
+        debugger;
+      });
+      console.log(resultado);
+    });
+  };
 
   return (
     <>
@@ -141,7 +151,10 @@ export default function WelcomeScreen({ navigation }) {
             </View>
             <View style={{ paddingVertical: 10 }}>
               <Formik
-                initialValues={{ email: "", password: "" }}
+                initialValues={{
+                  email: "luis@wiboo.com.mx",
+                  password: "lfmluis424424",
+                }}
                 onSubmit={(values) => signUpAction(values)}
               >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -205,7 +218,7 @@ export default function WelcomeScreen({ navigation }) {
             <View style={{ paddingVertical: 10 }}>
               <Formik
                 initialValues={{ email: "", name: "", password: "" }}
-                onSubmit={(values) => alert(JSON.stringify(values))}
+                onSubmit={(values) => createAccount(values)}
               >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                   <View>
@@ -214,12 +227,14 @@ export default function WelcomeScreen({ navigation }) {
                       onBlur={handleBlur("name")}
                       value={values.name}
                       placeholder="Nombre"
+                      disabled={disabled}
                     />
                     <Input
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
                       value={values.email}
                       placeholder="Correo Electrónico"
+                      disabled={disabled}
                     />
                     <Input
                       onChangeText={handleChange("password")}
@@ -227,14 +242,15 @@ export default function WelcomeScreen({ navigation }) {
                       value={values.password}
                       placeholder="Contraseña"
                       secureTextEntry={true}
+                      disabled={disabled}
                     />
 
                     <TouchableOpacity
                       onPress={handleSubmit}
                       style={loginStyles.loginButton}
+                      disabled={disabled}
                     >
                       <Text style={loginStyles.loginButtonText}>
-                        {" "}
                         Crear Cuenta
                       </Text>
                     </TouchableOpacity>

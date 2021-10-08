@@ -16,10 +16,10 @@ const Tab = createBottomTabNavigator();
 export default function Navigation() {
   const { user, login, logout } = React.useContext(CounterContext);
 
+
+  debugger;
+
   console.log(user);
-
-
-
   return (
     <>
       <NavigationContainer>

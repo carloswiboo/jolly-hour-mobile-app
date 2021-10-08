@@ -12,10 +12,6 @@ export const LoginUsuario = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-
-
-    debugger;
-
    
     if (response.status === 200) {
       return response.data;
@@ -29,7 +25,12 @@ export const LoginUsuario = async (values) => {
 };
 
 export const createAccountByMail = async (values) => {
+
+  debugger;
+
   let url = API + "services/usuario/createUsuario";
+
+  debugger;
   try {
     const response = await axios.post(url, values, {
       headers: {
@@ -38,6 +39,8 @@ export const createAccountByMail = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+
+    debugger;
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {
