@@ -14,12 +14,9 @@ import LoginStack from "./LoginStack";
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
-  const { user, login, logout } = React.useContext(CounterContext);
 
+  const user = { accessToken: "sa"}
 
-  debugger;
-
-  console.log(user);
   return (
     <>
       <NavigationContainer>
