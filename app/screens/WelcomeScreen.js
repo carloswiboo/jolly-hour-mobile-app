@@ -19,10 +19,11 @@ import { SocialIcon } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { createAccountByMail, LoginUsuario } from "../API/APIUsuario";
-import { CounterContext } from "../../App";
+import { AuthContext } from "../context/context";
 
 export default function WelcomeScreen({ navigation }) {
-  const { user, login, logout } = React.useContext(CounterContext);
+  const { authContext } = React.useContext(AuthContext);
+  const { loginState } = React.useContext(AuthContext);
 
   const [isWelcomeOpen, setIsWelcomeOpen] = React.useState(true);
   const [isLoginOpen, setIsLoginOpen] = React.useState(false);
@@ -44,12 +45,15 @@ export default function WelcomeScreen({ navigation }) {
   };
 
   const signUpAction = (values) => {
-    alert("Accediendo a tu cuenta");
     //navigation.navigate("CompleteInformationScreenComponent");
 
-    LoginUsuario(values).then((resultado) => {
-      login(resultado).then((resultado) => {});
-      console.log(resultado);
+    LoginUsuario(values).then((resultadoLogin) => {
+      debugger;
+
+      debugger;
+
+      authContext.signIn(resultadoLogin);
+      dispatch();
     });
   };
 

@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
 
-  const user = { accessToken: "sa"}
+  const user = { }
 
   return (
     <>
