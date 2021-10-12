@@ -21,6 +21,36 @@ import { Formik } from "formik";
 import { createAccountByMail, LoginUsuario } from "../API/APIUsuario";
 import { AuthContext } from "../context/context";
 import Toast from "react-native-root-toast";
+import * as yup from "yup";
+
+const loginValidationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Ingresa un correo válido")
+    .required("Correo Necesario"),
+  password: yup
+    .string()
+    .min(
+      8,
+      ({ min }) => `La Contraseña debe tener ${min} caracteres como mínimo`
+    )
+    .required("Contraseña requerida"),
+});
+
+const createAccountValidationSchema = yup.object().shape({
+  nombre: yup.string().required("Nombre Requerido"),
+  email: yup
+    .string()
+    .email("Ingresa un correo válido")
+    .required("Correo Necesario"),
+  password: yup
+    .string()
+    .min(
+      8,
+      ({ min }) => `La Contraseña debe tener ${min} caracteres como mínimo`
+    )
+    .required("Contraseña requerida"),
+});
 
 export default function WelcomeScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
@@ -168,8 +198,15 @@ export default function WelcomeScreen({ navigation }) {
                   password: emailPassword,
                 }}
                 onSubmit={(values) => signUpAction(values)}
+                validationSchema={loginValidationSchema}
               >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
                   <View>
                     <Input
                       onChangeText={handleChange("email")}
@@ -177,6 +214,18 @@ export default function WelcomeScreen({ navigation }) {
                       value={values.email}
                       placeholder="Correo Electrónico"
                     />
+                    {errors.email && (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "red",
+                          width: "100%",
+                          textAlign: "center",
+                        }}
+                      >
+                        {errors.email}
+                      </Text>
+                    )}
                     <Input
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
@@ -184,7 +233,19 @@ export default function WelcomeScreen({ navigation }) {
                       placeholder="Contraseña"
                       secureTextEntry={true}
                     />
-
+                    {errors.password && (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "red",
+                          width: "100%",
+                          textAlign: "center",
+                          paddingBottom: 20,
+                        }}
+                      >
+                        {errors.password}
+                      </Text>
+                    )}
                     <TouchableOpacity
                       onPress={handleSubmit}
                       style={loginStyles.loginButton}
@@ -235,8 +296,15 @@ export default function WelcomeScreen({ navigation }) {
                   password: "",
                 }}
                 onSubmit={(values) => createAccount(values)}
+                validationSchema={loginValidationSchema}
               >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                }) => (
                   <View>
                     <Input
                       onChangeText={handleChange("nombre")}
@@ -245,6 +313,18 @@ export default function WelcomeScreen({ navigation }) {
                       placeholder="Nombre"
                       disabled={disabled}
                     />
+                    {errors.nombre && (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "red",
+                          width: "100%",
+                          textAlign: "center",
+                        }}
+                      >
+                        {errors.nombre}
+                      </Text>
+                    )}
                     <Input
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
@@ -252,6 +332,18 @@ export default function WelcomeScreen({ navigation }) {
                       placeholder="Correo Electrónico"
                       disabled={disabled}
                     />
+                    {errors.email && (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "red",
+                          width: "100%",
+                          textAlign: "center",
+                        }}
+                      >
+                        {errors.email}
+                      </Text>
+                    )}
                     <Input
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
@@ -260,6 +352,19 @@ export default function WelcomeScreen({ navigation }) {
                       secureTextEntry={true}
                       disabled={disabled}
                     />
+                    {errors.password && (
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "red",
+                          width: "100%",
+                          textAlign: "center",
+                          paddingBottom: 20,
+                        }}
+                      >
+                        {errors.password}
+                      </Text>
+                    )}
 
                     <TouchableOpacity
                       onPress={handleSubmit}

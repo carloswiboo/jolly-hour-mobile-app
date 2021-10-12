@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./app/context/context";
 import { RootSiblingParent } from "react-native-root-siblings";
-
+import * as yup from 'yup'
 export default function App() {
   const initialLoginState = {
     isLoading: true,
