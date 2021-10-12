@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./app/context/context";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 export default function App() {
   const initialLoginState = {
@@ -16,26 +17,22 @@ export default function App() {
     switch (action.type) {
       case "RETRIEVE_TOKEN":
         return {
-          ...prevState,
-          userToken: action,
+          userToken: action.token,
           isLoading: false,
         };
       case "LOGIN":
         return {
-          ...prevState,
-          user: action,
+          userToken: action,
           isLoading: false,
         };
       case "LOGOUT":
         return {
-          ...prevState,
-          user: null,
+          userToken: null,
           isLoading: false,
         };
       case "REGISTER":
         return {
-          ...prevState,
-          user: action,
+          userToken: action,
           isLoading: false,
         };
     }
@@ -49,8 +46,6 @@ export default function App() {
   const authContext = React.useMemo(
     () => ({
       signIn: async (foundUser) => {
-        debugger;
-
         try {
           await AsyncStorage.setItem("userToken", JSON.stringify(foundUser));
         } catch (e) {
@@ -60,8 +55,9 @@ export default function App() {
         dispatch({ type: "LOGIN", user: foundUser });
       },
       signOut: async () => {
-        // setUserToken(null);
         // setIsLoading(false);
+        debugger;
+
         try {
           await AsyncStorage.removeItem("userToken");
         } catch (e) {
@@ -110,11 +106,16 @@ export default function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authContext, loginState }}>
-      <SafeAreaProvider>
-        <StatusBar backgroundColor={"black"} StatusBarStyle={"dark-content"} />
-        <Navigation />
-      </SafeAreaProvider>
-    </AuthContext.Provider>
+    <RootSiblingParent>
+      <AuthContext.Provider value={{ authContext, loginState }}>
+        <SafeAreaProvider>
+          <StatusBar
+            backgroundColor={"black"}
+            StatusBarStyle={"dark-content"}
+          />
+          <Navigation />
+        </SafeAreaProvider>
+      </AuthContext.Provider>
+    </RootSiblingParent>
   );
 }

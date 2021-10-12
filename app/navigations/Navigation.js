@@ -10,23 +10,21 @@ import PromocionesStack from "./PromocionesStack";
 import { Icon } from "react-native-elements";
 import { CounterContext } from "./../../App";
 import LoginStack from "./LoginStack";
-import { AuthContext } from './../context/context';
+import { AuthContext } from "./../context/context";
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
-
-
   const { loginState } = React.useContext(AuthContext);
 
-
-  debugger;
-
+ 
 
   return (
     <>
       <NavigationContainer>
-        {loginState.userToken !== null ? (
+        {loginState.userToken == null ? (
+          <LoginStack />
+        ) : (
           <>
             <Tab.Navigator
               initialRouteName="home"
@@ -113,8 +111,6 @@ export default function Navigation() {
               />
             </Tab.Navigator>
           </>
-        ) : (
-          <LoginStack />
         )}
       </NavigationContainer>
     </>

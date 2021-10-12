@@ -20,6 +20,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Formik } from "formik";
 import { createAccountByMail, LoginUsuario } from "../API/APIUsuario";
 import { AuthContext } from "../context/context";
+import Toast from "react-native-root-toast";
 
 export default function WelcomeScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
@@ -32,6 +33,9 @@ export default function WelcomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const [disabled, setDisabled] = React.useState(false);
+
+  const [emailLogin, setEmailLogin] = React.useState("");
+  const [emailPassword, setEmailPassword] = React.useState("");
 
   const openLogin = () => {
     setIsWelcomeOpen(false);
@@ -48,27 +52,31 @@ export default function WelcomeScreen({ navigation }) {
     //navigation.navigate("CompleteInformationScreenComponent");
 
     LoginUsuario(values).then((resultadoLogin) => {
-      debugger;
-
-      debugger;
-
       authContext.signIn(resultadoLogin);
       dispatch();
     });
   };
 
   const createAccount = (values) => {
-    debugger;
-
-    alert(JSON.stringify(values));
+    //alert(JSON.stringify(values));
     //navigation.navigate("CompleteInformationScreenComponent");
 
     createAccountByMail(values).then((resultado) => {
       debugger;
-      login(resultado).then((resultado) => {
-        debugger;
-      });
-      console.log(resultado);
+
+      if (resultado.status == 200) {
+        let toast = Toast.show("Gracias! Ahora inicia tu sesión!", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+          shadow: true,
+          animation: true,
+        });
+
+        setEmailPassword(values.password);
+        setEmailLogin(resultado.data.email);
+
+        openLogin();
+      }
     });
   };
 
@@ -156,8 +164,8 @@ export default function WelcomeScreen({ navigation }) {
             <View style={{ paddingVertical: 10 }}>
               <Formik
                 initialValues={{
-                  email: "luis@wiboo.com.mx",
-                  password: "lfmluis424424",
+                  email: emailLogin,
+                  password: emailPassword,
                 }}
                 onSubmit={(values) => signUpAction(values)}
               >
@@ -221,15 +229,19 @@ export default function WelcomeScreen({ navigation }) {
             </View>
             <View style={{ paddingVertical: 10 }}>
               <Formik
-                initialValues={{ email: "", name: "", password: "" }}
+                initialValues={{
+                  email: "",
+                  nombre: "",
+                  password: "",
+                }}
                 onSubmit={(values) => createAccount(values)}
               >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                   <View>
                     <Input
-                      onChangeText={handleChange("name")}
-                      onBlur={handleBlur("name")}
-                      value={values.name}
+                      onChangeText={handleChange("nombre")}
+                      onBlur={handleBlur("nombre")}
+                      value={values.nombre}
                       placeholder="Nombre"
                       disabled={disabled}
                     />

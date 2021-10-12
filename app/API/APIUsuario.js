@@ -26,11 +26,9 @@ export const LoginUsuario = async (values) => {
 
 export const createAccountByMail = async (values) => {
 
-  debugger;
+  let url = API + "/services/usuario/createUsuario";
 
-  let url = API + "services/usuario/createUsuario";
-
-  debugger;
+ 
   try {
     const response = await axios.post(url, values, {
       headers: {
@@ -42,12 +40,12 @@ export const createAccountByMail = async (values) => {
 
     debugger;
     if (response.status === 200) {
-      return response.data;
+      return response;
     } else if (response.status === 401) {
       return {};
     }
   } catch (error) {
-    console.error(error);
+    console.error(error); 
     return {};
   }
 };
