@@ -92,8 +92,6 @@ export default function WelcomeScreen({ navigation }) {
     //navigation.navigate("CompleteInformationScreenComponent");
 
     createAccountByMail(values).then((resultado) => {
-      debugger;
-
       if (resultado.status == 200) {
         let toast = Toast.show("Gracias! Ahora inicia tu sesión!", {
           duration: Toast.durations.LONG,
@@ -101,10 +99,8 @@ export default function WelcomeScreen({ navigation }) {
           shadow: true,
           animation: true,
         });
-
         setEmailPassword(values.password);
         setEmailLogin(resultado.data.email);
-
         openLogin();
       }
     });

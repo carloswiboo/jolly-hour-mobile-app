@@ -11,13 +11,12 @@ import { Icon } from "react-native-elements";
 import { CounterContext } from "./../../App";
 import LoginStack from "./LoginStack";
 import { AuthContext } from "./../context/context";
+import InterestScreen from "../screens/InterestScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
   const { loginState } = React.useContext(AuthContext);
-
- 
 
   return (
     <>
@@ -49,6 +48,21 @@ export default function Navigation() {
                 },
               }}
             >
+              <Tab.Screen
+                name="intereses"
+                options={{
+                  title: "Intereses",
+                  headerShown: false,
+                  tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons
+                      name="home"
+                      color={color}
+                      size={22}
+                    />
+                  ),
+                }}
+                component={InterestScreen}
+              />
               <Tab.Screen
                 name="home"
                 options={{

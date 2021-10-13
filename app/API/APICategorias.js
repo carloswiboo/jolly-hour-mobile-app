@@ -1,9 +1,10 @@
-import { API } from "../Constants/ApiConnection";
+import { API } from "../constants/ApiConnection";
 import axios from "axios";
 import { encode } from "base64-arraybuffer";
 
 export const getAllCategorias = async (values) => {
-  let url = API + "services/categoria/getCategorias";
+  let url = API + "/services/categoria/getCategorias";
+
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -28,7 +29,7 @@ export const getAllCategorias = async (values) => {
 };
 
 export const getCategorieById = async (idcategoria) => {
-  let url = API + "services/categoria/getCategoria/" + idcategoria;
+  let url = API + "/services/categoria/getCategoria/" + idcategoria;
   try {
     const response = await axios.get(url, null, {
       headers: {
