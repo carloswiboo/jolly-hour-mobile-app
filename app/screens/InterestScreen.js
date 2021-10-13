@@ -66,7 +66,7 @@ export default function InterestScreen({ navigation }) {
 
         var resultadoFinal = JSON.parse(resultadoSiHay);
 
-debugger;
+ 
 
         if(resultadoFinal === null)
         {
@@ -82,7 +82,7 @@ debugger;
             setFinalData(resultadoFinal);
         }
 
-        debugger;
+         
 
 
     });
@@ -108,7 +108,7 @@ debugger;
       const jsonValue = JSON.stringify(finalData);
       const resultado = await AsyncStorage.setItem("@categoriasGuardadas", jsonValue);
 
-      debugger;
+       
       return true;
     } catch (e) {
       // saving error

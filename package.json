@@ -24,15 +24,20 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-countdown-timer-text": "0.0.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-get-random-values": "^1.7.0",
     "react-native-root-toast": "^3.2.1",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-skeleton-content": "^1.0.22",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-constants": "~11.0.1",
+    "expo-notifications": "~0.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

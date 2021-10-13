@@ -1,9 +1,11 @@
-import { API } from "../Constants/ApiConnection";
+import { API } from "../constants/ApiConnection";
 import axios from "axios";
 import { encode } from "base64-arraybuffer";
 
 export const getAllPromociones = async (values) => {
-  let url = API + "services/oferta/getOfertas";
+  let url = API + "/services/oferta/getOfertas";
+
+
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -12,10 +14,13 @@ export const getAllPromociones = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+
     if (response.status === 200) {
       for (const promocion of response.data) {
         promocion.imagenConvertida =
           "data:image/png;base64," + encode(promocion.imagen.data);
+        promocion.imagenLogoEmpresaConvertida =
+          "data:image/png;base64," + encode(promocion.logoEmpresa.data);
       }
       return response.data;
     } else if (response.status === 401) {

@@ -38,7 +38,7 @@ export const createAccountByMail = async (values) => {
       },
     });
 
-    debugger;
+     
     if (response.status === 200) {
       return response;
     } else if (response.status === 401) {

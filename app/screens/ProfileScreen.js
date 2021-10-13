@@ -7,7 +7,7 @@ export default function ProfileScreen(props) {
     const { authContext } = React.useContext(AuthContext);
     const { loginState } = React.useContext(AuthContext);
 
-    debugger;
+     
     return (
         <View>
            <Button title="Cerrar Sesión"  onPress={() => authContext.signOut() }></Button>

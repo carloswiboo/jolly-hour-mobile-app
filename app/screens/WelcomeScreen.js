@@ -67,6 +67,9 @@ export default function WelcomeScreen({ navigation }) {
   const [emailLogin, setEmailLogin] = React.useState("");
   const [emailPassword, setEmailPassword] = React.useState("");
 
+
+
+
   const openLogin = () => {
     setIsWelcomeOpen(false);
     setIsSignUpOpen(false);
