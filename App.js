@@ -17,23 +17,20 @@ export default function App() {
 
   React.useEffect(() => {
     registerForPushNotificationsAsync().then(async (token) => {
+      //alert(token);
 
-      alert(token);
-      debugger; 
-      await AsyncStorage.setItem("tokenNotificaciones", JSON.stringify(token));
+      await AsyncStorage.setItem("tokenNotificaciones", token);
     });
   }, []);
 
   async function registerForPushNotificationsAsync() {
     let token;
-    debugger;
     if (Constants.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
       if (existingStatus !== "granted") {
-        debugger;
         const { status } = await Notifications.requestPermissionsAsync();
 
         finalStatus = status;

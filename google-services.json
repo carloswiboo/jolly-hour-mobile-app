@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "552487892010",
+    "project_id": "jolly-hour-mobile-app",
+    "storage_bucket": "jolly-hour-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552487892010:android:bf7878cbc3735f60103f53",
+        "android_client_info": {
+          "package_name": "com.carloswiboo.jollyhourmobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552487892010-1hhifju90b11pkr6budhfd325cnj60hg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2yVcg592yC3vm9cqGdQt1AFmssOh3Mng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552487892010-1hhifju90b11pkr6budhfd325cnj60hg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

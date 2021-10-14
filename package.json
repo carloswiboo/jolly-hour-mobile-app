@@ -37,7 +37,8 @@
     "use-reducer-async": "^2.0.1",
     "yup": "^0.32.11",
     "expo-constants": "~11.0.1",
-    "expo-notifications": "~0.12.3"
+    "expo-notifications": "~0.12.3",
+    "expo-facebook": "~11.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

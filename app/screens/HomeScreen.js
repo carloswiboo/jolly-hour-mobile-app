@@ -87,6 +87,10 @@ export default function HomeScreen({ navigation }) {
 
   React.useEffect(() => {
     getAllPromociones(null).then((resultado) => {
+
+
+      debugger;
+
       setFinalData(resultado);
       setLoading(false);
     });

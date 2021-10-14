@@ -1,10 +1,10 @@
-
-import axios from 'axios';
-import { API } from '../constants/ApiConnection';
+import axios from "axios";
+import { API } from "../constants/ApiConnection";
 export const LoginUsuario = async (values) => {
+  debugger;
   let url = API + "/auth/usuario/signin";
-  try {
 
+  try {
     const response = await axios.post(url, values, {
       headers: {
         Accept: "application/json",
@@ -12,7 +12,37 @@ export const LoginUsuario = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-   
+
+    debugger;
+    if (response.status === 200) {
+      return response.data;
+    } else if (response.status === 401) {
+      alert("Contraseña Incorrecta");
+      return null;
+    } else if (response.status === 404) {
+      alert("El usuario no existe");
+      return null;
+    }
+  } catch (error) {
+
+    debugger;
+
+    console.error(error);
+    return null;
+  }
+};
+
+export const LoginUsuarioFacebook = async (values) => {
+  let url = API + "/auth/usuario/loginFacebook";
+  try {
+    const response = await axios.post(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {
@@ -25,10 +55,10 @@ export const LoginUsuario = async (values) => {
 };
 
 export const createAccountByMail = async (values) => {
-
   let url = API + "/services/usuario/createUsuario";
 
- 
+  debugger;
+
   try {
     const response = await axios.post(url, values, {
       headers: {
@@ -38,18 +68,18 @@ export const createAccountByMail = async (values) => {
       },
     });
 
-     
+    debugger;
+
     if (response.status === 200) {
       return response;
     } else if (response.status === 401) {
       return {};
     }
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     return {};
   }
 };
-
 
 export const setOfertasByUser = async (values) => {
   let url = API + "services/usuario/setOferta/";
@@ -71,4 +101,3 @@ export const setOfertasByUser = async (values) => {
     return {};
   }
 };
-

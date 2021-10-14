@@ -20,73 +20,26 @@ import { getAllCategorias } from "../API/APICategorias";
 export default function InterestScreen({ navigation }) {
   const [finalData, setFinalData] = React.useState([]);
 
-  const [categories, setCategories] = React.useState([
-    {
-      id: 1,
-      nombre: "Moda",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/moda@2x.png",
-      isActive: false,
-    },
-    {
-      id: 2,
-      nombre: "Salud Y Belleza",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/saludBelleza@2x.png",
-      isAactive: false,
-    },
-    {
-      id: 3,
-      nombre: "Servicios",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/servicios@2x.png",
-      isAactive: false,
-    },
-    {
-      id: 4,
-      nombre: "Restaurantes",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/comidaRestaurantes@2x.png",
-      isAactive: false,
-    },
-    {
-      id: 5,
-      nombre: "Entretenimiento",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/entretenimiento@2x.png",
-      isAactive: false,
-    },
-    {
-      id: 6,
-      nombre: "Hoteles y viajes",
-      url: "https://www.wiboo.com.mx/wp-content/uploads/2021/06/hoteleriaYViajes@2x.png",
-      isAactive: false,
-    },
-  ]);
-
   React.useEffect(() => {
-
     getCategories().then((resultadoSiHay) => {
+      debugger;
 
+      var resultadoFinal = JSON.parse(resultadoSiHay);
 
-        var resultadoFinal = JSON.parse(resultadoSiHay);
+      if (resultadoFinal === null) {
+        getAllCategorias().then((resultado) => {
 
- 
+          debugger;
 
-        if(resultadoFinal === null)
-        {
-            getAllCategorias().then((resultado) => {
-                for (const categoria of resultado) {
-                  categoria.isActive = false;
-                }
-                setFinalData(resultado);
-              });
-        }
-        else
-        {
-            setFinalData(resultadoFinal);
-        }
-
-         
-
-
+          for (const categoria of resultado) {
+            categoria.isActive = false;
+          }
+          setFinalData(resultado);
+        });
+      } else {
+        setFinalData(resultadoFinal);
+      }
     });
-
   }, []);
 
   const alterCategories = (id) => {
@@ -106,9 +59,11 @@ export default function InterestScreen({ navigation }) {
   const saveCategories = async () => {
     try {
       const jsonValue = JSON.stringify(finalData);
-      const resultado = await AsyncStorage.setItem("@categoriasGuardadas", jsonValue);
+      const resultado = await AsyncStorage.setItem(
+        "@categoriasGuardadas",
+        jsonValue
+      );
 
-       
       return true;
     } catch (e) {
       // saving error
