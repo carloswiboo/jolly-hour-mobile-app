@@ -128,3 +128,37 @@ export const getDetallePromocionPorCodigo = async (idempresa, values) => {
     return {};
   }
 };
+
+
+export const getDetalleOfertaApp = async (values) => {
+  let url = API + "/services/oferta/detalleOfertaApp/";
+
+
+  try {
+    const response = await axios.post(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+
+    for (const oferta of response.data.objOferta) {
+      oferta.imagenPromocionConvertida =
+      "data:image/png;base64," + encode(oferta.imagen.data);
+      oferta.imagenLogoEmpresaConvertida =
+      "data:image/png;base64," + encode(oferta.logo.data);
+    }
+
+    if (response.status === 200) {
+      return response.data;
+    } else if (response.status === 401) {
+      return {};
+    }
+  } catch (error) {
+    debugger;
+    console.error(error);
+    return {};
+  }
+};
+

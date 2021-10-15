@@ -18,8 +18,6 @@ function toTimestamp(strDate) {
 export default function CardComponent({ navigation, params }) {
 
 
-   debugger;
-
   const image = { uri: params.imagenConvertida };
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {

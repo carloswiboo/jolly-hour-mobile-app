@@ -3,17 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Icon } from "react-native-elements";
 
 export default function BusinessCardDataComponent({ navigation, params }) {
-
-
-   
-
-  
   return (
     <TouchableOpacity
       style={styles.companyData}
-      onPress={() => navigation.navigate("BusinessScreenComponent",{
-          idBusiness: params.id
-      })}
+      onPress={() =>
+        navigation.navigate("BusinessScreenComponent", {
+          idBusiness: params.id,
+        })
+      }
     >
       <View style={styles.shadowImage}>
         <Image
@@ -25,8 +22,7 @@ export default function BusinessCardDataComponent({ navigation, params }) {
       </View>
       <Text style={styles.companyName}>{params.nombreEmpresa}</Text>
       <Text style={styles.ratingCompany}>
-        <Icon iconStyle={{ color: "#FFC700", fontSize: 10 }} name="star" />{" "}
-        5
+        <Icon iconStyle={{ color: "#FFC700", fontSize: 10 }} name="star" /> 5
       </Text>
     </TouchableOpacity>
   );
@@ -50,7 +46,7 @@ const styles = StyleSheet.create({
   },
   shadowImage: {
     shadowColor: "black",
-    shadowOffset: { height: 2},
+    shadowOffset: { height: 2 },
     shadowOpacity: 0.3,
   },
   companyName: {

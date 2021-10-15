@@ -82,7 +82,7 @@ export const createAccountByMail = async (values) => {
 };
 
 export const setOfertasByUser = async (values) => {
-  let url = API + "services/usuario/setOferta/";
+  let url = API + "/services/usuario/setOferta/";
   try {
     const response = await axios.post(url, values, {
       headers: {
@@ -91,6 +91,7 @@ export const setOfertasByUser = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {

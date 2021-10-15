@@ -24,7 +24,6 @@ export default function HomeScreen({ navigation }) {
       setLoading(false);
     });*/
     getAllPromociones(null).then((resultado) => {
-  
       setFinalData(resultado);
       setLoading(false);
     });
