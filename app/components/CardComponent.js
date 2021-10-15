@@ -18,7 +18,7 @@ function toTimestamp(strDate) {
 export default function CardComponent({ navigation, params }) {
 
 
-   
+   debugger;
 
   const image = { uri: params.imagenConvertida };
 
@@ -68,8 +68,8 @@ export default function CardComponent({ navigation, params }) {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() =>
-                  navigation.navigate("DetailPromotionScreenComponent", {
-                    idBusiness: params.id,
+                  navigation.navigate("promotiondetail", {
+                    idpromocion: params.id,
                   })
                 }
               >
