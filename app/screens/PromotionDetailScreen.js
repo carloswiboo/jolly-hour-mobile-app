@@ -1,52 +1,115 @@
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LinearGradient } from "expo-linear-gradient";
 import HeaderInicioComponent from "../components/HeaderInicioComponent";
+import { AuthContext } from "../context/context";
+import { getDetalleOfertaApp } from "../API/APIPromociones";
+import imageLoading from "../../assets/fondoDetallePromocion.png";
+import HeaderDetailPromotion from "../components/HeaderDetailPromotion";
+import { v4 as uuid } from "uuid";
+import LoadingComponent from "../components/LoadingComponent";
+import { setOfertasByUser } from "../API/APIUsuario";
 
 export default function PromotionDetailScreen({ route, navigation }) {
-
-    debugger;
   const { params } = route;
+  const { loginState } = React.useContext(AuthContext);
+  const [updateData, setUpdateData] = React.useState(0);
+  const [finalData, setFinalData] = React.useState({
+    objOferta: [],
+    objCadena: [],
+  });
 
-  const image = {
-    uri: "https://fastly.4sqi.net/img/general/600x600/26742501_qJZ8UKR2at4J726YlAz8gW33TevskQJQlZ6kB6sznOE.jpg",
-  };
+  const [image, setImage] = React.useState({
+    uri: "https://wiboo.com.mx/wp-content/uploads/2021/10/fondoDetallePromocion.png",
+  });
 
-  console.log(params);
+  React.useEffect(() => {
+    let isMounted = true;      
+    getDetalleOfertaApp({
+      idusuario: loginState.userToken.id,
+      idoferta: params.idpromocion,
+    }).then((resultado) => {
+      const resultadoImagen = resultado.objOferta[0].imagenPromocionConvertida;
+      setImage({
+        uri: resultadoImagen,
+      });
+      setFinalData(resultado);
+    });
+    return () => { isMounted = false };
+  }, []);
+
+  React.useEffect(() => {   
+    
+  }, [updateData]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.encabezado}>
-        <ImageBackground source={image} style={styles.image}>
-          <LinearGradient
-            // Background Linear Gradient
-            colors={["rgba(0,0,0,0.8)", "rgba(0,0,0,0.8)"]}
-            style={styles.backgroundGradient}
-          >
-            <HeaderInicioComponent
-              navigation={navigation}
-              params={{ showBackButton: true }}
-              showBackButton={true}
+    <>
+      {finalData.objOferta.length === 0 ? <LoadingComponent /> : null}
+      {finalData.objOferta.map((oferta) => (
+        <SafeAreaView style={styles.container} key={uuid()}>
+          <View style={styles.encabezado}>
+            <ImageBackground source={image} style={styles.image}>
+              <LinearGradient
+                // Background Linear Gradient
+                colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.6)"]}
+                style={styles.backgroundGradient}
+              >
+                <HeaderDetailPromotion
+                  navigation={navigation}
+                  params={{ showBackButton: true }}
+                  showBackButton={true}
+                />
+                <View style={styles.containerPromotionTitles}>
+                  <Text style={[styles.whiteText, styles.titleOne]}>
+                    {finalData.objOferta[0].titulo}
+                  </Text>
+                  <Text style={[styles.whiteText, styles.titleTwo]}>
+                    {finalData.objOferta[0].descripcionCorta}
+                  </Text>
+                </View>
+              </LinearGradient>
+            </ImageBackground>
+          </View>
+          <View style={styles.cuerpo}>
+            {finalData.objOferta[0].descripcionLarga == "" ? null : (
+              <Text>{finalData.objOferta[0].descripcionLarga}</Text>
+            )}
+            <Text>
+              Aqui pongo el Detalle de promoción que es ={" "}
+              {JSON.stringify(params)}
+            </Text>
+
+            <Button
+              onPress={() =>
+                setOfertasByUser({
+                  idusuario: loginState.userToken.id,
+                  idoferta: params.idpromocion,
+                }).then((resultado) => {  
+                    getDetalleOfertaApp({
+                        idusuario: loginState.userToken.id,
+                        idoferta: params.idpromocion,
+                      }).then((resultado) => {
+                  
+                        const resultadoImagen = resultado.objOferta[0].imagenPromocionConvertida;
+                  
+                        setImage({
+                          uri: resultadoImagen,
+                        });
+                        setFinalData(resultado);
+                      });
+
+                })
+              }
+              title="Seleccionar Oferta"
+              color="#EC043C"
+              accessibilityLabel="Learn more about this purple button"
             />
-            <View style={styles.containerPromotionTitles}>
-              <Text style={[styles.whiteText, styles.titleOne]}>
-                50% Descuento
-              </Text>
-              <Text style={[styles.whiteText, styles.titleTwo]}>
-                Hamburguesa Hawaiana
-              </Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </View>
-      <View style={styles.cuerpo}>
-        <Text>
-          Aqui pongo el Detalle de promoción que es = {JSON.stringify(params)}
-        </Text>
-      </View>
-    </SafeAreaView>
+          </View>
+        </SafeAreaView>
+      ))}
+    </>
   );
 }
 
