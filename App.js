@@ -144,7 +144,7 @@ export default function App() {
         console.log(e);
       }
       // console.log('user token: ', userToken);
-      dispatch({ type: "RETRIEVE_TOKEN", token: userToken });
+      dispatch({ type: "RETRIEVE_TOKEN", token: JSON.parse(userToken) });
     }, 1000);
   }, []);
 

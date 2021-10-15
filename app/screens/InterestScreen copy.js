@@ -15,46 +15,74 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { ScrollView } from "react-native-gesture-handler";
 import { Avatar, Badge, withBadge } from "react-native-elements";
 import axios from "axios";
-import {
-  anadirEliminarCategorie,
-  getAllCategorias,
-  getCategoriesByUser,
-} from "../API/APICategorias";
-import { AuthContext } from "../context/context";
+import { getAllCategorias } from "../API/APICategorias";
 
 export default function InterestScreen({ navigation }) {
-  const [finalData, setFinalData] = React.useState({});
-  const { loginState } = React.useContext(AuthContext);
-  const [hasChanged, setHasChanged] = React.useState(0);
+  const [finalData, setFinalData] = React.useState([]);
 
   React.useEffect(() => {
-    getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-      setFinalData(categoriasDeUsuario);
+    getCategories().then((resultadoSiHay) => {
+      debugger;
+
+      var resultadoFinal = JSON.parse(resultadoSiHay);
+
+      if (resultadoFinal === null) {
+        getAllCategorias().then((resultado) => {
+
+
+          for (const categoria of resultado) {
+            categoria.isActive = false;
+          }
+          setFinalData(resultado);
+        });
+      } else {
+        setFinalData(resultadoFinal);
+      }
     });
   }, []);
-  React.useEffect(() => {
-    getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-      setFinalData(categoriasDeUsuario);
-    });
-  }, [hasChanged]);
+
+  const alterCategories = (id) => {
+    let array = [...finalData];
+
+    array.map((category) =>
+      category.id == id
+        ? (category.isAactive = !category.isAactive)
+        : category.isAactive
+    );
+
+    setCategories(array);
+
+    saveCategories(array);
+  };
+
+  const saveCategories = async () => {
+    try {
+      const jsonValue = JSON.stringify(finalData);
+      const resultado = await AsyncStorage.setItem(
+        "@categoriasGuardadas",
+        jsonValue
+      );
+
+      return true;
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@categoriasGuardadas");
+      return value;
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.item}
-        onPress={() =>
-          anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-
-
-            debugger;
-
-            getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-
-              debugger;
-              setFinalData(categoriasDeUsuario);
-            });
-          })
-        }
+        onPress={() => alterCategories(item.id)}
       >
         <Image
           style={styles.tinyLogo}
@@ -66,7 +94,7 @@ export default function InterestScreen({ navigation }) {
         <Text style={{ fontWeight: "bold", color: "black", marginTop: 10 }}>
           {item.nombre}
         </Text>
-        {item.isActive === true ? (
+        {item.isAactive === true ? (
           <View style={styles.overlayTrue} />
         ) : (
           <View style={styles.overlayFalse} />

@@ -2,10 +2,38 @@ import { API } from "../constants/ApiConnection";
 import axios from "axios";
 import { encode } from "base64-arraybuffer";
 
+export const getNowAllPromotions = async (values) => {
+
+ 
+  let url = API + "/services/oferta/filterOfertaNow/";
+  try {
+    const response = await axios.get(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+
+
+    if (response.status === 200) {
+      for (const promocion of response.data) {
+        promocion.imagenConvertida =
+          "data:image/png;base64," + encode(promocion.imagen.data);
+        promocion.imagenLogoEmpresaConvertida =
+          "data:image/png;base64," + encode(promocion.logoEmpresa.data);
+      }
+      return response.data;
+    } else if (response.status === 401) {
+      return {};
+    }
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};
 export const getAllPromociones = async (values) => {
   let url = API + "/services/oferta/getOfertas";
-
-
   try {
     const response = await axios.get(url, values, {
       headers: {

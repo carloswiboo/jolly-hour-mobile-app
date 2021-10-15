@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "column",
     padding: 10,
     paddingHorizontal: 10,
-    justifyContent: "space-between",
   },
   tinyLogo: {
     height: 50,

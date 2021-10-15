@@ -60,7 +60,7 @@ export default function Navigation() {
                   headerShown: false,
                   tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons
-                      name="home"
+                      name="bell"
                       color={color}
                       size={22}
                     />
@@ -98,21 +98,7 @@ export default function Navigation() {
                 }}
                 component={MyJollysScreen}
               />
-              <Tab.Screen
-                name="notifications"
-                options={{
-                  title: "Notificaciones",
-                  headerShown: false,
-                  tabBarIcon: ({ color }) => (
-                    <MaterialCommunityIcons
-                      name="bell"
-                      color={color}
-                      size={22}
-                    />
-                  ),
-                }}
-                component={NotificationsScreen}
-              />
+              
               <Tab.Screen
                 name="profile"
                 options={{
