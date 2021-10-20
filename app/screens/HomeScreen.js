@@ -18,15 +18,15 @@ export default function HomeScreen({ navigation }) {
   let ScreenHeight = Dimensions.get("window").height - 200;
 
   React.useEffect(() => {
-    /* getNowAllPromotions(null).then((resultado) => {
+     getNowAllPromotions(null).then((resultado) => {
 
       setFinalData(resultado);
       setLoading(false);
-    });*/
-    getAllPromociones(null).then((resultado) => {
+    });
+   /* getAllPromociones(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
-    });
+    }); */
   }, []);
 
   return (
