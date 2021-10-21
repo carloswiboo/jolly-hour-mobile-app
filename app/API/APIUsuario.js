@@ -1,9 +1,7 @@
 import axios from "axios";
 import { API } from "../constants/ApiConnection";
 export const LoginUsuario = async (values) => {
-  debugger;
   let url = API + "/auth/usuario/signin";
-
   try {
     const response = await axios.post(url, values, {
       headers: {
@@ -12,8 +10,6 @@ export const LoginUsuario = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-
-    debugger;
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {

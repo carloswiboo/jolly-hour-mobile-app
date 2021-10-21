@@ -160,7 +160,7 @@ export default function WelcomeScreen({ navigation }) {
           tokenNotificacion: tokenNotificacionState,
         }).then((resultado) => {
           authContext.signIn(resultado);
-          dispatch();
+          
         });
 
         Alert.alert("Bienvenido", `Hola! ${(await response.json()).name}!`);
@@ -179,14 +179,14 @@ export default function WelcomeScreen({ navigation }) {
     values.tokenNotificacion = tokenNotificacionState;
 
     LoginUsuario(values).then((resultadoLogin) => {
+
+      debugger;
+
       if (resultadoLogin !== null) {
         authContext.signIn(resultadoLogin);
-        dispatch();
       } else {
         alert("Datos incorrectos, intenta de nuevo");
       }
-
-      debugger;
     });
   };
 
