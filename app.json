@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Jolly Hour 2.0",
+    "name": "Jolly Hour",
     "slug": "jolly-hour-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -30,6 +30,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "githubUrl": "https://github.com/carloswiboo/jolly-hour-mobile-app"
   }
 }
