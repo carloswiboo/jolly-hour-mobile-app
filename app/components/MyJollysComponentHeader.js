@@ -15,7 +15,7 @@ export default function MyJollysComponentHeader(props) {
         <Image
           style={styles.imgCompany}
           source={{
-            uri: "https://i0.wp.com/lacriaturacreativa.com/wp-content/uploads/2014/03/caca-cantarina.jpg.jpg",
+            uri: "https://scontent.fcyw1-1.fna.fbcdn.net/v/t1.6435-9/134811562_100204992037017_7132832552319398947_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeE3q5ZgPZEopk8j9T4rGJ7WJGgJokbWfTAkaAmiRtZ9MHEHxAP7t2GL6PSoVIpVLAA&_nc_ohc=cTIWJEMo4cIAX-wD96W&_nc_ht=scontent.fcyw1-1.fna&oh=62ef1ef07661422dd70c22539476107b&oe=61A0DB77",
           }}
         />
       </View>

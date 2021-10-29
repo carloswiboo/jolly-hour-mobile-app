@@ -19,7 +19,7 @@ export default function MyJollysScreen({ navigation }) {
   return (
     <LinearGradient
       style={{ flex: 1 }}
-      colors={["#FC466B", "#3F5EFB"]}
+      colors={["#3F5EFB", "#FC466B"]}
       start={{ x: 0.0, y: 0.25 }}
       end={{ x: 0.5, y: 1.0 }}
     >

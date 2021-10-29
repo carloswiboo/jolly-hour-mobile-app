@@ -27,6 +27,8 @@ export default function InterestScreen({ navigation }) {
   const { loginState } = React.useContext(AuthContext);
   const [hasChanged, setHasChanged] = React.useState(0);
 
+  console.log(loginState);
+
   React.useEffect(() => {
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
       setFinalData(categoriasDeUsuario);

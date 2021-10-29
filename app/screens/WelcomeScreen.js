@@ -31,6 +31,7 @@ import * as Facebook from "expo-facebook";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
+import { Restart } from "fiction-expo-restart";
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -159,8 +160,9 @@ export default function WelcomeScreen({ navigation }) {
           nombre: resultado.name,
           tokenNotificacion: tokenNotificacionState,
         }).then((resultado) => {
-          authContext.signIn(resultado);
-          
+          authContext.signIn(resultado).then(() => {
+            Restart();
+          });
         });
 
         Alert.alert("Bienvenido", `Hola! ${(await response.json()).name}!`);
@@ -179,11 +181,10 @@ export default function WelcomeScreen({ navigation }) {
     values.tokenNotificacion = tokenNotificacionState;
 
     LoginUsuario(values).then((resultadoLogin) => {
-
-      debugger;
-
       if (resultadoLogin !== null) {
-        authContext.signIn(resultadoLogin);
+        authContext.signIn(resultadoLogin).then(() => {
+          Restart();
+        });
       } else {
         alert("Datos incorrectos, intenta de nuevo");
       }

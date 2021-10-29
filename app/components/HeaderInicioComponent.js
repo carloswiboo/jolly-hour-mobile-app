@@ -27,7 +27,7 @@ export default function HeaderInicioComponent({ navigation, params }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({  
   headerContainer: {
     width: "100%",
     alignItems: "center",

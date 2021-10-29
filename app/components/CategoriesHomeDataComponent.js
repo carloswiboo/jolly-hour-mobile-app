@@ -31,68 +31,81 @@ export default function CategoriesHomeDataComponent(props) {
   }, []);
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: "",
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 10,
-        paddingBottom: 10,
-        width: "100%",
-      }}
-      horizontal={true}
-    >
-      {finalData.length === 0 ? (
-        <>
-          <Text>Cargando Información</Text>
-        </>
-      ) : (
-        <>
-          {finalData.map((categoria) => (
-            <TouchableOpacity
-              onPress={() => {
-                const categoriaIdBuscar = categoria.id;
-                const finalModifyData = finalData;
+    <>
+      <View
+        style={{
+          backgroundColor: "",
+          paddingLeft: 15,
+          paddingRight: 15,
+          width: "100%",
+        }}
+      >
+        <Text style={{fontSize: 26, color: 'white', fontWeight: 'bold'}}>Categorías</Text>
+      </View>
 
-                debugger;
+      <ScrollView
+        style={{
+          backgroundColor: "",
+          paddingLeft: 15,
+          paddingRight: 15,
+          paddingTop: 10,
+          paddingBottom: 10,
+          width: "100%",
+        }}
+        horizontal={true}
+      >
+        {finalData.length === 0 ? (
+          <>
+            <Text>Cargando Información</Text>
+          </>
+        ) : (
+          <>
+            {finalData.map((categoria) => (
+              <TouchableOpacity
+                onPress={() => {
+                  const categoriaIdBuscar = categoria.id;
+                  const finalModifyData = finalData;
 
-                for (const categoria of finalModifyData) {
-                  if (categoria.id === categoriaIdBuscar) {
-                    categoria.isActive = true;
-                  } else {
-                    categoria.isActive = false;
+                  debugger;
+
+                  for (const categoria of finalModifyData) {
+                    if (categoria.id === categoriaIdBuscar) {
+                      categoria.isActive = true;
+                    } else {
+                      categoria.isActive = false;
+                    }
                   }
-                }
 
-                setFinalData(finalModifyData);
-                props.setCategorySelected(categoria.id);
-              }}
-              key={uuid()}
-              style={[
-                {
-                  borderRadius: 50,
-                  padding: 8,
-                  marginHorizontal: 2,
-                },
-                {
-                  backgroundColor:
-                    categoria.isActive === true ? "rgba(0,0,0,0.5)" : "white",
-                },
-              ]}
-            >
-              <Text
+                  setFinalData(finalModifyData);
+                  props.setCategorySelected(categoria.id);
+                }}
+                key={uuid()}
                 style={[
                   {
-                    color: categoria.isActive === true ? "white" : "black",
+                    borderRadius: 50,
+                    padding: 8,
+                    marginHorizontal: 2,
+                  },
+                  {
+                    backgroundColor:
+                      categoria.isActive === true ? "#7089E5" : "#9C187E",
                   },
                 ]}
               >
-                {categoria.nombre}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </>
-      )}
-    </ScrollView>
+                <Text
+                  style={[
+                    {
+                      color: categoria.isActive === true ? "white" : "white",
+                    },
+                  ]}
+                >
+                  {categoria.nombre}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </>
+        )}
+      </ScrollView>
+    </>
   );
 }

@@ -98,3 +98,27 @@ export const setOfertasByUser = async (values) => {
     return {};
   }
 };
+
+export const getDetalleUsuario = async (values, idusuario) => {
+  let url = API + "/services/usuario/getUsuario/" + idusuario;
+
+  debugger;
+  try {
+    const response = await axios.get(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else if (response.status === 401) {
+      return {};
+    }
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};

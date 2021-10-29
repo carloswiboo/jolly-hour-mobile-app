@@ -16,11 +16,14 @@ export default function App() {
   };
 
   React.useEffect(() => {
+    let isMounted = true;
     registerForPushNotificationsAsync().then(async (token) => {
       //alert(token);
-
       await AsyncStorage.setItem("tokenNotificaciones", token);
     });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function registerForPushNotificationsAsync() {
@@ -150,15 +153,19 @@ export default function App() {
 
   return (
     <RootSiblingParent>
-      <AuthContext.Provider value={{ authContext, loginState }}>
-        <SafeAreaProvider>
-          <StatusBar
-            backgroundColor={"black"}
-            StatusBarStyle={"dark-content"}
-          />
-          <Navigation />
-        </SafeAreaProvider>
-      </AuthContext.Provider>
+      <View style={{flex: 1, backgroundColor:'black'}}>
+        <AuthContext.Provider value={{ authContext, loginState }}>
+          <SafeAreaProvider>
+            <StatusBar
+              backgroundColor={"black"}
+              StatusBarStyle={"dark-content"}
+              
+            />
+
+            <Navigation />
+          </SafeAreaProvider>
+        </AuthContext.Provider>
+      </View>
     </RootSiblingParent>
   );
 }

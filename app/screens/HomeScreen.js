@@ -18,12 +18,11 @@ export default function HomeScreen({ navigation }) {
   let ScreenHeight = Dimensions.get("window").height - 200;
 
   React.useEffect(() => {
-     getNowAllPromotions(null).then((resultado) => {
-
+    getNowAllPromotions(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
     });
-   /* getAllPromociones(null).then((resultado) => {
+    /* getAllPromociones(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
     }); */
@@ -33,7 +32,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         style={styles.container}
-        colors={["#FC466B", "#3F5EFB"]}
+        colors={["#3F5EFB", "#FC466B"]}
         start={{ x: 0.0, y: 0.25 }}
         end={{ x: 0.5, y: 1.0 }}
       >
@@ -44,7 +43,7 @@ export default function HomeScreen({ navigation }) {
             showBackButton={true}
           />
         </View>
-        <View>
+        <View style={{width: '100%'}}>
           <CategoriesHomeDataComponent
             setCategorySelected={setCategorySelected}
           />
