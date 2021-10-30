@@ -36,6 +36,7 @@ import { Restart } from "fiction-expo-restart";
 const loginValidationSchema = yup.object().shape({
   email: yup
     .string()
+    .trim("Correo sin espacios")
     .email("Ingresa un correo válido")
     .required("Correo Necesario"),
   password: yup
@@ -51,6 +52,7 @@ const createAccountValidationSchema = yup.object().shape({
   nombre: yup.string().required("Nombre Requerido"),
   email: yup
     .string()
+    .trim("Correo sin espacios")
     .email("Ingresa un correo válido")
     .required("Correo Necesario"),
   password: yup
@@ -155,12 +157,16 @@ export default function WelcomeScreen({ navigation }) {
 
         const resultado = await response.json();
 
+        debugger;
+
         LoginUsuarioFacebook({
           idFacebook: resultado.id,
           nombre: resultado.name,
           tokenNotificacion: tokenNotificacionState,
         }).then((resultado) => {
           authContext.signIn(resultado).then(() => {
+
+            debugger;
             Restart();
           });
         });
@@ -169,8 +175,10 @@ export default function WelcomeScreen({ navigation }) {
       } else {
         // type === 'cancel'
       }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+    } catch (error) {
+
+      //Este error se detona si hay ya un loggeo anterior
+
     }
   }
 
@@ -262,7 +270,7 @@ export default function WelcomeScreen({ navigation }) {
               Nos da mucho gusto
             </Text>
             <Text style={stylesWelcomeMessage.subtitleWelcome}>
-              que estés aquí! {tokenNotificacionState}
+              que estés aquí! 
             </Text>
             <View style={{ paddingVertical: 20 }}>
               <TouchableOpacity

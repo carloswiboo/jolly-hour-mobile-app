@@ -44,7 +44,8 @@
     "react-native-wallet-cards": "^1.0.5",
     "react-native-web": "~0.13.12",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-image-picker": "~10.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

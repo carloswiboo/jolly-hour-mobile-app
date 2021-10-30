@@ -102,7 +102,7 @@ export const setOfertasByUser = async (values) => {
 export const getDetalleUsuario = async (values, idusuario) => {
   let url = API + "/services/usuario/getUsuario/" + idusuario;
 
-  debugger;
+  
   try {
     const response = await axios.get(url, values, {
       headers: {

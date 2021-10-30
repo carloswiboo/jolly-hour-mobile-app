@@ -1,7 +1,7 @@
 import React from "react";
 import Navigation from "./app/navigations/Navigation";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./app/context/context";
@@ -9,6 +9,8 @@ import { RootSiblingParent } from "react-native-root-siblings";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as yup from "yup";
+import { StatusBar } from 'expo-status-bar';
+
 export default function App() {
   const initialLoginState = {
     isLoading: true,
@@ -156,11 +158,7 @@ export default function App() {
       <View style={{flex: 1, backgroundColor:'black'}}>
         <AuthContext.Provider value={{ authContext, loginState }}>
           <SafeAreaProvider>
-            <StatusBar
-              backgroundColor={"black"}
-              StatusBarStyle={"dark-content"}
-              
-            />
+          <StatusBar style="dark" />
 
             <Navigation />
           </SafeAreaProvider>
