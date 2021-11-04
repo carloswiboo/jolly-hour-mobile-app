@@ -56,7 +56,7 @@ export default function InterestScreen({ navigation }) {
         }
       >
         {
-          item.isActive === true ? ( <Image style={styles.tinyLogo} source={item.imagenActiva} />) : ( <Image style={styles.tinyLogo} source={item.imagenActiva} />)
+          item.isActive === true ? ( <Image style={styles.tinyLogo} source={item.imagenActiva} />) : ( <Image style={styles.tinyLogo} source={item.imagenInactiva} />)
         }
        
       </TouchableOpacity>
