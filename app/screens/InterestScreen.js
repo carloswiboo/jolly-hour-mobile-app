@@ -46,33 +46,19 @@ export default function InterestScreen({ navigation }) {
         style={styles.item}
         onPress={() =>
           anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-
-
             debugger;
 
             getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-
               debugger;
               setFinalData(categoriasDeUsuario);
             });
           })
         }
       >
-        <Image
-          style={styles.tinyLogo}
-          source={{
-            uri: item.imagenConvertida,
-          }}
-        />
-
-        <Text style={{ fontWeight: "bold", color: "black", marginTop: 10 }}>
-          {item.nombre}
-        </Text>
-        {item.isActive === true ? (
-          <View style={styles.overlayTrue} />
-        ) : (
-          <View style={styles.overlayFalse} />
-        )}
+        {
+          item.isActive === true ? ( <Image style={styles.tinyLogo} source={item.imagenActiva} />) : ( <Image style={styles.tinyLogo} source={item.imagenActiva} />)
+        }
+       
       </TouchableOpacity>
     );
   };
@@ -125,22 +111,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   containerTitle: {
+    marginTop: 30,
     paddingHorizontal: 40,
     paddingVertical: 30,
   },
   categoriesContainer: {
     backgroundColor: "white",
-    flex: 10,
+    flex: 1,
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 30,
+    paddingHorizontal: 2,
   },
   scrollViewContainer: {
     flex: 1,
-    margin: 40,
-    width: "90%",
+    margin: 20,
+    width: "100%",
   },
   containerButtons: {
     backgroundColor: "white",
@@ -180,8 +167,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   tinyLogo: {
-    width: 50,
-    height: 50,
     flex: 1,
   },
   overlayTrue: {
