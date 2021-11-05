@@ -50,7 +50,9 @@
     "react-native-wallet-cards": "^1.0.5",
     "react-native-web": "^0.17.5",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-web-browser": "~9.2.0",
+    "expo-linking": "~2.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

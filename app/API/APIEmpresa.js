@@ -1,6 +1,6 @@
-import { API } from "../Constants/ApiConnection";
 import axios from "axios";
 import { encode } from "base64-arraybuffer";
+import { API } from "./../constants/ApiConnection";
 
 export const getAllEmpresas = async (values) => {
   let url = API + "services/empresa/getEmpresas/";
@@ -28,7 +28,7 @@ export const getAllEmpresas = async (values) => {
 };
 
 export const getDetailEmpresa = async (idempresa, values) => {
-  let url = API + "services/empresa/getEmpresa/" + idempresa;
+  let url = API + "/services/empresa/getEmpresa/" + idempresa;
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -37,9 +37,12 @@ export const getDetailEmpresa = async (idempresa, values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+
     if (response.status === 200) {
       response.data.imagenConvertida =
         "data:image/png;base64," + encode(response.data.logo.data);
+      response.data.imagenConvertidaPortada =
+        "data:image/png;base64," + encode(response.data.portada.data);
       return response.data;
     } else if (response.status === 401) {
       return {};

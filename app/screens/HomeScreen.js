@@ -49,6 +49,15 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
         <View style={styles.ScrollView}>
+          <Text
+            onPress={() => {
+              navigation.navigate("businessdetail", {
+                idempresa: 36,
+              });
+            }}
+          >
+            Detalle
+          </Text>
           <ScrollView
             contentContainerStyle={styles.scrollViewCards}
             contentInset={{ top: 10 }}
