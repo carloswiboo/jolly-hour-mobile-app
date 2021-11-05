@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground, Button, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,6 +24,9 @@ import { CounterDataTime } from "../helpers/CounterDataTime";
 import { CountDownText } from "react-native-countdown-timer-text";
 import BusinessCardDataComponent from "../components/BusinessCardDataComponent";
 import Toast from "react-native-root-toast";
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { EvilIcons } from "@expo/vector-icons";
 
 export default function PromotionDetailScreen({ route, navigation }) {
   const { params } = route;
@@ -95,113 +106,150 @@ export default function PromotionDetailScreen({ route, navigation }) {
               navigation={navigation}
               params={finalData.objOferta[0]}
             />
+            <ScrollView
+              style={{
+                backgroundColor: "white",
+                flex: 1,
+                paddingTop: 40,
+                marginBottom: 10,
+              }}
+            >
+              {finalData.objCadena.map((qrcode) => (
+                <View
+                  key={uuid()}
+                  style={{ alignItems: "center", marginVertical: 10 }}
+                >
+                  <QRCode value={finalData.objCadena[0].cadena} />
+                  <Text style={{ marginTop: 7 }}>
+                    {finalData.objCadena[0].cadena}
+                  </Text>
+                </View>
+              ))}
 
-           
+              {finalData.objOferta[0].descripcionLarga == "" ? null : (
+                <View>
+                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                    Descripción:
+                  </Text>
+                  <Text>{finalData.objOferta[0].descripcionLarga}</Text>
+                </View>
+              )}
+              {finalData.objOferta[0].restricciones == "" ? null : (
+                <View style={{ marginTop: 20 }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                    Restricciones:
+                  </Text>
+                  <Text>{finalData.objOferta[0].restricciones}</Text>
+                </View>
+              )}
 
-            {finalData.objOferta[0].descripcionLarga == "" ? null : (
-              <View>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Descripción:
-                </Text>
-                <Text>{finalData.objOferta[0].descripcionLarga}</Text>
-              </View>
-            )}
-            {finalData.objOferta[0].descripcionLarga == "" ? null : (
-              <View>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Restricciones:
-                </Text>
-                <Text>{finalData.objOferta[0].restricciones}</Text>
-              </View>
-            )}
-            {finalData.objOferta[0].descripcionLarga == "" ? null : (
-              <View>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Vigencia:
-                </Text>
-                <Text>{finalData.objOferta[0].vigencia}</Text>
-              </View>
-            )}
-
-            {finalData.objCadena.map((qrcode) => (
-              <View
-                key={uuid()}
-                style={{ alignItems: "center", marginVertical: 30 }}
-              >
-                <QRCode value={finalData.objCadena[0].cadena} />
-                <Text>{finalData.objCadena[0].cadena}</Text>
-              </View>
-            ))}
+              {finalData.objOferta[0].vigencia == "" ? null : (
+                <View style={{ marginTop: 20 }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                    Vigencia:
+                  </Text>
+                  <Text>{finalData.objOferta[0].vigencia}</Text>
+                </View>
+              )}
+            </ScrollView>
 
             {finalData.objCadena.length === 0 ? (
-                <>
-              <Button
-                onPress={() =>
-                  setOfertasByUser({
-                    idusuario: loginState.userToken.id,
-                    idoferta: params.idpromocion,
-                  }).then((resultado) => {
-                    getDetalleOfertaApp({
+              <>
+                <TouchableOpacity
+                 style={styles.buttonGuardarPromocion}
+                  onPress={() =>
+                    setOfertasByUser({
                       idusuario: loginState.userToken.id,
                       idoferta: params.idpromocion,
                     }).then((resultado) => {
-                      const resultadoImagen =
-                        resultado.objOferta[0].imagenPromocionConvertida;
+                      getDetalleOfertaApp({
+                        idusuario: loginState.userToken.id,
+                        idoferta: params.idpromocion,
+                      }).then((resultado) => {
+                        const resultadoImagen =
+                          resultado.objOferta[0].imagenPromocionConvertida;
 
-                      setImage({
-                        uri: resultadoImagen,
-                      });
-                      setFinalData(resultado);
+                        setImage({
+                          uri: resultadoImagen,
+                        });
+                        setFinalData(resultado);
 
-                      let toast = Toast.show("Gracias, acude al establecimiento para hacer válida tu promoción", {
-                        duration: Toast.durations.LONG,
-                        position: Toast.positions.CENTER,
-                        shadow: true,
-                        animation: true,
+                        let toast = Toast.show(
+                          "Gracias, acude al establecimiento para hacer válida tu promoción",
+                          {
+                            duration: Toast.durations.LONG,
+                            position: Toast.positions.CENTER,
+                            shadow: true,
+                            animation: true,
+                          }
+                        );
                       });
-                    });
-                  })
-                }
-                title="Guardar Promoción"
-                color="#EC043C"
-               
-                accessibilityLabel="Learn more about this purple button"
-              />
-               <View
-              style={{
-                backgroundColor: "#ffbc00",
-                position: "absolute",
-                top: 70,
-                left: 0,
-                padding: 5,
-                borderTopRightRadius: 15,
-                borderBottomRightRadius: 15,
-                paddingHorizontal: 10,
-                width: "50%",
-                alignItems: "center",
-              }}
-            >
-              <CountDownText
-                style={{ fontWeight: "bold" }}
-                countType="date"
-                auto={true}
-                afterEnd={() => {}}
-                timeLeft={resultadoMinutosQuedan}
-                step={-1}
-                startText="Start"
-                endText="End"
-                intervalText={(date, hour, min, sec) =>
-                  "Finaliza en: " + min + ":" + sec + ""
-                }
-              />
-            </View>
-           </> ) : (
-              <Button
-                onPress={() => {}}
-                title="Ir a Ubicación"
-                color="#FFBC00"
-                accessibilityLabel="Learn more about this purple button"
-              />
+                    })
+                  }
+                  title="Guardar Promoción"
+                  color="#EC043C"
+                  accessibilityLabel="Learn more about this purple button"
+                >
+                  <Text style={{color: 'white', fontWeight: 'bold', fontSize: 17}}>Guardar Promoción</Text>
+                  </TouchableOpacity>
+                <View
+                  style={{
+                    backgroundColor: "#ffbc00",
+                    position: "absolute",
+                    top: 55,
+                    left: 0,
+                    padding: 6,
+                    borderTopRightRadius: 15,
+                    borderBottomRightRadius: 15,
+                    paddingHorizontal: 10,
+                    width: "80%",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MaterialIcons name="timer" size={11} color="white" />
+                  <CountDownText
+                    style={{ fontWeight: "bold" }}
+                    countType="date"
+                    auto={true}
+                    afterEnd={() => {}}
+                    timeLeft={resultadoMinutosQuedan}
+                    step={-1}
+                    startText="Start"
+                    endText="Promoción finalizada"
+                    intervalText={(date, hour, min, sec) =>
+                      "Finaliza en: " + min + ":" + sec + ""
+                    }
+                  />
+                </View>
+              </>
+            ) : (
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  style={styles.buttonUbicacion}
+                  onPress={() => {}}
+                  title="Ir a Ubicación"
+                  color="#FFBC00"
+                  accessibilityLabel="Abrir ubicación"
+                >
+                  <Text style={{ color: "white" }}>
+                    {" "}
+                    <EvilIcons name="location" size={14} color="white" /> Abrir
+                    Ubicación
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {}}
+                  title="Ir a Ubicación"
+                  color="#FFBC00"
+                  accessibilityLabel="Abrir ubicación"
+                >
+                  <Text>Abrir Ubicación</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
         </SafeAreaView>
@@ -228,9 +276,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
+    paddingTop: 0,
     marginTop: -10,
     flexDirection: "column",
-    justifyContent: "space-between",
   },
   image: {
     flex: 1,
@@ -258,4 +306,34 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  button: {
+    alignItems: "center",
+    alignContent: "center",
+    backgroundColor: "#ffbc00",
+    justifyContent: "center",
+    padding: 7,
+    paddingVertical: 10,
+    borderRadius: 15,
+    flex: 1,
+    marginHorizontal: 3,
+  },
+  buttonUbicacion: {
+    alignItems: "center",
+    backgroundColor: "#1A3CE9",
+    alignContent: "center",
+    justifyContent: "center",
+    padding: 7,
+    borderRadius: 15,
+    flex: 1,
+    marginHorizontal: 3,
+  },
+  buttonGuardarPromocion : {
+    alignItems: "center",
+    backgroundColor: "#6926A9",
+    alignContent: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    paddingVertical: 10,
+    marginHorizontal: 3,
+  }
 });

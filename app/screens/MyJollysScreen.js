@@ -6,15 +6,29 @@ import HeaderInicioComponent from "../components/HeaderInicioComponent";
 import { LinearGradient } from "expo-linear-gradient";
 import MyJollysComponentHeader from "../components/MyJollysComponentHeader";
 import TitleScreenComponent from "../components/TitleScreenComponent";
+import { AuthContext } from "../context/context";
+import { getDetailEmpresa } from "../API/APIMyJollys";
+import CardComponent from "../components/CardComponent";
+import CardComponentMyJollys from "../components/CardComponentMyJollys";
 export default function MyJollysScreen({ navigation }) {
-  const tarjetasEjemplo = [
-    <View style={styles.tarjetasEjemplo}>
-      <MyJollysComponentHeader />
-    </View>,
-    <View style={styles.tarjetasEjemplo}>
-      <MyJollysComponentHeader />
-    </View>,
-  ];
+  const { authContext } = React.useContext(AuthContext);
+  const { loginState } = React.useContext(AuthContext);
+
+  const [finalData, setFinalData] = React.useState([]);
+  const [finalDataCard, setFinalDataCard] = React.useState([]);
+
+  React.useEffect(() => {
+    let functionReady = false;
+
+    getDetailEmpresa(loginState.userToken.id, null).then((resultado) => {
+      setFinalData(resultado);
+      var finalData = getDataEnsambled(resultado);
+      setFinalDataCard(finalData);
+    });
+    return () => {
+      functionReady = true;
+    };
+  }, []);
 
   return (
     <LinearGradient
@@ -23,7 +37,9 @@ export default function MyJollysScreen({ navigation }) {
       start={{ x: 0.0, y: 0.25 }}
       end={{ x: 0.5, y: 1.0 }}
     >
-      <SafeAreaView style={{ width: "100%", flex: 1, justifyContent:'flex-end' }}>
+      <SafeAreaView
+        style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}
+      >
         <HeaderInicioComponent
           navigation={navigation}
           params={{ showBackButton: false }}
@@ -40,7 +56,22 @@ export default function MyJollysScreen({ navigation }) {
             justifyContent: "flex-end",
           }}
         >
-          <CardsWallet cardEasing={"ease-out-quart"} data={tarjetasEjemplo} cardHeight={700}/>
+          <CardsWallet
+            cardEasing={"ease-out-quart"}
+            data={finalData.map((valor) => (
+              <>
+                <View style={styles.tarjetasEjemplo}>
+                  <MyJollysComponentHeader
+                    nombreCategoria={valor.nombreCategoria}
+                    imagenEmpresa={valor.imagenLogoConvertida}
+                    titulo={valor.titulo}
+                  />
+                  <CardComponentMyJollys />
+                </View>
+              </>
+            ))}
+            cardHeight={100}
+          />
         </View>
       </SafeAreaView>
     </LinearGradient>

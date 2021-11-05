@@ -8,7 +8,10 @@ import {
 } from "react-native";
 
 import { CountDownText } from "react-native-countdown-timer-text";
+import { CounterDataTime } from "../helpers/CounterDataTime";
 import BusinessCardDataComponent from "./BusinessCardDataComponent";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 function toTimestamp(strDate) {
   var datum = Date.parse(strDate);
@@ -16,17 +19,23 @@ function toTimestamp(strDate) {
 }
 
 export default function CardComponent({ navigation, params }) {
-
-
   const image = { uri: params.imagenConvertida };
+  const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =
+    React.useState("0");
 
-  const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    return (
-      <span>
-        {days} días, {hours}:{minutes}:{seconds}
-      </span>
+  React.useEffect(() => {
+    let ready = false;
+
+    const resultadoMinutosQuedanN = CounterDataTime(
+      params.fechaPublicacion,
+      params.horaFin
     );
-  };
+    setResultadoMinutosQuedan(resultadoMinutosQuedanN);
+
+    return () => {
+      ready = true;
+    };
+  }, []);
 
   return (
     <View>
@@ -38,31 +47,44 @@ export default function CardComponent({ navigation, params }) {
           imageStyle={{ borderRadius: 15 }}
         >
           <View style={styles.opacity}>
+            <AntDesign
+              style={styles.heart}
+              name="hearto"
+              size={18}
+              color="white"
+              onPress={() =>
+                navigation.navigate("promotiondetail", {
+                  idpromocion: params.id,
+                })
+              }
+            />
             <View style={styles.dueDate}>
               <Text>
+                <MaterialIcons name="timer" size={11} color="white" />
                 <CountDownText
-                  style={styles.cd}
-                  countType="seconds"
+                  style={{ fontWeight: "bold" }}
+                  countType="date"
                   auto={true}
                   afterEnd={() => {}}
-                  timeLeft={24353}
+                  timeLeft={resultadoMinutosQuedan}
                   step={-1}
-                  startText="Start"
-                  endText="Promoción terminada"
-                  intervalText={(min) => min + " Segundos"}
+                  startText=""
+                  endText="Oferta Terminada"
+                  intervalText={(date, hour, min, sec) =>
+                    "Finaliza en: " + min + ":" + sec
+                  }
                 />
               </Text>
             </View>
-            <View style={{ marginTop: 14 }}>
+            <View style={{ marginTop: 20 }}>
               <Text style={[styles.whiteText, styles.titleOne]}>
                 {params.titulo}
               </Text>
               <Text style={[styles.whiteText, styles.titleTwo]}>
                 {params.descripcionCorta}
               </Text>
-             
             </View>
-            <View style={{ marginTop: 30 }}>
+            <View style={{ marginTop: 20 }}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() =>
@@ -71,7 +93,7 @@ export default function CardComponent({ navigation, params }) {
                   })
                 }
               >
-                <Text style={{ fontWeight: "bold" }}>Obtener Promoción</Text>
+                <Text style={{ fontWeight: "bold", color: 'white' }}>¡ Obtener Promoción !</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -97,14 +119,14 @@ const styles = StyleSheet.create({
   },
   dueDate: {
     backgroundColor: "#ffbc00",
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
     paddingTop: 4,
     paddingBottom: 4,
     borderTopRightRadius: 15,
     borderBottomRightRadius: 15,
     position: "absolute",
-    top: 9,
+    top: 15,
   },
   container: {
     flex: 1,
@@ -133,5 +155,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffbc00",
     padding: 7,
     borderRadius: 15,
+    marginHorizontal: 30
+  },
+  heart: {
+    position: "absolute",
+    right: 20,
+    top: 18,
   },
 });

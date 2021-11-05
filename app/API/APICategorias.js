@@ -63,7 +63,6 @@ export const getAllCategorias = async (values) => {
         }
       }
 
-      debugger;
 
       return response.data;
     } else if (response.status === 401) {
