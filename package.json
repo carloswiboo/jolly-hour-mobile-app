@@ -33,8 +33,6 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-collapsible": "^1.6.0",
-    "react-native-countdown-component": "^2.7.1",
-    "react-native-countdown-text": "^1.0.5",
     "react-native-countdown-timer-text": "0.0.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
@@ -51,7 +49,7 @@
     "react-native-unimodules": "^0.14.10",
     "react-native-vector-icons": "^8.1.0",
     "react-native-wallet-cards": "^1.0.5",
-    "react-native-web": "~0.13.12",
+    "react-native-web": "^0.17.5",
     "use-reducer-async": "^2.0.1",
     "yup": "^0.32.11"
   },
