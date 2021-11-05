@@ -93,7 +93,9 @@ export default function CardComponent({ navigation, params }) {
                   })
                 }
               >
-                <Text style={{ fontWeight: "bold", color: 'white' }}>¡ Obtener Promoción !</Text>
+                <Text style={{ fontWeight: "bold", color: "white" }}>
+                  ¡ Obtener Promoción !
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffbc00",
     padding: 7,
     borderRadius: 15,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   heart: {
     position: "absolute",

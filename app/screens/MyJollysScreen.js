@@ -7,9 +7,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import MyJollysComponentHeader from "../components/MyJollysComponentHeader";
 import TitleScreenComponent from "../components/TitleScreenComponent";
 import { AuthContext } from "../context/context";
-import { getDetailEmpresa } from "../API/APIMyJollys";
+
 import CardComponent from "../components/CardComponent";
 import CardComponentMyJollys from "../components/CardComponentMyJollys";
+import { getDetailJollys } from "./../API/APIMyJollys";
+import AccordionDataComponent from "../components/AccordionDataComponent";
+import { v4 as uuid } from "uuid";
+
 export default function MyJollysScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
   const { loginState } = React.useContext(AuthContext);
@@ -19,11 +23,8 @@ export default function MyJollysScreen({ navigation }) {
 
   React.useEffect(() => {
     let functionReady = false;
-
-    getDetailEmpresa(loginState.userToken.id, null).then((resultado) => {
+    getDetailJollys(loginState.userToken.id, null).then((resultado) => {
       setFinalData(resultado);
-      var finalData = getDataEnsambled(resultado);
-      setFinalDataCard(finalData);
     });
     return () => {
       functionReady = true;
@@ -47,31 +48,16 @@ export default function MyJollysScreen({ navigation }) {
         />
         <TitleScreenComponent
           titlePage="Mis Jolly's"
-          subTitle="Este es el historial de los Jollys! no se te pase hacerlos efectivos!"
+          subTitle="Aquí puedes ver las promociones que haz guardado, ¡Apresúrate a hacerlas efectivas!"
         />
         <Divider style={{ backgroundColor: "rgba(255,255,255,.4)" }} />
         <View
           style={{
             flex: 1,
-            justifyContent: "flex-end",
+            justifyContent: "flex-start",
           }}
         >
-          <CardsWallet
-            cardEasing={"ease-out-quart"}
-            data={finalData.map((valor) => (
-              <>
-                <View style={styles.tarjetasEjemplo}>
-                  <MyJollysComponentHeader
-                    nombreCategoria={valor.nombreCategoria}
-                    imagenEmpresa={valor.imagenLogoConvertida}
-                    titulo={valor.titulo}
-                  />
-                  <CardComponentMyJollys />
-                </View>
-              </>
-            ))}
-            cardHeight={100}
-          />
+          <AccordionDataComponent data={finalData} />
         </View>
       </SafeAreaView>
     </LinearGradient>

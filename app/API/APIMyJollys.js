@@ -2,7 +2,7 @@ import axios from "axios";
 import { encode } from "base64-arraybuffer";
 import { API } from "./../constants/ApiConnection";
 
-export const getDetailEmpresa = async (idusuario, values) => {
+export const getDetailJollys = async (idusuario, values) => {
   let url = API + "/services/usuario/misJollys/" + idusuario;
 
   try {

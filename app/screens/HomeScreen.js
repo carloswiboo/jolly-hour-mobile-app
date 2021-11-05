@@ -43,7 +43,7 @@ export default function HomeScreen({ navigation }) {
             showBackButton={true}
           />
         </View>
-        <View style={{width: '100%'}}>
+        <View style={{ width: "100%" }}>
           <CategoriesHomeDataComponent
             setCategorySelected={setCategorySelected}
           />

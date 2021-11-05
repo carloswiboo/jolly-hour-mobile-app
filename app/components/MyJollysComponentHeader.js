@@ -1,6 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import Collapsible from 'react-native-collapsible';
+
+
 
 export default function MyJollysComponentHeader(props) {
   debugger;
