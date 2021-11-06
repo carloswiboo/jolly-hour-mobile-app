@@ -12,7 +12,7 @@ export default function BusinessCardDataComponent({ navigation, params }) {
       style={styles.companyData}
       onPress={() =>
         navigation.navigate("businessdetail", {
-          idempresa: params.id,
+          idempresa: params.idempresa,
         })
       }
     >
