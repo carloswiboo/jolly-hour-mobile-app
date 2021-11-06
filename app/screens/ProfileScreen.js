@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Switch,
 } from "react-native";
+import { Divider } from "react-native-elements";
 
 import { AuthContext } from "./../context/context";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,6 +22,9 @@ import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Badge, Icon, withBadge } from "react-native-elements";
+import { Picker } from "@react-native-picker/picker";
+
+import * as Linking from "expo-linking";
 
 export default function ProfileScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
@@ -30,6 +34,8 @@ export default function ProfileScreen({ navigation }) {
   const [userImage, setUserImage] = React.useState(null);
 
   const [finalData, setFinalData] = React.useState({});
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState();
 
   React.useEffect(() => {
     let ready = false;
@@ -132,7 +138,14 @@ export default function ProfileScreen({ navigation }) {
               <Avatar.Accessory containerStyle={{ backgroundColor: "green" }} />
             </Avatar>
 
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 30, textAlign: 'center' }}>
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                fontSize: 30,
+                textAlign: "center",
+              }}
+            >
               {finalData.nombre}
             </Text>
             <Text style={{ color: "white", fontWeight: "400", fontSize: 15 }}>
@@ -153,6 +166,25 @@ export default function ProfileScreen({ navigation }) {
                 justifyContent: "center",
               }}
             >
+              <View style={styles.listaDatosPicker}>
+                <Text style={{ marginLeft: 6, color: "#2837DE" , marginBottom: 2}}>
+                  Elige ciudad:
+                </Text>
+                <Picker
+                  selectedValue={selectedLanguage}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedLanguage(itemValue)
+                  }
+                  itemStyle={styles.fontSizeQuince}
+                >
+                  <Picker.Item
+                    label="León"
+                    style={styles.fontSizeQuince}
+                    value="León"
+                  />
+                </Picker>
+              </View>
+              <Divider orientation="horizontal" />
               <View style={styles.listaDatos}>
                 <Text style={styles.tinyText}>Correo electrónico</Text>
                 <Text style={styles.resultText}>
@@ -161,36 +193,44 @@ export default function ProfileScreen({ navigation }) {
                     : finalData.email}
                 </Text>
               </View>
+              <Divider orientation="horizontal" />
+
               <View style={styles.listaDatos}>
-                <Text style={styles.resultText}>Ayuda</Text>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://jollyhour.com.mx/terminosycondiciones/"
+                    );
+                  }}
+                >
+                  <Text style={styles.resultText}>Términos y Condiciones</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.listaDatos}>
-                <Text style={styles.resultText}>Términos y condiciones</Text>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    Linking.openURL("https://jollyhour.com.mx/ayuda/");
+                  }}
+                >
+                  <Text style={styles.resultText}>Ayuda</Text>
+                </TouchableOpacity>
               </View>
-              <View
-                style={styles.listaDatos}
-                onPress={() => authContext.signOut()}
-              >
-                <Text
-                  style={styles.resultText}
+              <View style={styles.listaDatos}>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
                   onPress={() => authContext.signOut()}
                 >
-                  Cerrar Sesión
-                </Text>
+                  <Text style={styles.resultText}>Cerrar Sesión</Text>
+                </TouchableOpacity>
               </View>
 
-             {
-                 /*
+              {/*
                 <Text>{JSON.stringify(loginState)}</Text>
-              <Text>{JSON.stringify(finalData)}</Text> */
-             } 
+              <Text>{JSON.stringify(finalData)}</Text> */}
             </ScrollView>
           </View>
-
-          <Button
-            title="Cerrar Sesión"
-            onPress={() => authContext.signOut()}
-          ></Button>
         </LinearGradient>
       </SafeAreaView>
     </>
@@ -230,5 +270,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     opacity: 1,
     fontWeight: "100",
+  },
+  listaDatosPicker: {
+    borderRadius: 20,
+    backgroundColor: "#EAEAEA",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+  fontSizeQuince: {
+    fontSize: 20,
+    textAlign: "center",
   },
 });

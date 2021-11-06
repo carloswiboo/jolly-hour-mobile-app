@@ -10,7 +10,7 @@ import { v4 as uuid } from "uuid";
 import { Dimensions } from "react-native";
 import CategoriesHomeDataComponent from "../components/CategoriesHomeDataComponent";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, params }) {
   const [loading, setLoading] = React.useState(true);
   const [finalData, setFinalData] = React.useState([]);
   const [categorySelected, setCategorySelected] = React.useState(0);
@@ -49,15 +49,7 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
         <View style={styles.ScrollView}>
-          <Text
-            onPress={() => {
-              navigation.navigate("businessdetail", {
-                idempresa: 36,
-              });
-            }}
-          >
-            Detalle
-          </Text>
+          
           <ScrollView
             contentContainerStyle={styles.scrollViewCards}
             contentInset={{ top: 10 }}

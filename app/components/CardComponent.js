@@ -53,8 +53,8 @@ export default function CardComponent({ navigation, params }) {
               size={18}
               color="white"
               onPress={() =>
-                navigation.navigate("promotiondetail", {
-                  idpromocion: params.id,
+                navigation.navigate("businessdetail", {
+                  idempresa: params.id,
                 })
               }
             />

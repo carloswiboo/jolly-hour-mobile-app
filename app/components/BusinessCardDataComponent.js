@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Icon } from "react-native-elements";
 
 export default function BusinessCardDataComponent({ navigation, params }) {
+
+
+  debugger;
+
   return (
     <TouchableOpacity
       style={styles.companyData}
       onPress={() =>
-        navigation.navigate("BusinessScreenComponent", {
-          idBusiness: params.id,
+        navigation.navigate("businessdetail", {
+          idempresa: params.id,
         })
       }
     >

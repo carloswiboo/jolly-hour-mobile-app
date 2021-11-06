@@ -32,9 +32,15 @@ export default function BusinessDetailScreen({ route, navigation }) {
   const [portada, setPortada] = React.useState({
     uri: "https://wiboo.com.mx/wp-content/uploads/2021/10/fondoDetallePromocion.png",
   });
+
+  debugger;
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
+
+      debugger;
+
+      
       setFinalData(resultado);
       setLoading(false);
     });
