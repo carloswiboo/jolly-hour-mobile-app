@@ -13,10 +13,13 @@ import CardComponentMyJollys from "../components/CardComponentMyJollys";
 import { getDetailJollys } from "./../API/APIMyJollys";
 import AccordionDataComponent from "../components/AccordionDataComponent";
 import { v4 as uuid } from "uuid";
+import { ref } from "yup";
 
 export default function MyJollysScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
   const { loginState } = React.useContext(AuthContext);
+
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const [finalData, setFinalData] = React.useState([]);
   const [finalDataCard, setFinalDataCard] = React.useState([]);
@@ -30,6 +33,20 @@ export default function MyJollysScreen({ navigation }) {
       functionReady = true;
     };
   }, []);
+
+  React.useEffect(() => {
+    let functionReady = false;
+    if (refreshing === true) {
+      getDetailJollys(loginState.userToken.id, null).then((resultado) => {
+        setFinalData(resultado);
+      });
+      return () => {
+        functionReady = true;
+      };
+    } else {
+      return;
+    }
+  }, [refreshing]);
 
   return (
     <LinearGradient
@@ -57,7 +74,11 @@ export default function MyJollysScreen({ navigation }) {
             justifyContent: "flex-start",
           }}
         >
-          <AccordionDataComponent data={finalData} />
+          <AccordionDataComponent
+            data={finalData}
+            refreshing={refreshing}
+            setRefreshing={setRefreshing}
+          />
         </View>
       </SafeAreaView>
     </LinearGradient>

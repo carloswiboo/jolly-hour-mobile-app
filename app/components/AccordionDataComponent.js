@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import {
   Collapse,
   CollapseHeader,
@@ -11,9 +18,23 @@ import QRCode from "react-native-qrcode-svg";
 import CardComponent from "./CardComponent";
 import CardComponentMyJollys from "./CardComponentMyJollys";
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default function AccordionDataComponent(props) {
+  const onRefresh = React.useCallback(() => {
+    props.setRefreshing(true);
+    wait(2000).then(() => props.setRefreshing(false));
+  }, []);
+
   return (
-    <ScrollView style={styles.principalContainer}>
+    <ScrollView
+      style={styles.principalContainer}
+      refreshControl={
+        <RefreshControl refreshing={props.refreshing} onRefresh={onRefresh} />
+      }
+    >
       {props.data.map((promocion) => (
         <Collapse key={uuid()}>
           <CollapseHeader style={styles.header}>
@@ -60,7 +81,6 @@ const styles = StyleSheet.create({
   principalContainer: {
     flex: 1,
     paddingTop: 25,
-    
   },
   header: {
     backgroundColor: "white",
