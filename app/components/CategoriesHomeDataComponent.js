@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { getAllCategorias } from "../API/APICategorias";
 import { v4 as uuid } from "uuid";
+import SkeletonContent from "react-native-skeleton-content";
 
 export default function CategoriesHomeDataComponent(props) {
   const [finalData, setFinalData] = React.useState([]);
@@ -40,7 +41,9 @@ export default function CategoriesHomeDataComponent(props) {
           width: "100%",
         }}
       >
-        <Text style={{fontSize: 26, color: 'white', fontWeight: 'bold'}}>Categorías</Text>
+        <Text style={{ fontSize: 26, color: "white", fontWeight: "bold" }}>
+          Categorías
+        </Text>
       </View>
 
       <ScrollView
@@ -56,7 +59,20 @@ export default function CategoriesHomeDataComponent(props) {
       >
         {finalData.length === 0 ? (
           <>
-            <Text>Cargando Información</Text>
+            <SkeletonContent
+              containerStyle={{ flex: 1, width: '100%', flexDirection: "row" }}
+              animationDirection="horizontalLeft"
+              boneColor="#991980"
+              highlightColor="black"
+              layout={[
+                { width: 120, height: 20, marginBottom: 6, borderRadius: 50 },
+                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
+                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
+                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
+                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
+              ]}
+              isLoading={true}
+            />
           </>
         ) : (
           <>

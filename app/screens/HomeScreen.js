@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CardComponent from "../components/CardComponent";
@@ -9,7 +9,7 @@ import { getAllPromociones, getNowAllPromotions } from "../API/APIPromociones";
 import { v4 as uuid } from "uuid";
 import { Dimensions } from "react-native";
 import CategoriesHomeDataComponent from "../components/CategoriesHomeDataComponent";
-
+import SkeletonContent from "react-native-skeleton-content";
 export default function HomeScreen({ navigation, params }) {
   const [loading, setLoading] = React.useState(true);
   const [finalData, setFinalData] = React.useState([]);
@@ -49,7 +49,14 @@ export default function HomeScreen({ navigation, params }) {
           />
         </View>
         <View style={styles.ScrollView}>
-          
+        {finalData.length === 0 ? (
+                  <Image
+                    style={{ width: "100%", flex: 1, resizeMode: "contain" }}
+                    source={require("../../assets/sinpromociones.png")}
+                  />
+                ) : null}
+
+
           <ScrollView
             contentContainerStyle={styles.scrollViewCards}
             contentInset={{ top: 10 }}
@@ -64,23 +71,85 @@ export default function HomeScreen({ navigation, params }) {
           >
             {loading == true ? (
               <>
-                <View
-                  style={{
+                <SkeletonContent
+                  containerStyle={{
                     flex: 1,
-                    backgroundColor: "white",
-                    height: ScreenHeight,
-                    alignContent: "center",
-                    alignItems: "center",
+                    width: "100%",
+                    flexDirection: 'column',
                   }}
-                >
-                  <Text style={{ fontWeight: "800" }}>
-                    Estamos cargando la información
-                  </Text>
-                  <Text style={{ fontWeight: "800" }}>Espera un poco</Text>
-                </View>
+                  animationDirection="horizontalLeft"
+                  boneColor="#EDEDED"
+                  highlightColor="#E0E0E0"
+                  layout={[
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                    {
+                      width: "100%",
+                      height: 170,
+                      marginBottom: 6,
+                      borderRadius: 15,
+                    },
+                
+                   
+                  ]}
+                  isLoading={true}
+                />
               </>
             ) : (
               <>
+               
                 {finalData.map((promocion, index) => (
                   <>
                     {categorySelected === 0 ? (

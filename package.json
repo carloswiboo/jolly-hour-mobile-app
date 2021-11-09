@@ -10,6 +10,7 @@
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "^1.15.9",
+    "@react-native-picker/picker": "1.16.1",
     "@react-navigation/bottom-tabs": "^6.0.7",
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
@@ -45,15 +46,14 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-shimmer-placeholder": "^2.0.8",
-    "react-native-skeleton-content": "^1.0.22",
+    "react-native-skeleton-content": "^1.0.23",
     "react-native-skeleton-placeholder": "^5.0.0",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-wallet-cards": "^1.0.5",
     "react-native-web": "^0.17.5",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11",
-    "@react-native-picker/picker": "1.16.1"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
