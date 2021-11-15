@@ -23,7 +23,7 @@ import {
 import { AuthContext } from "../context/context";
 
 export default function InterestScreen({ navigation }) {
-  const [finalData, setFinalData] = React.useState({});
+  const [finalData, setFinalData] = React.useState([]);
   const { loginState } = React.useContext(AuthContext);
   const [hasChanged, setHasChanged] = React.useState(0);
 
@@ -34,28 +34,35 @@ export default function InterestScreen({ navigation }) {
       setFinalData(categoriasDeUsuario);
     });
   }, []);
-  React.useEffect(() => {
-    getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-      setFinalData(categoriasDeUsuario);
-    });
-  }, [hasChanged]);
-
-
-  
 
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.item}
-        onPress={() =>
+        onPress={() => {
+          var finalResult = [];
+
+          for (const valor of finalData) {
+            debugger;
+
+            if (valor.id == item.id) {
+              valor.isActive = !valor.isActive;
+              finalResult.push(valor);
+            } else {
+              finalResult.push(valor);
+            }
+          }
+
+          setFinalData(finalResult);
+
           anadirEliminarCategorie(item.id, loginState).then((resultado) => {
             getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
               setFinalData(categoriasDeUsuario);
             });
-          })
-        }
+          });
+        }}
       >
-        {item.isActive === true ? (
+        {item.isActive == true ? (
           <Image style={styles.tinyLogo} source={item.imagenActiva} />
         ) : (
           <Image style={styles.tinyLogo} source={item.imagenInactiva} />
