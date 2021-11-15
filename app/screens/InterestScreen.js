@@ -22,6 +22,8 @@ import {
 } from "../API/APICategorias";
 import { AuthContext } from "../context/context";
 
+import { useFocusEffect } from "@react-navigation/native";
+
 export default function InterestScreen({ navigation }) {
   const [finalData, setFinalData] = React.useState([]);
   const { loginState } = React.useContext(AuthContext);
@@ -34,6 +36,14 @@ export default function InterestScreen({ navigation }) {
       setFinalData(categoriasDeUsuario);
     });
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
+        setFinalData(categoriasDeUsuario);
+      });
+    }, [])
+  );
 
   const renderItem = ({ item }) => {
     return (
