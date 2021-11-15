@@ -110,13 +110,13 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <LinearGradient
-          style={styles.container}
-          colors={["#3F5EFB", "#FC466B"]}
-          start={{ x: 0.0, y: 0.25 }}
-          end={{ x: 0.5, y: 1.0 }}
-        >
+      <LinearGradient
+        style={styles.container}
+        colors={["#3F5EFB", "#FC466B"]}
+        start={{ x: 0.0, y: 0.25 }}
+        end={{ x: 0.5, y: 1.0 }}
+      >
+        <SafeAreaView style={styles.container}>
           <HeaderInicioComponent
             navigation={navigation}
             params={{ showBackButton: false }}
@@ -167,7 +167,9 @@ export default function ProfileScreen({ navigation }) {
               }}
             >
               <View style={styles.listaDatosPicker}>
-                <Text style={{ marginLeft: 6, color: "#2837DE" , marginBottom: 2}}>
+                <Text
+                  style={{ marginLeft: 6, color: "#2837DE", marginBottom: 2 }}
+                >
                   Elige ciudad:
                 </Text>
                 <Picker
@@ -176,6 +178,7 @@ export default function ProfileScreen({ navigation }) {
                     setSelectedLanguage(itemValue)
                   }
                   itemStyle={styles.fontSizeQuince}
+                  numberOfLines={1}
                 >
                   <Picker.Item
                     label="León"
@@ -231,8 +234,8 @@ export default function ProfileScreen({ navigation }) {
               <Text>{JSON.stringify(finalData)}</Text> */}
             </ScrollView>
           </View>
-        </LinearGradient>
-      </SafeAreaView>
+        </SafeAreaView>
+      </LinearGradient>
     </>
   );
 }

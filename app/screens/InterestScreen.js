@@ -46,31 +46,29 @@ export default function InterestScreen({ navigation }) {
         style={styles.item}
         onPress={() =>
           anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-            debugger;
-
             getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-              debugger;
               setFinalData(categoriasDeUsuario);
             });
           })
         }
       >
-        {
-          item.isActive === true ? ( <Image style={styles.tinyLogo} source={item.imagenActiva} />) : ( <Image style={styles.tinyLogo} source={item.imagenInactiva} />)
-        }
-       
+        {item.isActive === true ? (
+          <Image style={styles.tinyLogo} source={item.imagenActiva} />
+        ) : (
+          <Image style={styles.tinyLogo} source={item.imagenInactiva} />
+        )}
       </TouchableOpacity>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LinearGradient
-        style={styles.loginBackground}
-        colors={["#FC466B", "#3F5EFB"]}
-        start={{ x: 0.0, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
-      >
+    <LinearGradient
+      style={styles.loginBackground}
+      colors={["#FC466B", "#3F5EFB"]}
+      start={{ x: 0.0, y: 0.25 }}
+      end={{ x: 0.5, y: 1.0 }}
+    >
+      <SafeAreaView style={styles.container}>
         <View style={styles.containerTitle}>
           <Text style={styles.textTitle}>Elige Tus{"\n"}Intereses</Text>
           <Text style={styles.textSubtitle}>
@@ -101,8 +99,8 @@ export default function InterestScreen({ navigation }) {
             onPress={() => saveCategoriesAndContinue()}
           />
   </View> */}
-      </LinearGradient>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 

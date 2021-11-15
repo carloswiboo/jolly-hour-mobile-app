@@ -22,7 +22,7 @@ export default function InterestScreen({ navigation }) {
 
   React.useEffect(() => {
     getCategories().then((resultadoSiHay) => {
-      debugger;
+       
 
       var resultadoFinal = JSON.parse(resultadoSiHay);
 

@@ -56,7 +56,7 @@ export default function MyJollysScreen({ navigation }) {
       end={{ x: 0.5, y: 1.0 }}
     >
       <SafeAreaView
-        style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}
+        style={{ width: "100%", flex: 1, justifyContent: "flex-end",marginTop: 32 }}
       >
         <HeaderInicioComponent
           navigation={navigation}

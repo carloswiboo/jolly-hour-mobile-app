@@ -82,7 +82,7 @@ export default function CategoriesHomeDataComponent(props) {
                   const categoriaIdBuscar = categoria.id;
                   const finalModifyData = finalData;
 
-                  debugger;
+                   
 
                   for (const categoria of finalModifyData) {
                     if (categoria.id === categoriaIdBuscar) {

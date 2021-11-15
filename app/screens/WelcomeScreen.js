@@ -157,7 +157,7 @@ export default function WelcomeScreen({ navigation }) {
 
         const resultado = await response.json();
 
-        debugger;
+         
 
         LoginUsuarioFacebook({
           idFacebook: resultado.id,
@@ -166,7 +166,7 @@ export default function WelcomeScreen({ navigation }) {
         }).then((resultado) => {
           authContext.signIn(resultado).then(() => {
 
-            debugger;
+             
             Restart();
           });
         });

@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     margin: 0,

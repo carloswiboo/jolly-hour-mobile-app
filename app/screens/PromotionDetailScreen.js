@@ -30,6 +30,7 @@ import { EvilIcons } from "@expo/vector-icons";
 
 export default function PromotionDetailScreen({ route, navigation }) {
   const { params } = route;
+
   const { loginState } = React.useContext(AuthContext);
   const [updateData, setUpdateData] = React.useState(0);
   const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =
@@ -156,7 +157,7 @@ export default function PromotionDetailScreen({ route, navigation }) {
             {finalData.objCadena.length === 0 ? (
               <>
                 <TouchableOpacity
-                 style={styles.buttonGuardarPromocion}
+                  style={styles.buttonGuardarPromocion}
                   onPress={() =>
                     setOfertasByUser({
                       idusuario: loginState.userToken.id,
@@ -190,8 +191,12 @@ export default function PromotionDetailScreen({ route, navigation }) {
                   color="#EC043C"
                   accessibilityLabel="Learn more about this purple button"
                 >
-                  <Text style={{color: 'white', fontWeight: 'bold', fontSize: 17}}>Guardar Promoción</Text>
-                  </TouchableOpacity>
+                  <Text
+                    style={{ color: "white", fontWeight: "bold", fontSize: 17 }}
+                  >
+                    Guardar Promoción
+                  </Text>
+                </TouchableOpacity>
                 <View
                   style={{
                     backgroundColor: "#ffbc00",
@@ -239,15 +244,19 @@ export default function PromotionDetailScreen({ route, navigation }) {
                     Ubicación
                   </Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => {}}
+                  onPress={() => {
+                    navigation.navigate("businessdetail", {
+                      idempresa: finalData.objOferta[0].idempresa,
+                    });
+                  }}
                   title="Ir a Ubicación"
                   color="#FFBC00"
                   accessibilityLabel="Abrir ubicación"
                 >
-                  <Text>Abrir Ubicación</Text>
+                  <Text>Ver Perfil</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -327,7 +336,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 3,
   },
-  buttonGuardarPromocion : {
+  buttonGuardarPromocion: {
     alignItems: "center",
     backgroundColor: "#6926A9",
     alignContent: "center",
@@ -335,5 +344,5 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 10,
     marginHorizontal: 3,
-  }
+  },
 });

@@ -156,7 +156,7 @@ export const getDetalleOfertaApp = async (values) => {
       return {};
     }
   } catch (error) {
-    debugger;
+     
     console.error(error);
     return {};
   }

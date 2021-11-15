@@ -29,13 +29,13 @@ export default function HomeScreen({ navigation, params }) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LinearGradient
-        style={styles.container}
-        colors={["#3F5EFB", "#FC466B"]}
-        start={{ x: 0.0, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
-      >
+    <LinearGradient
+      style={styles.container}
+      colors={["#3F5EFB", "#FC466B"]}
+      start={{ x: 0.0, y: 0.25 }}
+      end={{ x: 0.5, y: 1.0 }}
+    >
+      <SafeAreaView style={styles.container}>
         <View>
           <HeaderInicioComponent
             navigation={navigation}
@@ -49,13 +49,12 @@ export default function HomeScreen({ navigation, params }) {
           />
         </View>
         <View style={styles.ScrollView}>
-        {finalData.length === 0 ? (
-                  <Image
-                    style={{ width: "100%", flex: 1, resizeMode: "contain" }}
-                    source={require("../../assets/sinpromociones.png")}
-                  />
-                ) : null}
-
+          {finalData.length === 0 ? (
+            <Image
+              style={{ width: "100%", flex: 1, resizeMode: "contain" }}
+              source={require("../../assets/sinpromociones.png")}
+            />
+          ) : null}
 
           <ScrollView
             contentContainerStyle={styles.scrollViewCards}
@@ -75,7 +74,7 @@ export default function HomeScreen({ navigation, params }) {
                   containerStyle={{
                     flex: 1,
                     width: "100%",
-                    flexDirection: 'column',
+                    flexDirection: "column",
                   }}
                   animationDirection="horizontalLeft"
                   boneColor="#EDEDED"
@@ -141,15 +140,12 @@ export default function HomeScreen({ navigation, params }) {
                       marginBottom: 6,
                       borderRadius: 15,
                     },
-                
-                   
                   ]}
                   isLoading={true}
                 />
               </>
             ) : (
               <>
-               
                 {finalData.map((promocion, index) => (
                   <>
                     {categorySelected === 0 ? (
@@ -173,8 +169,8 @@ export default function HomeScreen({ navigation, params }) {
             )}
           </ScrollView>
         </View>
-      </LinearGradient>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 

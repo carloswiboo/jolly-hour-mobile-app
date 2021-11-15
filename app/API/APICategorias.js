@@ -99,7 +99,7 @@ export const getCategorieById = async (idcategoria) => {
 export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
   let url = API + "/services/usuario/addCategoria/";
 
-  debugger;
+   
   try {
     const response = await axios.post(
       url,
@@ -202,7 +202,7 @@ export const getCategoriesByUser = async (token) => {
       return {};
     }
   } catch (error) {
-    debugger;
+     
     console.error(error);
     return {};
   }

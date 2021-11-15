@@ -15,11 +15,11 @@ export const CounterDataTime = (fechaPublicacionFinal, horaFin) => {
 };
 
 export const CounterDataTimeDos = (fechaPublicacionFinal, horaFin) => {
-  debugger;
+   
   let nuevaFechaFinal = new Date();
   nuevaFechaFinal = Date.parse(fechaPublicacionFinal + "T" + horaFin);
 
-  debugger;
+   
   let fechaActual = new Date();
   let resta = nuevaFechaFinal - fechaActual;
   var dayjsAver = dayjs(resta).format("mm");

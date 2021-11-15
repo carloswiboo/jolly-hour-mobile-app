@@ -21,7 +21,7 @@ export const LoginUsuario = async (values) => {
     }
   } catch (error) {
 
-    debugger;
+     
 
     console.error(error);
     return null;
@@ -53,7 +53,7 @@ export const LoginUsuarioFacebook = async (values) => {
 export const createAccountByMail = async (values) => {
   let url = API + "/services/usuario/createUsuario";
 
-  debugger;
+   
 
   try {
     const response = await axios.post(url, values, {
@@ -64,7 +64,7 @@ export const createAccountByMail = async (values) => {
       },
     });
 
-    debugger;
+     
 
     if (response.status === 200) {
       return response;

@@ -33,12 +33,12 @@ export default function BusinessDetailScreen({ route, navigation }) {
     uri: "https://wiboo.com.mx/wp-content/uploads/2021/10/fondoDetallePromocion.png",
   });
 
-  debugger;
+   
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
 
-      debugger;
+       
 
       
       setFinalData(resultado);
@@ -118,7 +118,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
                 <TouchableOpacity
                   style={styles.buttonLlamar}
                   onPress={() => {
-                    Linking.openURL("tel:+" + finalData.telefono);
+                    Linking.openURL("tel:" + finalData.telefono);
                   }}
                 >
                   <Text style={{ fontSize: 17 }}>
