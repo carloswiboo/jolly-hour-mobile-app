@@ -15,6 +15,8 @@ import AccordionDataComponent from "../components/AccordionDataComponent";
 import { v4 as uuid } from "uuid";
 import { ref } from "yup";
 
+import { useFocusEffect } from "@react-navigation/native";
+
 export default function MyJollysScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
   const { loginState } = React.useContext(AuthContext);
@@ -23,6 +25,18 @@ export default function MyJollysScreen({ navigation }) {
 
   const [finalData, setFinalData] = React.useState([]);
   const [finalDataCard, setFinalDataCard] = React.useState([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let functionReady = false;
+      getDetailJollys(loginState.userToken.id, null).then((resultado) => {
+        setFinalData(resultado);
+      });
+      return () => {
+        functionReady = true;
+      };
+    }, [])
+  );
 
   React.useEffect(() => {
     let functionReady = false;
@@ -56,7 +70,12 @@ export default function MyJollysScreen({ navigation }) {
       end={{ x: 0.5, y: 1.0 }}
     >
       <SafeAreaView
-        style={{ width: "100%", flex: 1, justifyContent: "flex-end",marginTop: 32 }}
+        style={{
+          width: "100%",
+          flex: 1,
+          justifyContent: "flex-end",
+          marginTop: 32,
+        }}
       >
         <HeaderInicioComponent
           navigation={navigation}
