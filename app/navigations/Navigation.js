@@ -56,21 +56,6 @@ export default function Navigation() {
                   }}
                 >
                   <Tab.Screen
-                    name="intereses"
-                    options={{
-                      title: "Intereses",
-                      headerShown: false,
-                      tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons
-                          name="bell"
-                          color={color}
-                          size={22}
-                        />
-                      ),
-                    }}
-                    component={InterestScreen}
-                  />
-                  <Tab.Screen
                     name="home"
                     options={{
                       title: "Inicio",
@@ -85,6 +70,22 @@ export default function Navigation() {
                     }}
                     component={PromocionesStack}
                   />
+                  <Tab.Screen
+                    name="intereses"
+                    options={{
+                      title: "Intereses",
+                      headerShown: false,
+                      tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons
+                          name="bell"
+                          color={color}
+                          size={22}
+                        />
+                      ),
+                    }}
+                    component={InterestScreen}
+                  />
+
                   <Tab.Screen
                     name="myjollys"
                     options={{

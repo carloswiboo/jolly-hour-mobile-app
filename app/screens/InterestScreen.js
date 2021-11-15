@@ -40,6 +40,9 @@ export default function InterestScreen({ navigation }) {
     });
   }, [hasChanged]);
 
+
+  
+
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -78,7 +81,7 @@ export default function InterestScreen({ navigation }) {
         <View style={styles.categoriesContainer}>
           <FlatList
             style={styles.scrollViewContainer}
-            numColumns={2}
+            numColumns={3}
             vertical
             showsHorizontalScrollIndicator={false}
             data={finalData}
@@ -120,11 +123,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 2,
+    paddingHorizontal: 10,
   },
   scrollViewContainer: {
     flex: 1,
-    margin: 20,
     width: "100%",
   },
   containerButtons: {
@@ -157,15 +159,17 @@ const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flex: 1,
-    width: null,
-    height: null,
-    margin: 10,
+    width: "100%",
+    margin: 0,
     position: "relative",
     flex: 1,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   tinyLogo: {
     flex: 1,
+    width: "100%",
+    resizeMode: "contain",
   },
   overlayTrue: {
     ...StyleSheet.absoluteFillObject,
