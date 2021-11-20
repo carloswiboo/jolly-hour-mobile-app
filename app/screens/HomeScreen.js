@@ -50,10 +50,21 @@ export default function HomeScreen({ navigation, params }) {
         </View>
         <View style={styles.ScrollView}>
           {finalData.length === 0 ? (
-            <Image
-              style={{ width: "100%", flex: 1, resizeMode: "contain" }}
-              source={require("../../assets/sinpromociones.png")}
-            />
+            <>
+              <Image
+                style={{ width: "100%", flex: 1, resizeMode: "contain" }}
+                source={require("../../assets/JollyStarLooking.png")}
+              />
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  marginTop: 10,
+                }}
+              >
+                Seguiremos buscando promociones
+              </Text>
+            </>
           ) : null}
 
           <ScrollView

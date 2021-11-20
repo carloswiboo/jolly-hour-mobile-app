@@ -12,6 +12,9 @@ import {
 import { getAllCategorias } from "../API/APICategorias";
 import { v4 as uuid } from "uuid";
 import SkeletonContent from "react-native-skeleton-content";
+import { Dimensions } from "react-native";
+
+var fullWidth = Dimensions.get("window").width;
 
 export default function CategoriesHomeDataComponent(props) {
   const [finalData, setFinalData] = React.useState([]);
@@ -46,82 +49,105 @@ export default function CategoriesHomeDataComponent(props) {
         </Text>
       </View>
 
-      <ScrollView
-        style={{
-          backgroundColor: "",
-          paddingLeft: 15,
-          paddingRight: 15,
-          paddingTop: 10,
-          paddingBottom: 10,
-          width: "100%",
-        }}
-        horizontal={true}
-      >
-        {finalData.length === 0 ? (
-          <>
-            <SkeletonContent
-              containerStyle={{ flex: 1, width: '100%', flexDirection: "row" }}
-              animationDirection="horizontalLeft"
-              boneColor="#991980"
-              highlightColor="black"
-              layout={[
-                { width: 120, height: 20, marginBottom: 6, borderRadius: 50 },
-                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
-                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
-                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
-                { width: 120, height: 20, marginBottom: 6, marginHorizontal: 10, borderRadius: 50 },
-              ]}
-              isLoading={true}
-            />
-          </>
-        ) : (
-          <>
-            {finalData.map((categoria) => (
-              <TouchableOpacity
-                onPress={() => {
-                  const categoriaIdBuscar = categoria.id;
-                  const finalModifyData = finalData;
-
-                   
-
-                  for (const categoria of finalModifyData) {
-                    if (categoria.id === categoriaIdBuscar) {
-                      categoria.isActive = true;
-                    } else {
-                      categoria.isActive = false;
-                    }
-                  }
-
-                  setFinalData(finalModifyData);
-                  props.setCategorySelected(categoria.id);
+      <View style={{ width: "100%", paddingHorizontal: 10, marginVertical: 10}}>
+        <ScrollView
+          style={{
+            backgroundColor: "",
+          }}
+          horizontal={true}
+        >
+          {finalData.length === 0 ? (
+            <>
+              <SkeletonContent
+                containerStyle={{
+                  flex: 1,
+                  width: "100%",
+                  flexDirection: "row",
                 }}
-                key={uuid()}
-                style={[
+                animationDirection="horizontalLeft"
+                boneColor="#991980"
+                highlightColor="black"
+                layout={[
+                  { width: 120, height: 20, marginBottom: 6, borderRadius: 50 },
                   {
+                    width: 120,
+                    height: 20,
+                    marginBottom: 6,
+                    marginHorizontal: 10,
                     borderRadius: 50,
-                    padding: 8,
-                    marginHorizontal: 2,
                   },
                   {
-                    backgroundColor:
-                      categoria.isActive === true ? "#7089E5" : "#9C187E",
+                    width: 120,
+                    height: 20,
+                    marginBottom: 6,
+                    marginHorizontal: 10,
+                    borderRadius: 50,
+                  },
+                  {
+                    width: 120,
+                    height: 20,
+                    marginBottom: 6,
+                    marginHorizontal: 10,
+                    borderRadius: 50,
+                  },
+                  {
+                    width: 120,
+                    height: 20,
+                    marginBottom: 6,
+                    marginHorizontal: 10,
+                    borderRadius: 50,
                   },
                 ]}
-              >
-                <Text
+                isLoading={true}
+              />
+            </>
+          ) : (
+            <>
+              {finalData.map((categoria) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    const categoriaIdBuscar = categoria.id;
+                    const finalModifyData = finalData;
+
+                    for (const categoria of finalModifyData) {
+                      if (categoria.id === categoriaIdBuscar) {
+                        categoria.isActive = true;
+                      } else {
+                        categoria.isActive = false;
+                      }
+                    }
+
+                    setFinalData(finalModifyData);
+                    props.setCategorySelected(categoria.id);
+                  }}
+                  key={uuid()}
                   style={[
                     {
-                      color: categoria.isActive === true ? "white" : "white",
+                      borderRadius: 50,
+                      padding: 8,
+                      marginHorizontal: 2,
+                    },
+                    {
+                      backgroundColor:
+                        categoria.isActive === true ? "#7089E5" : "#9C187E",
                     },
                   ]}
                 >
-                  {categoria.nombre}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </>
-        )}
-      </ScrollView>
+                  <Text
+                    style={[
+                      {
+                        color: categoria.isActive === true ? "white" : "white",
+                      },
+                    ]}
+                  >
+                    {categoria.nombre}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </>
+          )}
+        </ScrollView>
+      </View>
     </>
   );
 }

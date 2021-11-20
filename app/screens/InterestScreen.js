@@ -66,9 +66,7 @@ export default function InterestScreen({ navigation }) {
           setFinalData(finalResult);
 
           anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-            getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-              setFinalData(categoriasDeUsuario);
-            });
+           
           });
         }}
       >
