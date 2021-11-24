@@ -4,6 +4,7 @@ import { Icon } from "react-native-elements";
 
 export default function BusinessCardDataComponent({ navigation, params }) {
 
+  
 
   return (
     <TouchableOpacity
