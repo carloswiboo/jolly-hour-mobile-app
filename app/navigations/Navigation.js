@@ -14,12 +14,49 @@ import { AuthContext } from "./../context/context";
 import InterestScreen from "../screens/InterestScreen";
 import LoadingComponent from "../components/LoadingComponent";
 
-const Tab = createBottomTabNavigator();
+import { Socketio } from "../helpers/Socketio";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
+import jwt_decode from "jwt-decode";
+
+const Tab = createBottomTabNavigator();
+const socket = Socketio();
 export default function Navigation() {
   const { loginState } = React.useContext(AuthContext);
 
   var isLoading = loginState.isLoading;
+
+  const [isLoadingJolly, setLoadingJolly] = React.useState(
+    loginState.isLoading
+  );
+
+  React.useEffect(() => {
+    if (loginState.userToken != null) {
+      var decodedToken = jwt_decode(loginState.userToken.accessToken);
+      socket.on("connect", () => {
+        socket.emit("join", { guid: decodedToken.guid });
+      });
+
+      socket.on("codigoCorrecto", () => {
+        showMessage({
+          message: "Gracias, disfruta tu promoción!",
+          type: "info",
+          style: {
+            paddingVertical: 80,
+            textAlign: "center",
+            alignContent: "center",
+            alignItems: "center",
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+          },
+          titleStyle: { fontSize: 18, textAlign: "center" },
+          backgroundColor: "#C70C5A",
+          color: "white",
+          duration: 5000,
+        });
+      });
+    }
+  }, [isLoading]);
 
   return (
     <>

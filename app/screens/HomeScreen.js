@@ -10,6 +10,10 @@ import { v4 as uuid } from "uuid";
 import { Dimensions } from "react-native";
 import CategoriesHomeDataComponent from "../components/CategoriesHomeDataComponent";
 import SkeletonContent from "react-native-skeleton-content";
+import { Socketio } from "../helpers/Socketio";
+import Toast from "react-native-root-toast";
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 export default function HomeScreen({ navigation, params }) {
   const [loading, setLoading] = React.useState(true);
   const [finalData, setFinalData] = React.useState([]);
@@ -18,6 +22,46 @@ export default function HomeScreen({ navigation, params }) {
   let ScreenHeight = Dimensions.get("window").height - 200;
 
   React.useEffect(() => {
+    const socket = Socketio();
+
+ 
+
+    socket.on("connect", () => {
+      //socket.emit("join", { idusuario: user.id });
+    });
+    socket.on("refreshOferta", () => {
+      debugger;
+      setLoading(true);
+      
+      showMessage({
+        message: "Se acabó el tiempo! obteniendo nuevas promociones",
+  
+        type: "info",
+        style: {
+          paddingVertical: 80,
+          textAlign: "center",
+          alignContent: "center",
+          alignItems: "center",
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+        },
+        titleStyle: { fontSize: 18, textAlign: 'center' },
+        backgroundColor: "#C70C5A",
+        color: "white",
+        duration: 3000
+      });
+
+
+      getNowAllPromotions(null).then((resultado) => {
+        setFinalData(resultado);
+        setLoading(false);
+      });
+    });
+
+    socket.on("connect_error", (error) => {
+      console.log(error);
+    });
+
     getNowAllPromotions(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
@@ -160,16 +204,14 @@ export default function HomeScreen({ navigation, params }) {
                 {finalData.map((promocion, index) => (
                   <>
                     {categorySelected === 0 ? (
-                      <>
-                        <CardComponent
-                          key={uuid()}
-                          navigation={navigation}
-                          params={promocion}
-                        />
-                      </>
+                      <CardComponent
+                        key={index}
+                        navigation={navigation}
+                        params={promocion}
+                      />
                     ) : categorySelected === promocion.idcategoria ? (
                       <CardComponent
-                        key={uuid()}
+                        key={index}
                         navigation={navigation}
                         params={promocion}
                       />

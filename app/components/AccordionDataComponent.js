@@ -17,12 +17,16 @@ import { v4 as uuid } from "uuid";
 import QRCode from "react-native-qrcode-svg";
 import CardComponent from "./CardComponent";
 import CardComponentMyJollys from "./CardComponentMyJollys";
+import BusinessCardDataComponent from "./BusinessCardDataComponent";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
 export default function AccordionDataComponent(props) {
+
+
+  debugger;
   const onRefresh = React.useCallback(() => {
     props.setRefreshing(true);
     wait(2000).then(() => props.setRefreshing(false));
@@ -65,6 +69,7 @@ export default function AccordionDataComponent(props) {
             <Text style={{ fontSize: 10 }}>{promocion.nombreCategoria}</Text>
           </CollapseHeader>
           <CollapseBody style={styles.body}>
+            <BusinessCardDataComponent navigation={props.navigation} params={promocion} />
             <CardComponentMyJollys data={promocion} />
             <View style={{ alignItems: "center" }}>
               <QRCode value={promocion.cadena} />

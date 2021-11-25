@@ -21,6 +21,8 @@ export const getDetailJollys = async (idusuario, values) => {
 
         promocion.imagenLogoConvertida =
           "data:image/png;base64," + encode(promocion.logoEmpresa.data);
+        promocion.imagenLogoEmpresaConvertida =
+          "data:image/png;base64," + encode(promocion.logoEmpresa.data);
       }
 
       return response.data;

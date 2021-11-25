@@ -9,7 +9,10 @@ import { RootSiblingParent } from "react-native-root-siblings";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as yup from "yup";
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
+import { io } from "socket.io-client";
+import FlashMessage from "react-native-flash-message";
+
 
 export default function App() {
   const initialLoginState = {
@@ -155,15 +158,15 @@ export default function App() {
 
   return (
     <RootSiblingParent>
-      <View style={{flex: 1, backgroundColor:'black'}}>
+      <View style={{ flex: 1, backgroundColor: "black" }}>
         <AuthContext.Provider value={{ authContext, loginState }}>
           <SafeAreaProvider>
-          <StatusBar style="dark" />
-
+            <StatusBar style="dark" />
             <Navigation />
           </SafeAreaProvider>
         </AuthContext.Provider>
       </View>
+      <FlashMessage position="bottom" style={{ zIndex: 90000 }} />
     </RootSiblingParent>
   );
 }

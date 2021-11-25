@@ -97,6 +97,7 @@ export default function MyJollysScreen({ navigation }) {
             data={finalData}
             refreshing={refreshing}
             setRefreshing={setRefreshing}
+            navigation={navigation}
           />
         </View>
       </SafeAreaView>
