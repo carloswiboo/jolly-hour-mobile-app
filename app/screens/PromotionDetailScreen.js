@@ -25,7 +25,7 @@ import { CountDownText } from "react-native-countdown-timer-text";
 import BusinessCardDataComponent from "../components/BusinessCardDataComponent";
 import Toast from "react-native-root-toast";
 import { MaterialIcons } from "@expo/vector-icons";
-
+import * as WebBrowser from "expo-web-browser";
 import { EvilIcons } from "@expo/vector-icons";
 
 export default function PromotionDetailScreen({ route, navigation }) {
@@ -63,6 +63,9 @@ export default function PromotionDetailScreen({ route, navigation }) {
         fechaPublicacionFinal,
         horaFin
       );
+
+
+      debugger;
 
       setResultadoMinutosQuedan(resultadoMinutosQuedanN);
 
@@ -233,7 +236,14 @@ export default function PromotionDetailScreen({ route, navigation }) {
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   style={styles.buttonUbicacion}
-                  onPress={() => {}}
+                  onPress={() => { 
+
+                    WebBrowser.openBrowserAsync(
+                      "https://www.google.com/maps/search/?api=1&query=" +
+                        encodeURIComponent(finalData.objOferta[0].nombre)
+                    );
+
+                  }}
                   title="Ir a Ubicación"
                   color="#FFBC00"
                   accessibilityLabel="Abrir ubicación"

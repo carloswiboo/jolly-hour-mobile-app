@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CardComponent from "../components/CardComponent";
@@ -15,27 +15,41 @@ import Toast from "react-native-root-toast";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function HomeScreen({ navigation, params }) {
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+
   const [loading, setLoading] = React.useState(true);
   const [finalData, setFinalData] = React.useState([]);
   const [categorySelected, setCategorySelected] = React.useState(0);
 
   let ScreenHeight = Dimensions.get("window").height - 200;
 
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getNowAllPromotions(null).then((resultado) => {
+      setFinalData(resultado);
+      setLoading(false);
+      setRefreshing(false);
+    });
+  }, []);
+
+
+
   React.useEffect(() => {
     const socket = Socketio();
-
- 
 
     socket.on("connect", () => {
       //socket.emit("join", { idusuario: user.id });
     });
     socket.on("refreshOferta", () => {
-      debugger;
+     
       setLoading(true);
-      
+
       showMessage({
         message: "Se acabó el tiempo! obteniendo nuevas promociones",
-  
+
         type: "info",
         style: {
           paddingVertical: 80,
@@ -45,12 +59,11 @@ export default function HomeScreen({ navigation, params }) {
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
         },
-        titleStyle: { fontSize: 18, textAlign: 'center' },
+        titleStyle: { fontSize: 18, textAlign: "center" },
         backgroundColor: "#C70C5A",
         color: "white",
-        duration: 3000
+        duration: 3000,
       });
-
 
       getNowAllPromotions(null).then((resultado) => {
         setFinalData(resultado);
@@ -119,6 +132,7 @@ export default function HomeScreen({ navigation, params }) {
             minimumZoomScale={1}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             contentContainerStyle={{
               justifyContent: "center",
             }}
