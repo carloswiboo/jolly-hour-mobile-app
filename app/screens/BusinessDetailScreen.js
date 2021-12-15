@@ -33,14 +33,11 @@ export default function BusinessDetailScreen({ route, navigation }) {
     uri: "https://wiboo.com.mx/wp-content/uploads/2021/10/fondoDetallePromocion.png",
   });
 
-   
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
+      debugger;
 
-       
-
-      
       setFinalData(resultado);
       setLoading(false);
     });
@@ -101,6 +98,14 @@ export default function BusinessDetailScreen({ route, navigation }) {
                   marginBottom: 10,
                 }}
               >
+                <View style={{ paddingVertical: 20, paddingHorizontal: 5 }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                    Descripción:
+                  </Text>
+                  <Text>
+                   {finalData.descripcion}
+                  </Text>
+                </View>
                 <TouchableOpacity
                   style={styles.buttonVerMasInformacion}
                   onPress={() => {
@@ -148,7 +153,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
                     WebBrowser.openBrowserAsync(finalData.facebook);
                   }}
                 >
-                  <Text style={{ fontSize: 17, color: 'white' }}>
+                  <Text style={{ fontSize: 17, color: "white" }}>
                     <FontAwesome name="facebook" size={17} color="white" />{" "}
                     &nbsp;Facebook
                   </Text>
@@ -159,7 +164,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
                     WebBrowser.openBrowserAsync(finalData.instagram);
                   }}
                 >
-                  <Text style={{ fontSize: 17, color: 'white' }}>
+                  <Text style={{ fontSize: 17, color: "white" }}>
                     <FontAwesome name="instagram" size={17} color="white" />
                     &nbsp;Instagram
                   </Text>
