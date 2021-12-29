@@ -5,11 +5,13 @@ export const LoginUsuario = async (values) => {
   try {
     const response = await axios.post(url, values, {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Headers": "*",
+        'Access-Control-Allow-Origin': '*',
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
       },
-    });
+    }); 
+
+    debugger;
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {
@@ -21,7 +23,7 @@ export const LoginUsuario = async (values) => {
     }
   } catch (error) {
 
-     
+     debugger;
 
     console.error(error);
     return null;
