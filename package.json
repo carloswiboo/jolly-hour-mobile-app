@@ -57,7 +57,9 @@
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-clipboard": "~1.1.0",
+    "expo-sharing": "~9.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

@@ -25,8 +25,9 @@ let imagenSaludYBellezaInactivo = require("../../assets/categoriasServicios/inac
 let imagenServicioActivo = require("../../assets/categoriasServicios/activo/serviciosActivo.png");
 let imagenServicioInactivo = require("../../assets/categoriasServicios/inactivo/serviciosInactivo.png");
 export const getAllCategorias = async (values) => {
-  let url = API + "/services/categoria/getCategorias";
+  let url = API + "/services/categoria/getCategorias/";
 
+  debugger;
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -36,11 +37,10 @@ export const getAllCategorias = async (values) => {
       },
     });
 
+    debugger;
+
     if (response.status === 200) {
       for (const categoria of response.data) {
-        categoria.imagenConvertida =
-          "data:image/png;base64," + encode(categoria.imagen.data);
-
         if (categoria.nombre === "Comida y Restaurantes") {
           categoria.imagenActiva = imageComidaRestauranteActivo;
           categoria.imagenInactiva = imageComidaRestauranteInactivo;
@@ -63,12 +63,22 @@ export const getAllCategorias = async (values) => {
         }
       }
 
+      debugger;
 
       return response.data;
     } else if (response.status === 401) {
+      debugger;
       return {};
     }
   } catch (error) {
+    debugger;
+
+    let errorMessage = error.toJSON();
+
+    console.log(errorMessage);
+
+    debugger;
+
     console.error(error);
     return {};
   }
@@ -99,7 +109,6 @@ export const getCategorieById = async (idcategoria) => {
 export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
   let url = API + "/services/usuario/addCategoria/";
 
-   
   try {
     const response = await axios.post(
       url,
@@ -139,8 +148,6 @@ export const getCategoriesByUser = async (token) => {
       const finalData = [];
       for (const categoriaSeleccionada of response.data.seleccionadas) {
         categoriaSeleccionada.isActive = true;
-        categoriaSeleccionada.imagenConvertida =
-          "data:image/png;base64," + encode(categoriaSeleccionada.imagen.data);
 
         if (categoriaSeleccionada.nombre === "Comida y Restaurantes") {
           categoriaSeleccionada.imagenActiva = imageComidaRestauranteActivo;
@@ -168,9 +175,6 @@ export const getCategoriesByUser = async (token) => {
 
       for (const categoriaNoSeleccionada of response.data.noSeleccionadas) {
         categoriaNoSeleccionada.isActive = false;
-        categoriaNoSeleccionada.imagenConvertida =
-          "data:image/png;base64," +
-          encode(categoriaNoSeleccionada.imagen.data);
 
         if (categoriaNoSeleccionada.nombre === "Comida y Restaurantes") {
           categoriaNoSeleccionada.imagenActiva = imageComidaRestauranteActivo;
@@ -202,7 +206,6 @@ export const getCategoriesByUser = async (token) => {
       return {};
     }
   } catch (error) {
-     
     console.error(error);
     return {};
   }

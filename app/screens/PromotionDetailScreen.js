@@ -65,7 +65,7 @@ export default function PromotionDetailScreen({ route, navigation }) {
       );
 
 
-      debugger;
+       
 
       setResultadoMinutosQuedan(resultadoMinutosQuedanN);
 

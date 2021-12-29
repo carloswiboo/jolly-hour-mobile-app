@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Image, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  RefreshControl,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CardComponent from "../components/CardComponent";
@@ -13,11 +20,10 @@ import SkeletonContent from "react-native-skeleton-content";
 import { Socketio } from "../helpers/Socketio";
 import Toast from "react-native-root-toast";
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { AuthContext } from "../context/context";
 
 export default function HomeScreen({ navigation, params }) {
-
   const [refreshing, setRefreshing] = React.useState(false);
-
 
   const [loading, setLoading] = React.useState(true);
   const [finalData, setFinalData] = React.useState([]);
@@ -25,26 +31,33 @@ export default function HomeScreen({ navigation, params }) {
 
   let ScreenHeight = Dimensions.get("window").height - 200;
 
+  const { loginState } = React.useContext(AuthContext);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getNowAllPromotions(null).then((resultado) => {
+       
       setFinalData(resultado);
       setLoading(false);
       setRefreshing(false);
     });
   }, []);
 
-
-
   React.useEffect(() => {
     const socket = Socketio();
 
+
+     
+    
+
     socket.on("connect", () => {
-      //socket.emit("join", { idusuario: user.id });
+       
+    //var saludos = user.id;
+      socket.emit("join", { idusuario: loginState.id });
+
+       
     });
     socket.on("refreshOferta", () => {
-     
       setLoading(true);
 
       showMessage({
@@ -66,6 +79,7 @@ export default function HomeScreen({ navigation, params }) {
       });
 
       getNowAllPromotions(null).then((resultado) => {
+         
         setFinalData(resultado);
         setLoading(false);
       });
@@ -75,6 +89,7 @@ export default function HomeScreen({ navigation, params }) {
       console.log(error);
     });
 
+     
     getNowAllPromotions(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
@@ -108,19 +123,30 @@ export default function HomeScreen({ navigation, params }) {
         <View style={styles.ScrollView}>
           {finalData.length === 0 ? (
             <>
-              <Image
-                style={{ width: "100%", flex: 1, resizeMode: "contain" }}
-                source={require("../../assets/JollyStarLooking.png")}
-              />
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  marginTop: 10,
-                }}
+              <ScrollView
+                style={{ flex: 1, flexDirection: "row", width: "100%" }}
+                contentContainerStyle={{ flex: 1 }}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
               >
-                Seguiremos buscando promociones
-              </Text>
+                <Image
+                  style={{ width: "100%", flex: 1, resizeMode: "contain" }}
+                  source={require("../../assets/JollyStarLooking.png")}
+                />
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    marginTop: 10,
+                  }}
+                >
+                  Seguiremos buscando promociones
+                </Text>
+              </ScrollView>
             </>
           ) : null}
 
@@ -132,7 +158,9 @@ export default function HomeScreen({ navigation, params }) {
             minimumZoomScale={1}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
             contentContainerStyle={{
               justifyContent: "center",
             }}

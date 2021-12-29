@@ -26,7 +26,7 @@ const wait = (timeout) => {
 export default function AccordionDataComponent(props) {
 
 
-  debugger;
+   
   const onRefresh = React.useCallback(() => {
     props.setRefreshing(true);
     wait(2000).then(() => props.setRefreshing(false));

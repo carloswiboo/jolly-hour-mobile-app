@@ -53,7 +53,7 @@ export default function InterestScreen({ navigation }) {
           var finalResult = [];
 
           for (const valor of finalData) {
-            debugger;
+             
 
             if (valor.id == item.id) {
               valor.isActive = !valor.isActive;

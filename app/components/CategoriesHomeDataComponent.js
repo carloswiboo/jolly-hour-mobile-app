@@ -20,6 +20,8 @@ export default function CategoriesHomeDataComponent(props) {
   const [finalData, setFinalData] = React.useState([]);
   React.useEffect(() => {
     getAllCategorias(null).then((resultadoCategorias) => {
+
+       
       for (const categoria of resultadoCategorias) {
         categoria.isActive = false;
       }

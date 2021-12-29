@@ -23,8 +23,12 @@ import { Avatar } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Badge, Icon, withBadge } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
-
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
 import * as Linking from "expo-linking";
+import * as Clipboard from 'expo-clipboard';
+import * as Sharing from 'expo-sharing';
+
 
 export default function ProfileScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
@@ -36,6 +40,10 @@ export default function ProfileScreen({ navigation }) {
   const [finalData, setFinalData] = React.useState({});
 
   const [selectedLanguage, setSelectedLanguage] = React.useState();
+
+  const [tokenNotificacionState, setTokenNotificacionState] =
+  React.useState("");
+
 
   React.useEffect(() => {
     let ready = false;
@@ -107,6 +115,58 @@ export default function ProfileScreen({ navigation }) {
       // error reading value
     }
   };
+
+  React.useEffect(() => {
+    registerForPushNotificationsAsync().then((resultado) => {
+      setTokenNotificacionState(resultado);
+    });
+  }, []);
+
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
+    return token;
+  }
+
+
+  let openShareDialogAsync = async () => {
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(`Uh oh, sharing isn't available on your platform`);
+      return;
+    }
+
+    await Sharing.shareAsync("popó");
+  }; 
+
 
   return (
     <>
@@ -218,6 +278,11 @@ export default function ProfileScreen({ navigation }) {
                   }}
                 >
                   <Text style={styles.resultText}>Ayuda</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.listaDatos}>
+                <TouchableOpacity style={styles.buttonMenu} onPress={() => {openShareDialogAsync()}}>
+                  <Text style={styles.resultText}>{tokenNotificacionState}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.listaDatos}>

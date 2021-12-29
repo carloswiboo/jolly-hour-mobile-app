@@ -15,6 +15,7 @@ export const getNowAllPromotions = async (values) => {
       },
     });
 
+     
 
     if (response.status === 200) {
       for (const promocion of response.data) {
@@ -25,11 +26,14 @@ export const getNowAllPromotions = async (values) => {
       }
       return response.data;
     } else if (response.status === 401) {
-      return {};
+       
+      return [];
     }
   } catch (error) {
+
+     
     console.error(error);
-    return {};
+    return [];
   }
 };
 export const getAllPromociones = async (values) => {

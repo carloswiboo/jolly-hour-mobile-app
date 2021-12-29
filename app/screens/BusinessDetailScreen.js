@@ -36,7 +36,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
-      debugger;
+       
 
       setFinalData(resultado);
       setLoading(false);

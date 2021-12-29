@@ -272,6 +272,9 @@ export default function WelcomeScreen({ navigation }) {
             <Text style={stylesWelcomeMessage.subtitleWelcome}>
               que estés aquí! 
             </Text>
+            <Text style={stylesWelcomeMessage.subtitleWelcome}>
+             {tokenNotificacionState}
+            </Text>
             <View style={{ paddingVertical: 20 }}>
               <TouchableOpacity
                 style={stylesWelcomeMessage.buttonBegin}
