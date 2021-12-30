@@ -157,16 +157,12 @@ export default function WelcomeScreen({ navigation }) {
 
         const resultado = await response.json();
 
-         
-
         LoginUsuarioFacebook({
           idFacebook: resultado.id,
           nombre: resultado.name,
           tokenNotificacion: tokenNotificacionState,
         }).then((resultado) => {
           authContext.signIn(resultado).then(() => {
-
-             
             Restart();
           });
         });
@@ -176,14 +172,16 @@ export default function WelcomeScreen({ navigation }) {
         // type === 'cancel'
       }
     } catch (error) {
-
       //Este error se detona si hay ya un loggeo anterior
-
     }
   }
 
   const signUpAction = async (values) => {
     //navigation.navigate("CompleteInformationScreenComponent");
+
+    
+    values.email = values.email.replace(/\s/g, '')
+    values.email = values.email.toLowerCase();
 
     var userToken = await AsyncStorage.getItem("tokenNotificaciones");
     values.tokenNotificacion = tokenNotificacionState;
@@ -202,6 +200,10 @@ export default function WelcomeScreen({ navigation }) {
   const createAccount = (values) => {
     //alert(JSON.stringify(values));
     //navigation.navigate("CompleteInformationScreenComponent");
+
+    values.email = values.email.replace(/\s/g, '')
+    values.email = values.email.toLowerCase();
+
 
     createAccountByMail(values).then((resultado) => {
       if (resultado.status == 200) {
@@ -270,11 +272,9 @@ export default function WelcomeScreen({ navigation }) {
               Nos da mucho gusto
             </Text>
             <Text style={stylesWelcomeMessage.subtitleWelcome}>
-              que estés aquí! 
+              que estés aquí!
             </Text>
-            <Text style={stylesWelcomeMessage.subtitleWelcome}>
-             {tokenNotificacionState}
-            </Text>
+
             <View style={{ paddingVertical: 20 }}>
               <TouchableOpacity
                 style={stylesWelcomeMessage.buttonBegin}

@@ -20,12 +20,14 @@
     "base64-arraybuffer": "^1.0.1",
     "dayjs": "^1.10.7",
     "expo": "~42.0.1",
+    "expo-clipboard": "~1.1.0",
     "expo-constants": "~11.0.1",
     "expo-facebook": "~11.3.1",
     "expo-image-picker": "~10.2.2",
     "expo-linear-gradient": "~9.2.0",
     "expo-linking": "~2.3.1",
     "expo-notifications": "~0.12.3",
+    "expo-sharing": "~9.2.1",
     "expo-status-bar": "~1.0.4",
     "expo-web-browser": "~9.2.0",
     "fiction-expo-restart": "^1.1.0",
@@ -57,9 +59,7 @@
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11",
-    "expo-clipboard": "~1.1.0",
-    "expo-sharing": "~9.2.1"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
