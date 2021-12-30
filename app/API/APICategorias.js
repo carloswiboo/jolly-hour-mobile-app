@@ -27,7 +27,6 @@ let imagenServicioInactivo = require("../../assets/categoriasServicios/inactivo/
 export const getAllCategorias = async (values) => {
   let url = API + "/services/categoria/getCategorias/";
 
-  debugger;
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -36,8 +35,6 @@ export const getAllCategorias = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-
-    debugger;
 
     if (response.status === 200) {
       for (const categoria of response.data) {
@@ -63,24 +60,18 @@ export const getAllCategorias = async (values) => {
         }
       }
 
-      debugger;
-
       return response.data;
     } else if (response.status === 401) {
-      debugger;
-      return {};
+      return [];
     }
   } catch (error) {
-    debugger;
-
     let errorMessage = error.toJSON();
 
     console.log(errorMessage);
 
-    debugger;
 
     console.error(error);
-    return {};
+    return [];
   }
 };
 

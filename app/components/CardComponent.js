@@ -30,7 +30,12 @@ export default function CardComponent({ navigation, params }) {
       params.fechaPublicacion,
       params.horaFin
     );
-    setResultadoMinutosQuedan(resultadoMinutosQuedanN);
+
+    const d = new Date();
+    let minutes = d.getMinutes();
+    let seconds = 3600 - minutes * 60;
+
+    setResultadoMinutosQuedan(seconds);
 
     return () => {
       ready = true;

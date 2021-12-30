@@ -65,9 +65,13 @@ export default function PromotionDetailScreen({ route, navigation }) {
       );
 
 
+      const d = new Date();
+      let minutes = d.getMinutes();
+      let seconds = 3600 - minutes * 60;
+  
        
 
-      setResultadoMinutosQuedan(resultadoMinutosQuedanN);
+      setResultadoMinutosQuedan(seconds);
 
       setFinalData(resultado);
     });

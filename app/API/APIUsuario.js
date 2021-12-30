@@ -11,7 +11,7 @@ export const LoginUsuario = async (values) => {
       },
     }); 
 
-    debugger;
+
     if (response.status === 200) {
       return response.data;
     } else if (response.status === 401) {
@@ -23,7 +23,7 @@ export const LoginUsuario = async (values) => {
     }
   } catch (error) {
 
-     debugger;
+    
 
     console.error(error);
     return null;

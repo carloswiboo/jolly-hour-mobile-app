@@ -5,6 +5,7 @@ var duration = require("dayjs/plugin/duration");
 require("dayjs/locale/es-mx");
 
 export const CounterDataTime = (fechaPublicacionFinal, horaFin) => {
+
   let nuevaFechaFinal = new Date();
   nuevaFechaFinal = Date.parse(fechaPublicacionFinal + "T" + horaFin);
   let fechaActual = new Date();
