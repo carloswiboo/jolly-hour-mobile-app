@@ -24,6 +24,11 @@ let imagenSaludYBellezaInactivo = require("../../assets/categoriasServicios/inac
 //Imagenes Servicios
 let imagenServicioActivo = require("../../assets/categoriasServicios/activo/serviciosActivo.png");
 let imagenServicioInactivo = require("../../assets/categoriasServicios/inactivo/serviciosInactivo.png");
+
+//Imagenes Moda y Accesorios
+let imagenModaAccesoriosActivo = require("../../assets/categoriasServicios/activo/modaAccesoriosActivo.png");
+let imagenModaAccesoriosInactivo = require("../../assets/categoriasServicios/inactivo/modaAccesoriosInactivo.png");
+
 export const getAllCategorias = async (values) => {
   let url = API + "/services/categoria/getCategorias/";
 
@@ -57,6 +62,10 @@ export const getAllCategorias = async (values) => {
         if (categoria.nombre === "Servicios") {
           categoria.imagenActiva = imagenServicioActivo;
           categoria.imagenInactiva = imagenServicioInactivo;
+        }
+        if (categoria.nombre === "Moda y Accesorios") {
+          categoria.imagenActiva = imagenModaAccesoriosActivo;
+          categoria.imagenInactiva = imagenModaAccesoriosInactivo;
         }
       }
 
@@ -137,6 +146,7 @@ export const getCategoriesByUser = async (token) => {
     });
     if (response.status === 200) {
       const finalData = [];
+
       for (const categoriaSeleccionada of response.data.seleccionadas) {
         categoriaSeleccionada.isActive = true;
 
@@ -160,9 +170,19 @@ export const getCategoriesByUser = async (token) => {
           categoriaSeleccionada.imagenActiva = imagenServicioActivo;
           categoriaSeleccionada.imagenInactiva = imagenServicioInactivo;
         }
+        if (categoriaSeleccionada.nombre === "Servicios") {
+          categoriaSeleccionada.imagenActiva = imagenServicioActivo;
+          categoriaSeleccionada.imagenInactiva = imagenServicioInactivo;
+        }
+        if (categoriaSeleccionada.nombre === "Moda y Accesorios") {
+          categoriaSeleccionada.imagenActiva = imagenModaAccesoriosActivo;
+          categoriaSeleccionada.imagenInactiva = imagenModaAccesoriosInactivo;
+        }
 
         finalData.push(categoriaSeleccionada);
       }
+
+ 
 
       for (const categoriaNoSeleccionada of response.data.noSeleccionadas) {
         categoriaNoSeleccionada.isActive = false;
@@ -187,6 +207,10 @@ export const getCategoriesByUser = async (token) => {
         if (categoriaNoSeleccionada.nombre === "Servicios") {
           categoriaNoSeleccionada.imagenActiva = imagenServicioActivo;
           categoriaNoSeleccionada.imagenInactiva = imagenServicioInactivo;
+        }
+        if (categoriaNoSeleccionada.nombre === "Moda y Accesorios") {
+          categoriaNoSeleccionada.imagenActiva = imagenModaAccesoriosActivo;
+          categoriaNoSeleccionada.imagenInactiva = imagenModaAccesoriosInactivo;
         }
 
         finalData.push(categoriaNoSeleccionada);

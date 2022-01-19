@@ -26,9 +26,8 @@ import { Picker } from "@react-native-picker/picker";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as Linking from "expo-linking";
-import * as Clipboard from 'expo-clipboard';
-import * as Sharing from 'expo-sharing';
-
+import * as Clipboard from "expo-clipboard";
+import * as Sharing from "expo-sharing";
 
 export default function ProfileScreen({ navigation }) {
   const { authContext } = React.useContext(AuthContext);
@@ -42,8 +41,7 @@ export default function ProfileScreen({ navigation }) {
   const [selectedLanguage, setSelectedLanguage] = React.useState();
 
   const [tokenNotificacionState, setTokenNotificacionState] =
-  React.useState("");
-
+    React.useState("");
 
   React.useEffect(() => {
     let ready = false;
@@ -122,7 +120,6 @@ export default function ProfileScreen({ navigation }) {
     });
   }, []);
 
-
   async function registerForPushNotificationsAsync() {
     let token;
     if (Constants.isDevice) {
@@ -157,7 +154,6 @@ export default function ProfileScreen({ navigation }) {
     return token;
   }
 
-
   let openShareDialogAsync = async () => {
     if (!(await Sharing.isAvailableAsync())) {
       alert(`Uh oh, sharing isn't available on your platform`);
@@ -165,8 +161,7 @@ export default function ProfileScreen({ navigation }) {
     }
 
     await Sharing.shareAsync("popó");
-  }; 
-
+  };
 
   return (
     <>
@@ -280,11 +275,12 @@ export default function ProfileScreen({ navigation }) {
                   <Text style={styles.resultText}>Ayuda</Text>
                 </TouchableOpacity>
               </View>
+              {/*
               <View style={styles.listaDatos}>
                 <TouchableOpacity style={styles.buttonMenu} onPress={() => {openShareDialogAsync()}}>
                   <Text style={styles.resultText}>{tokenNotificacionState}</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}

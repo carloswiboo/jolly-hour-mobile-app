@@ -2,7 +2,7 @@
   "expo": {
     "name": "Jolly Hour",
     "slug": "jolly-hour-mobile-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -13,12 +13,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.carloswiboo.jollyhourmobileapp"
+      "bundleIdentifier": "com.carloswiboo.jollyhourmobileapp",
+      "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +26,7 @@
       },
       "package": "com.carloswiboo.jollyhourmobileapp",
       "googleServicesFile": "./google-services.json",
-     
+      "versionCode": 2,
       "useNextNotificationsApi": true
     },
     "web": {

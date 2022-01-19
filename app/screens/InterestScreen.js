@@ -33,6 +33,7 @@ export default function InterestScreen({ navigation }) {
 
   React.useEffect(() => {
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
+
       setFinalData(categoriasDeUsuario);
     });
   }, []);
@@ -40,6 +41,7 @@ export default function InterestScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
+
         setFinalData(categoriasDeUsuario);
       });
     }, [])
