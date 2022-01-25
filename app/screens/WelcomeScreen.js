@@ -11,6 +11,9 @@ import {
   TextInput,
   Modal,
   Alert,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Input } from "react-native-elements";
@@ -23,6 +26,7 @@ import {
   createAccountByMail,
   LoginUsuario,
   LoginUsuarioFacebook,
+  LoginUsuarioApple,
 } from "../API/APIUsuario";
 import { AuthContext } from "../context/context";
 import Toast from "react-native-root-toast";
@@ -32,6 +36,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Restart } from "fiction-expo-restart";
+import * as AppleAuthentication from "expo-apple-authentication";
+import jwt_decode from "jwt-decode";
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -179,8 +185,7 @@ export default function WelcomeScreen({ navigation }) {
   const signUpAction = async (values) => {
     //navigation.navigate("CompleteInformationScreenComponent");
 
-    
-    values.email = values.email.replace(/\s/g, '')
+    values.email = values.email.replace(/\s/g, "");
     values.email = values.email.toLowerCase();
 
     var userToken = await AsyncStorage.getItem("tokenNotificaciones");
@@ -201,9 +206,8 @@ export default function WelcomeScreen({ navigation }) {
     //alert(JSON.stringify(values));
     //navigation.navigate("CompleteInformationScreenComponent");
 
-    values.email = values.email.replace(/\s/g, '')
+    values.email = values.email.replace(/\s/g, "");
     values.email = values.email.toLowerCase();
-
 
     createAccountByMail(values).then((resultado) => {
       if (resultado.status == 200) {
@@ -259,11 +263,13 @@ export default function WelcomeScreen({ navigation }) {
         colors={["#FC466B", "#3F5EFB"]}
         start={{ x: 0.0, y: 0.25 }}
         end={{ x: 0.5, y: 1.0 }}
+        onPress={Keyboard.dismiss}
       >
         <Image
           style={styles.logoLogin}
           source={require("../../assets/jollylogoapp.png")}
         />
+
         {/* Div de comienzo */}
         {isWelcomeOpen ? (
           <View style={stylesWelcomeMessage.welcomeMessageContainer}>
@@ -298,218 +304,291 @@ export default function WelcomeScreen({ navigation }) {
         {/* LogIn Content*/}
         {isLoginOpen ? (
           <Animated.View style={stylesContainer.containerLogSignUp}>
-            <View style={{ paddingHorizontal: 8 }}>
-              <Text style={loginStyles.titleLogin}>Empecemos</Text>
-              <Text style={loginStyles.titleLogin}>aquí</Text>
-            </View>
-            <View style={{ paddingVertical: 10 }}>
-              <Formik
-                initialValues={{
-                  email: emailLogin,
-                  password: emailPassword,
-                  tokenNotificacion: tokenNotificacionState,
-                }}
-                onSubmit={(values) => signUpAction(values)}
-                validationSchema={loginValidationSchema}
-              >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  values,
-                  errors,
-                }) => (
-                  <View>
-                    <Input
-                      onChangeText={handleChange("email")}
-                      onBlur={handleBlur("email")}
-                      value={values.email}
-                      placeholder="Correo Electrónico"
-                    />
-                    {errors.email && (
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "red",
-                          width: "100%",
-                          textAlign: "center",
-                        }}
-                      >
-                        {errors.email}
-                      </Text>
-                    )}
-                    <Input
-                      onChangeText={handleChange("password")}
-                      onBlur={handleBlur("password")}
-                      value={values.password}
-                      placeholder="Contraseña"
-                      secureTextEntry={true}
-                    />
-                    {errors.password && (
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "red",
-                          width: "100%",
-                          textAlign: "center",
-                          paddingBottom: 20,
-                        }}
-                      >
-                        {errors.password}
-                      </Text>
-                    )}
-                    <TouchableOpacity
-                      onPress={handleSubmit}
-                      style={loginStyles.loginButton}
-                    >
-                      <Text style={loginStyles.loginButtonText}>
-                        Iniciar Sesión
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </Formik>
-            </View>
-
-            <View style={{ paddingBottom: 10 }}>
-              <TouchableOpacity
-                style={buttonStyles.facebookButton}
-                onPress={() => {
-                  logInFacebook();
-                }}
-              >
-                <Text style={buttonStyles.facebookButtonText}>
-                  <FontAwesome name="facebook-f" size={18} color="white" />
-                  {"  "}Iniciar Sesión con Facebook
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                paddingBottom: 10,
-                paddingTop: 10,
-                alignItems: "center",
-              }}
+            <KeyboardAvoidingView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              style={{ flex: 1 }}
             >
-              <Text>¿No tienes cuenta?</Text>
-              <TouchableOpacity onPress={() => openSignUp()}>
-                <Text style={{ color: "#6e24a4" }}> Crear cuenta</Text>
-              </TouchableOpacity>
-            </View>
+              <View style={{ paddingHorizontal: 8 }}>
+                <Text style={loginStyles.titleLogin}>Empecemos</Text>
+                <Text style={loginStyles.titleLogin}>aquí</Text>
+              </View>
+              <View style={{ paddingVertical: 10 }}>
+                <Formik
+                  initialValues={{
+                    email: emailLogin,
+                    password: emailPassword,
+                    tokenNotificacion: tokenNotificacionState,
+                  }}
+                  onSubmit={(values) => signUpAction(values)}
+                  validationSchema={loginValidationSchema}
+                >
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                  }) => (
+                    <View>
+                      <Input
+                        onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
+                        value={values.email}
+                        placeholder="Correo Electrónico"
+                      />
+                      {errors.email && (
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            color: "red",
+                            width: "100%",
+                            textAlign: "center",
+                          }}
+                        >
+                          {errors.email}
+                        </Text>
+                      )}
+                      <Input
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        value={values.password}
+                        placeholder="Contraseña"
+                        secureTextEntry={true}
+                      />
+                      {errors.password && (
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            color: "red",
+                            width: "100%",
+                            textAlign: "center",
+                            paddingBottom: 20,
+                          }}
+                        >
+                          {errors.password}
+                        </Text>
+                      )}
+                      <TouchableOpacity
+                        onPress={handleSubmit}
+                        style={loginStyles.loginButton}
+                      >
+                        <Text style={loginStyles.loginButtonText}>
+                          Iniciar Sesión
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </Formik>
+              </View>
+
+              <View style={{ paddingBottom: 10 }}>
+                <TouchableOpacity
+                  style={buttonStyles.facebookButton}
+                  onPress={() => {
+                    logInFacebook();
+                  }}
+                >
+                  <Text style={buttonStyles.facebookButtonText}>
+                    <FontAwesome name="facebook-f" size={18} color="white" />
+                    {"  "}Iniciar Sesión con Facebook
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ paddingBottom: 10 }}>
+                <AppleAuthentication.AppleAuthenticationButton
+                  buttonType={
+                    AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+                  }
+                  buttonStyle={
+                    AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+                  }
+                  cornerRadius={15}
+                  style={{ width: "100%", height: 40 }}
+                  onPress={async () => {
+                    try {
+                      const credential = await AppleAuthentication.signInAsync({
+                        requestedScopes: [
+                          AppleAuthentication.AppleAuthenticationScope
+                            .FULL_NAME,
+                          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                        ],
+                      });
+
+                      var appleTokenDecoded = jwt_decode(
+                        credential.identityToken
+                      );
+                      var userTokenNotificaciones = await AsyncStorage.getItem(
+                        "tokenNotificaciones"
+                      );
+
+                      debugger;
+
+                      LoginUsuarioApple({
+                        nombre: "Apple User ID",
+                        appleId: appleTokenDecoded.email,
+                        tokenNotificacion: userTokenNotificaciones,
+                      }).then((resultado) => {
+                        if (resultado.status == 200) {
+                          debugger;
+                          authContext.signIn(resultado.data).then(() => {
+                            Restart();
+                          });
+                        }
+                        else
+                        {
+                          alert("Ha ocurrido un error, intenta de nuevo.");
+                        }
+                      });
+
+                      // signed in
+                    } catch (e) {
+                      debugger;
+                      if (e.code === "ERR_CANCELED") {
+                        // handle that the user canceled the sign-in flow
+                        debugger;
+                      } else {
+                        // handle other errors
+                        debugger;
+                      }
+                    }
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text>¿No tienes cuenta?</Text>
+                <TouchableOpacity onPress={() => openSignUp()}>
+                  <Text style={{ color: "#6e24a4" }}> Crear cuenta</Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAvoidingView>
           </Animated.View>
         ) : null}
         {/* SignUp content */}
         {isSignUpOpen ? (
           <Animated.View style={stylesContainer.containerLogSignUp}>
-            <View style={{ paddingHorizontal: 8 }}>
-              <Text style={loginStyles.titleLogin}>Crea tu cuenta</Text>
-              <Text style={loginStyles.titleLogin}>aquí</Text>
-            </View>
-            <View style={{ paddingVertical: 10 }}>
-              <Formik
-                initialValues={{
-                  email: "",
-                  nombre: "",
-                  password: "",
-                  tokenNotificacion: tokenNotificacionState,
-                }}
-                onSubmit={(values) => createAccount(values)}
-                validationSchema={loginValidationSchema}
-              >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  values,
-                  errors,
-                }) => (
-                  <View>
-                    <Input
-                      onChangeText={handleChange("nombre")}
-                      onBlur={handleBlur("nombre")}
-                      value={values.nombre}
-                      placeholder="Nombre"
-                      disabled={disabled}
-                    />
-                    {errors.nombre && (
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "red",
-                          width: "100%",
-                          textAlign: "center",
-                        }}
-                      >
-                        {errors.nombre}
-                      </Text>
-                    )}
-                    <Input
-                      onChangeText={handleChange("email")}
-                      onBlur={handleBlur("email")}
-                      value={values.email}
-                      placeholder="Correo Electrónico"
-                      disabled={disabled}
-                    />
-                    {errors.email && (
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "red",
-                          width: "100%",
-                          textAlign: "center",
-                        }}
-                      >
-                        {errors.email}
-                      </Text>
-                    )}
-                    <Input
-                      onChangeText={handleChange("password")}
-                      onBlur={handleBlur("password")}
-                      value={values.password}
-                      placeholder="Contraseña"
-                      secureTextEntry={true}
-                      disabled={disabled}
-                    />
-                    {errors.password && (
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          color: "red",
-                          width: "100%",
-                          textAlign: "center",
-                          paddingBottom: 20,
-                        }}
-                      >
-                        {errors.password}
-                      </Text>
-                    )}
-
-                    <TouchableOpacity
-                      onPress={handleSubmit}
-                      style={loginStyles.loginButton}
-                      disabled={disabled}
-                    >
-                      <Text style={loginStyles.loginButtonText}>
-                        Crear Cuenta
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </Formik>
-            </View>
-
-            <View
-              style={{
-                paddingBottom: 10,
-                paddingTop: 10,
-                alignItems: "center",
-              }}
+            <KeyboardAvoidingView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              style={{ flex: 1 }}
             >
-              <Text>¿Ya tienes cuenta?</Text>
-              <TouchableOpacity onPress={() => openLogin()}>
-                <Text style={{ color: "#6e24a4" }}> Iniciar Sesión cuenta</Text>
-              </TouchableOpacity>
-            </View>
+              <View style={{ paddingHorizontal: 8 }}>
+                <Text style={loginStyles.titleLogin}>Crea tu cuenta</Text>
+                <Text style={loginStyles.titleLogin}>aquí</Text>
+              </View>
+              <View style={{ paddingVertical: 10 }}>
+                <Formik
+                  initialValues={{
+                    email: "",
+                    nombre: "",
+                    password: "",
+                    tokenNotificacion: tokenNotificacionState,
+                  }}
+                  onSubmit={(values) => createAccount(values)}
+                  validationSchema={loginValidationSchema}
+                >
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                  }) => (
+                    <View>
+                      <Input
+                        onChangeText={handleChange("nombre")}
+                        onBlur={handleBlur("nombre")}
+                        value={values.nombre}
+                        placeholder="Nombre"
+                        disabled={disabled}
+                      />
+                      {errors.nombre && (
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            color: "red",
+                            width: "100%",
+                            textAlign: "center",
+                          }}
+                        >
+                          {errors.nombre}
+                        </Text>
+                      )}
+                      <Input
+                        onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
+                        value={values.email}
+                        placeholder="Correo Electrónico"
+                        disabled={disabled}
+                      />
+                      {errors.email && (
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            color: "red",
+                            width: "100%",
+                            textAlign: "center",
+                          }}
+                        >
+                          {errors.email}
+                        </Text>
+                      )}
+                      <Input
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        value={values.password}
+                        placeholder="Contraseña"
+                        secureTextEntry={true}
+                        disabled={disabled}
+                      />
+                      {errors.password && (
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            color: "red",
+                            width: "100%",
+                            textAlign: "center",
+                            paddingBottom: 20,
+                          }}
+                        >
+                          {errors.password}
+                        </Text>
+                      )}
+
+                      <TouchableOpacity
+                        onPress={handleSubmit}
+                        style={loginStyles.loginButton}
+                        disabled={disabled}
+                      >
+                        <Text style={loginStyles.loginButtonText}>
+                          Crear Cuenta
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </Formik>
+              </View>
+
+              <View
+                style={{
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  alignItems: "center",
+                }}
+              >
+                <Text>¿Ya tienes cuenta?</Text>
+                <TouchableOpacity onPress={() => openLogin()}>
+                  <Text style={{ color: "#6e24a4" }}>
+                    {" "}
+                    Iniciar Sesión cuenta
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAvoidingView>
           </Animated.View>
         ) : null}
       </LinearGradient>
@@ -555,8 +634,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoLogin: {
-    marginTop: 70,
-    height: 150,
+    marginTop: "10%",
+    height: "20%",
     resizeMode: "contain",
   },
   modalView: {

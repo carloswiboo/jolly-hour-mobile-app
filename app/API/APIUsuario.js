@@ -5,12 +5,11 @@ export const LoginUsuario = async (values) => {
   try {
     const response = await axios.post(url, values, {
       headers: {
-        'Access-Control-Allow-Origin': '*',
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-    }); 
-
+    });
 
     if (response.status === 200) {
       return response.data;
@@ -22,9 +21,6 @@ export const LoginUsuario = async (values) => {
       return null;
     }
   } catch (error) {
-
-    
-
     console.error(error);
     return null;
   }
@@ -52,10 +48,11 @@ export const LoginUsuarioFacebook = async (values) => {
   }
 };
 
-export const createAccountByMail = async (values) => {
-  let url = API + "/services/usuario/createUsuario";
+export const LoginUsuarioApple = async (values) => {
+  let url = API + "/auth/usuario/appleLogin";
 
-   
+
+  debugger;
 
   try {
     const response = await axios.post(url, values, {
@@ -65,8 +62,31 @@ export const createAccountByMail = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+    debugger;
+    if (response.status === 200) {
+      return response;
+    } else if (response.status === 401) {
+      debugger;
+      return {};
+    }
+  } catch (error) {
+    debugger;
+    console.error(error);
+    return {};
+  }
+};
 
-     
+export const createAccountByMail = async (values) => {
+  let url = API + "/services/usuario/createUsuario";
+
+  try {
+    const response = await axios.post(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
 
     if (response.status === 200) {
       return response;
@@ -104,7 +124,6 @@ export const setOfertasByUser = async (values) => {
 export const getDetalleUsuario = async (values, idusuario) => {
   let url = API + "/services/usuario/getUsuario/" + idusuario;
 
-  
   try {
     const response = await axios.get(url, values, {
       headers: {
