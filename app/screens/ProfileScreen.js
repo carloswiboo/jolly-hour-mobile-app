@@ -275,12 +275,19 @@ export default function ProfileScreen({ navigation }) {
                   <Text style={styles.resultText}>Ayuda</Text>
                 </TouchableOpacity>
               </View>
-              {/*
+
               <View style={styles.listaDatos}>
-                <TouchableOpacity style={styles.buttonMenu} onPress={() => {openShareDialogAsync()}}>
-                  <Text style={styles.resultText}>{tokenNotificacionState}</Text>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    openShareDialogAsync();
+                  }}
+                >
+                  <Text style={styles.resultText}>
+                    {tokenNotificacionState}
+                  </Text>
                 </TouchableOpacity>
-              </View> */}
+              </View>
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}

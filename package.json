@@ -20,6 +20,7 @@
     "base64-arraybuffer": "^1.0.1",
     "dayjs": "^1.10.7",
     "expo": "~42.0.1",
+    "expo-apple-authentication": "~3.2.1",
     "expo-clipboard": "~1.1.0",
     "expo-constants": "~11.0.1",
     "expo-facebook": "~11.3.1",
@@ -30,7 +31,7 @@
     "expo-sharing": "~9.2.1",
     "expo-status-bar": "~1.0.4",
     "expo-web-browser": "~9.2.0",
-    "fiction-expo-restart": "^1.1.0",
+    "fiction-expo-restart": "^1.1.2",
     "formik": "^2.2.9",
     "image-to-base64": "^2.2.0",
     "jwt-decode": "^3.1.2",
@@ -45,6 +46,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.0",
     "react-native-image-base64": "^0.1.4",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-qrcode-svg": "^6.1.1",
     "react-native-root-toast": "^3.2.1",
     "react-native-safe-area-context": "3.2.0",
@@ -59,8 +61,7 @@
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11",
-    "expo-apple-authentication": "~3.2.1"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

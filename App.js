@@ -13,23 +13,11 @@ import { StatusBar } from "expo-status-bar";
 import { io } from "socket.io-client";
 import FlashMessage from "react-native-flash-message";
 
-
 export default function App() {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
   };
-
-  React.useEffect(() => {
-    let isMounted = true;
-    registerForPushNotificationsAsync().then(async (token) => {
-      //alert(token);
-      await AsyncStorage.setItem("tokenNotificaciones", token);
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   async function registerForPushNotificationsAsync() {
     let token;

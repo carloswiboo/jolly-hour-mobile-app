@@ -88,17 +88,6 @@ export default function WelcomeScreen({ navigation }) {
   const [tokenNotificacionState, setTokenNotificacionState] =
     React.useState("");
 
-  React.useEffect(() => {
-    registerForPushNotificationsAsync().then((resultado) => {
-      setTokenNotificacionState(resultado);
-    });
-  }, []);
-  React.useEffect(() => {
-    registerForPushNotificationsAsync().then((resultado) => {
-      setTokenNotificacionState(resultado);
-    });
-  }, [loginState]);
-
   async function registerForPushNotificationsAsync() {
     let token;
     if (Constants.isDevice) {
@@ -112,10 +101,14 @@ export default function WelcomeScreen({ navigation }) {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        alert(
+          "Failed to get push token for push notification!" +
+            JSON.stringify(finalStatus)
+        );
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
+      await AsyncStorage.setItem("tokenNotificaciones", token);
       console.log(token);
     } else {
       alert("Must use physical device for Push Notifications");
@@ -134,14 +127,20 @@ export default function WelcomeScreen({ navigation }) {
   }
 
   const openLogin = () => {
-    setIsWelcomeOpen(false);
-    setIsSignUpOpen(false);
-    setIsLoginOpen(true);
+    registerForPushNotificationsAsync().then((resultado) => {
+      setTokenNotificacionState(resultado);
+      setIsWelcomeOpen(false);
+      setIsSignUpOpen(false);
+      setIsLoginOpen(true);
+    });
   };
   const openSignUp = () => {
-    setIsWelcomeOpen(false);
-    setIsSignUpOpen(true);
-    setIsLoginOpen(false);
+    registerForPushNotificationsAsync().then((resultado) => {
+      setTokenNotificacionState(resultado);
+      setIsWelcomeOpen(false);
+      setIsSignUpOpen(true);
+      setIsLoginOpen(false);
+    });
   };
 
   async function logInFacebook() {
@@ -421,23 +420,23 @@ export default function WelcomeScreen({ navigation }) {
                         "tokenNotificaciones"
                       );
 
-                      debugger;
+                      registerForPushNotificationsAsync().then((resultado) => {
+                        setTokenNotificacionState(resultado);
 
-                      LoginUsuarioApple({
-                        nombre: "Apple User ID",
-                        appleId: appleTokenDecoded.email,
-                        tokenNotificacion: userTokenNotificaciones,
-                      }).then((resultado) => {
-                        if (resultado.status == 200) {
-                          debugger;
-                          authContext.signIn(resultado.data).then(() => {
-                            Restart();
-                          });
-                        }
-                        else
-                        {
-                          alert("Ha ocurrido un error, intenta de nuevo.");
-                        }
+                        LoginUsuarioApple({
+                          nombre: "Apple User ID",
+                          appleId: appleTokenDecoded.email,
+                          tokenNotificacion: userTokenNotificaciones,
+                        }).then((resultado) => {
+                          if (resultado.status == 200) {
+                            debugger;
+                            authContext.signIn(resultado.data).then(() => {
+                              Restart();
+                            });
+                          } else {
+                            alert("Ha ocurrido un error, intenta de nuevo.");
+                          }
+                        });
                       });
 
                       // signed in
@@ -479,6 +478,9 @@ export default function WelcomeScreen({ navigation }) {
               <View style={{ paddingHorizontal: 8 }}>
                 <Text style={loginStyles.titleLogin}>Crea tu cuenta</Text>
                 <Text style={loginStyles.titleLogin}>aquí</Text>
+                <Text style={loginStyles.titleLogin}>
+                  {tokenNotificacionState}
+                </Text>
               </View>
               <View style={{ paddingVertical: 10 }}>
                 <Formik
