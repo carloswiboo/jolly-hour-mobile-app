@@ -168,7 +168,7 @@ export default function WelcomeScreen({ navigation }) {
           tokenNotificacion: tokenNotificacionState,
         }).then((resultado) => {
           authContext.signIn(resultado).then(() => {
-         //   Restart();
+            Restart();
           });
         });
 
@@ -193,7 +193,7 @@ export default function WelcomeScreen({ navigation }) {
     LoginUsuario(values).then((resultadoLogin) => {
       if (resultadoLogin !== null) {
         authContext.signIn(resultadoLogin).then(() => {
-        //  Restart();
+          Restart();
         });
       } else {
         alert("Datos incorrectos, intenta de nuevo");
@@ -431,7 +431,7 @@ export default function WelcomeScreen({ navigation }) {
                           if (resultado.status == 200) {
                             debugger;
                             authContext.signIn(resultado.data).then(() => {
-                           //   Restart();
+                              Restart();
                             });
                           } else {
                             alert("Ha ocurrido un error, intenta de nuevo.");
