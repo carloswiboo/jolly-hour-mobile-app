@@ -46,6 +46,7 @@ export default function ProfileScreen({ navigation }) {
   React.useEffect(() => {
     let ready = false;
     getDetalleUsuario(null, loginState.userToken.id).then((resultado) => {
+      console.log(resultado);
       setFinalData(resultado);
     });
 
@@ -247,7 +248,7 @@ export default function ProfileScreen({ navigation }) {
                 <Text style={styles.tinyText}>Correo electrónico</Text>
                 <Text style={styles.resultText}>
                   {finalData.email === null
-                    ? "Inicio con Facebook"
+                    ? "Inicio con red social"
                     : finalData.email}
                 </Text>
               </View>
@@ -275,7 +276,7 @@ export default function ProfileScreen({ navigation }) {
                   <Text style={styles.resultText}>Ayuda</Text>
                 </TouchableOpacity>
               </View>
-
+              {/*
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}
@@ -283,11 +284,14 @@ export default function ProfileScreen({ navigation }) {
                     openShareDialogAsync();
                   }}
                 >
+                 
                   <Text style={styles.resultText}>
                     {tokenNotificacionState}
                   </Text>
                 </TouchableOpacity>
+                
               </View>
+              */}
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}
