@@ -589,7 +589,7 @@ const buttonStyles = StyleSheet.create({
 
 const loginStyles = StyleSheet.create({
   titleLogin: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
   },
   loginButton: {
