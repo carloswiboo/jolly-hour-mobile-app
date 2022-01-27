@@ -65,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
-          alert("Necesitamos permiso para cambiar tu imagen de perfil!");
+         // alert("Necesitamos permiso para cambiar tu imagen de perfil!");
         } else {
           let toast = Toast.show("Acceso para cambiar imagen concedido", {
             duration: Toast.durations.SHORT,
