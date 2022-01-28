@@ -27,7 +27,9 @@ export default function App() {
       if (status === "granted") {
         console.log("Yay! I have user permission to track data");
       } else {
-        Restart();
+        alert(
+          "El rastreo debe de estar activado para poder utilizar la aplicación, verifica las opciones en la configuración de la aplicación."
+        );
       }
     })();
   }, []);
