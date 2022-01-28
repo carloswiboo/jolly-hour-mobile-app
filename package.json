@@ -61,7 +61,8 @@
     "socket.io": "^4.4.0",
     "socket.io-client": "^4.4.0",
     "use-reducer-async": "^2.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-tracking-transparency": "~1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

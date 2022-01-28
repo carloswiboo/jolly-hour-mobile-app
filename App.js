@@ -12,12 +12,25 @@ import * as yup from "yup";
 import { StatusBar } from "expo-status-bar";
 import { io } from "socket.io-client";
 import FlashMessage from "react-native-flash-message";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
+import { Restart } from "fiction-expo-restart";
 
 export default function App() {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
   };
+
+  React.useEffect(() => {
+    (async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      if (status === "granted") {
+        console.log("Yay! I have user permission to track data");
+      } else {
+        Restart();
+      }
+    })();
+  }, []);
 
   async function registerForPushNotificationsAsync() {
     let token;
