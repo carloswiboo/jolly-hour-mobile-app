@@ -21,6 +21,8 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { FontAwesome5 } from "@expo/vector-icons";
 
+
+
 export default function BusinessDetailScreen({ route, navigation }) {
   const { params } = route;
   const { loginState } = React.useContext(AuthContext);
@@ -52,6 +54,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
         <LoadingComponent />
       ) : (
         <>
+
           <SafeAreaView style={styles.container} key={uuid()}>
             <View style={styles.encabezado}>
               <ImageBackground
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#3F5EFB",
   },
   encabezado: {
     flex: 5,

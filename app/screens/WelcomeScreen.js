@@ -275,6 +275,7 @@ export default function WelcomeScreen({ navigation }) {
               <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
                 style={{ flex: 1 }}
+              keyboardVerticalOffset={40}
               >
                 <View style={{ paddingHorizontal: 8 }}>
                   <Text style={loginStyles.titleLogin}>Empecemos</Text>

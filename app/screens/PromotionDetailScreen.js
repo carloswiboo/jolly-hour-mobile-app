@@ -51,6 +51,7 @@ export default function PromotionDetailScreen({ route, navigation }) {
       idusuario: loginState.userToken.id,
       idoferta: params.idpromocion,
     }).then((resultado) => {
+      console.log(resultado);
       const resultadoImagen = resultado.objOferta[0].imagenPromocionConvertida;
       setImage({
         uri: resultadoImagen,
@@ -64,16 +65,23 @@ export default function PromotionDetailScreen({ route, navigation }) {
         horaFin
       );
 
-
       const d = new Date();
       let minutes = d.getMinutes();
       let seconds = 3600 - minutes * 60;
-  
-       
 
       setResultadoMinutosQuedan(seconds);
 
       setFinalData(resultado);
+
+      if (resultado.objOferta[0].agotado == 1) {
+        let toast = Toast.show("Esta promoción esta temporalmente agotada.", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+          shadow: true,
+          animation: true,
+          backgroundColor: "red",
+        });
+      }
     });
     return function cleanup() {
       isMounted = false;
@@ -84,198 +92,267 @@ export default function PromotionDetailScreen({ route, navigation }) {
     <>
       {finalData.objOferta.length === 0 ? <LoadingComponent /> : null}
       {finalData.objOferta.map((oferta) => (
-        <SafeAreaView style={styles.container} key={uuid()}>
-          <View style={styles.encabezado}>
-            <ImageBackground source={image} style={styles.image}>
-              <LinearGradient
-                // Background Linear Gradient
-                colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.6)"]}
-                style={styles.backgroundGradient}
-              >
-                <HeaderDetailPromotion
-                  navigation={navigation}
-                  params={{ showBackButton: true }}
-                  showBackButton={true}
-                />
-                <View style={styles.containerPromotionTitles}>
-                  <Text style={[styles.whiteText, styles.titleOne]}>
-                    {finalData.objOferta[0].titulo}
-                  </Text>
-                  <Text style={[styles.whiteText, styles.titleTwo]}>
-                    {finalData.objOferta[0].descripcionCorta}
-                  </Text>
-                </View>
-              </LinearGradient>
-            </ImageBackground>
-          </View>
-
-          <View style={styles.cuerpo}>
-            <BusinessCardDataComponent
-              navigation={navigation}
-              params={finalData.objOferta[0]}
-            />
-            <ScrollView
-              style={{
-                backgroundColor: "white",
-                flex: 1,
-                paddingTop: 40,
-                marginBottom: 10,
-              }}
-            >
-              {finalData.objCadena.map((qrcode) => (
-                <View
-                  key={uuid()}
-                  style={{ alignItems: "center", marginVertical: 10 }}
+        <LinearGradient
+          style={styles.gradient}
+          colors={["#FC466B", "#3F5EFB"]}
+          start={{ x: 0.0, y: 0.25 }}
+          end={{ x: 0.5, y: 1.0 }}
+        >
+          <SafeAreaView style={styles.container} key={uuid()}>
+            <View style={styles.encabezado}>
+              <ImageBackground source={image} style={styles.image}>
+                <LinearGradient
+                  // Background Linear Gradient
+                  colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.6)"]}
+                  style={styles.backgroundGradient}
                 >
-                  <QRCode value={finalData.objCadena[0].cadena} />
-                  <Text style={{ marginTop: 7 }}>
-                    {finalData.objCadena[0].cadena}
-                  </Text>
-                </View>
-              ))}
-
-              {finalData.objOferta[0].descripcionLarga == "" ? null : (
-                <View>
-                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                    Descripción:
-                  </Text>
-                  <Text>{finalData.objOferta[0].descripcionLarga}</Text>
-                </View>
-              )}
-              {finalData.objOferta[0].restricciones == "" ? null : (
-                <View style={{ marginTop: 20 }}>
-                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                    Restricciones:
-                  </Text>
-                  <Text>{finalData.objOferta[0].restricciones}</Text>
-                </View>
-              )}
-
-              {finalData.objOferta[0].vigencia == "" ? null : (
-                <View style={{ marginTop: 20 }}>
-                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                    Vigencia:
-                  </Text>
-                  <Text>{finalData.objOferta[0].vigencia}</Text>
-                </View>
-              )}
-            </ScrollView>
-
-            {finalData.objCadena.length === 0 ? (
-              <>
-                <TouchableOpacity
-                  style={styles.buttonGuardarPromocion}
-                  onPress={() =>
-                    setOfertasByUser({
-                      idusuario: loginState.userToken.id,
-                      idoferta: params.idpromocion,
-                    }).then((resultado) => {
-                      getDetalleOfertaApp({
-                        idusuario: loginState.userToken.id,
-                        idoferta: params.idpromocion,
-                      }).then((resultado) => {
-                        const resultadoImagen =
-                          resultado.objOferta[0].imagenPromocionConvertida;
-
-                        setImage({
-                          uri: resultadoImagen,
-                        });
-                        setFinalData(resultado);
-
-                        let toast = Toast.show(
-                          "Gracias, acude al establecimiento para hacer válida tu promoción",
-                          {
-                            duration: Toast.durations.LONG,
-                            position: Toast.positions.CENTER,
-                            shadow: true,
-                            animation: true,
-                          }
-                        );
-                      });
-                    })
-                  }
-                  title="Guardar Promoción"
-                  color="#EC043C"
-                  accessibilityLabel="Learn more about this purple button"
-                >
-                  <Text
-                    style={{ color: "white", fontWeight: "bold", fontSize: 17 }}
-                  >
-                    Guardar Promoción
-                  </Text>
-                </TouchableOpacity>
-                <View
-                  style={{
-                    backgroundColor: "#ffbc00",
-                    position: "absolute",
-                    top: 55,
-                    left: 0,
-                    padding: 6,
-                    borderTopRightRadius: 15,
-                    borderBottomRightRadius: 15,
-                    paddingHorizontal: 10,
-                    width: "80%",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                  }}
-                >
-                  <MaterialIcons name="timer" size={11} color="white" />
-                  <CountDownText
-                    style={{ fontWeight: "bold" }}
-                    countType="date"
-                    auto={true}
-                    afterEnd={() => {}}
-                    timeLeft={resultadoMinutosQuedan}
-                    step={-1}
-                    startText="Start"
-                    endText="Promoción finalizada"
-                    intervalText={(date, hour, min, sec) =>
-                      "Finaliza en: " + min + ":" + sec + ""
-                    }
+                  <HeaderDetailPromotion
+                    navigation={navigation}
+                    params={{ showBackButton: true }}
+                    showBackButton={true}
                   />
+                  <View style={styles.containerPromotionTitles}>
+                    <Text style={[styles.whiteText, styles.titleOne]}>
+                      {finalData.objOferta[0].titulo}
+                    </Text>
+                    <Text style={[styles.whiteText, styles.titleTwo]}>
+                      {finalData.objOferta[0].descripcionCorta}
+                    </Text>
+                  </View>
+                </LinearGradient>
+              </ImageBackground>
+            </View>
+
+            <View style={styles.cuerpo}>
+              <BusinessCardDataComponent
+                navigation={navigation}
+                params={finalData.objOferta[0]}
+              />
+              <ScrollView
+                style={{
+                  backgroundColor: "white",
+                  flex: 1,
+                  paddingTop: 40,
+                  marginBottom: 10,
+                }}
+              >
+                {finalData.objCadena.map((qrcode) => (
+                  <View
+                    key={uuid()}
+                    style={{ alignItems: "center", marginVertical: 10 }}
+                  >
+                    <QRCode value={finalData.objCadena[0].cadena} />
+                    <Text style={{ marginTop: 7 }}>
+                      {finalData.objCadena[0].cadena}
+                    </Text>
+                  </View>
+                ))}
+
+                {finalData.objOferta[0].descripcionLarga == "" ? null : (
+                  <View>
+                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                      Descripción:
+                    </Text>
+                    <Text>{finalData.objOferta[0].descripcionLarga}</Text>
+                  </View>
+                )}
+                {finalData.objOferta[0].restricciones == "" ? null : (
+                  <View style={{ marginTop: 20 }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                      Restricciones:
+                    </Text>
+                    <Text>{finalData.objOferta[0].restricciones}</Text>
+                  </View>
+                )}
+
+                {finalData.objOferta[0].vigencia == "" ? null : (
+                  <View style={{ marginTop: 20 }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                      Vigencia:
+                    </Text>
+                    <Text>{finalData.objOferta[0].vigencia}</Text>
+                  </View>
+                )}
+              </ScrollView>
+
+              {finalData.objCadena.length === 0 ? (
+                <>
+                  {finalData.objOferta[0].agotado == 1 ? (
+                    <>
+                      <TouchableOpacity
+                        style={
+                          styles.buttonGuardarPromocionTemporalmenteAgotada
+                        }
+                        onPress={() =>
+                          setOfertasByUser({
+                            idusuario: loginState.userToken.id,
+                            idoferta: params.idpromocion,
+                          }).then((resultado) => {
+                            getDetalleOfertaApp({
+                              idusuario: loginState.userToken.id,
+                              idoferta: params.idpromocion,
+                            }).then((resultado) => {
+                              const resultadoImagen =
+                                resultado.objOferta[0]
+                                  .imagenPromocionConvertida;
+
+                              setImage({
+                                uri: resultadoImagen,
+                              });
+                              setFinalData(resultado);
+
+                              let toast = Toast.show(
+                                "Gracias, acude al establecimiento para hacer válida tu promoción",
+                                {
+                                  duration: Toast.durations.LONG,
+                                  position: Toast.positions.CENTER,
+                                  shadow: true,
+                                  animation: true,
+                                }
+                              );
+                            });
+                          })
+                        }
+                        title="Guardar Promoción"
+                        color="#EC043C"
+                        accessibilityLabel="Learn more about this purple button"
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                            fontSize: 16,
+                          }}
+                        >
+                          Guardar Promoción (puede estar agotada)
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  ) : (
+                    <>
+                      <TouchableOpacity
+                        style={styles.buttonGuardarPromocion}
+                        onPress={() =>
+                          setOfertasByUser({
+                            idusuario: loginState.userToken.id,
+                            idoferta: params.idpromocion,
+                          }).then((resultado) => {
+                            getDetalleOfertaApp({
+                              idusuario: loginState.userToken.id,
+                              idoferta: params.idpromocion,
+                            }).then((resultado) => {
+                              const resultadoImagen =
+                                resultado.objOferta[0]
+                                  .imagenPromocionConvertida;
+
+                              setImage({
+                                uri: resultadoImagen,
+                              });
+                              setFinalData(resultado);
+
+                              let toast = Toast.show(
+                                "Gracias, acude al establecimiento para hacer válida tu promoción",
+                                {
+                                  duration: Toast.durations.LONG,
+                                  position: Toast.positions.CENTER,
+                                  shadow: true,
+                                  animation: true,
+                                }
+                              );
+                            });
+                          })
+                        }
+                        title="Guardar Promoción"
+                        color="#EC043C"
+                        accessibilityLabel="Learn more about this purple button"
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                            fontSize: 17,
+                          }}
+                        >
+                          Guardar Promoción
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
+
+                  <View
+                    style={{
+                      backgroundColor:
+                        finalData.objOferta[0].agotado == 1
+                          ? "#adadad"
+                          : "#ffbc00",
+                      position: "absolute",
+                      top: 55,
+                      left: 0,
+                      padding: 6,
+                      borderTopRightRadius: 15,
+                      borderBottomRightRadius: 15,
+                      paddingHorizontal: 10,
+                      width: "80%",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MaterialIcons name="timer" size={11} color="white" />
+                    <CountDownText
+                      style={{ fontWeight: "bold" }}
+                      countType="date"
+                      auto={true}
+                      afterEnd={() => {}}
+                      timeLeft={resultadoMinutosQuedan}
+                      step={-1}
+                      startText="Start"
+                      endText="Promoción finalizada"
+                      intervalText={(date, hour, min, sec) =>
+                        "Finaliza en: " + min + ":" + sec + ""
+                      }
+                    />
+                  </View>
+                </>
+              ) : (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    style={styles.buttonUbicacion}
+                    onPress={() => {
+                      WebBrowser.openBrowserAsync(
+                        "https://www.google.com/maps/search/?api=1&query=" +
+                          encodeURIComponent(finalData.objOferta[0].nombre)
+                      );
+                    }}
+                    title="Ir a Ubicación"
+                    color="#FFBC00"
+                    accessibilityLabel="Abrir ubicación"
+                  >
+                    <Text style={{ color: "white" }}>
+                      {" "}
+                      <EvilIcons name="location" size={14} color="white" />{" "}
+                      Abrir Ubicación
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      navigation.navigate("businessdetail", {
+                        idempresa: finalData.objOferta[0].idempresa,
+                      });
+                    }}
+                    title="Ir a Ubicación"
+                    color="#FFBC00"
+                    accessibilityLabel="Abrir ubicación"
+                  >
+                    <Text>Ver Perfil</Text>
+                  </TouchableOpacity>
                 </View>
-              </>
-            ) : (
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  style={styles.buttonUbicacion}
-                  onPress={() => { 
-
-                    WebBrowser.openBrowserAsync(
-                      "https://www.google.com/maps/search/?api=1&query=" +
-                        encodeURIComponent(finalData.objOferta[0].nombre)
-                    );
-
-                  }}
-                  title="Ir a Ubicación"
-                  color="#FFBC00"
-                  accessibilityLabel="Abrir ubicación"
-                >
-                  <Text style={{ color: "white" }}>
-                    {" "}
-                    <EvilIcons name="location" size={14} color="white" /> Abrir
-                    Ubicación
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => {
-                    navigation.navigate("businessdetail", {
-                      idempresa: finalData.objOferta[0].idempresa,
-                    });
-                  }}
-                  title="Ir a Ubicación"
-                  color="#FFBC00"
-                  accessibilityLabel="Abrir ubicación"
-                >
-                  <Text>Ver Perfil</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </SafeAreaView>
+              )}
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
       ))}
     </>
   );
@@ -287,11 +364,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#000000",
   },
   encabezado: {
     flex: 5,
-    backgroundColor: "blue",
   },
   cuerpo: {
     flex: 7,
@@ -353,6 +428,15 @@ const styles = StyleSheet.create({
   buttonGuardarPromocion: {
     alignItems: "center",
     backgroundColor: "#6926A9",
+    alignContent: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    paddingVertical: 10,
+    marginHorizontal: 3,
+  },
+  buttonGuardarPromocionTemporalmenteAgotada: {
+    alignItems: "center",
+    backgroundColor: "#adadad",
     alignContent: "center",
     justifyContent: "center",
     borderRadius: 15,

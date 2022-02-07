@@ -19,7 +19,9 @@ function toTimestamp(strDate) {
 }
 
 export default function CardComponent({ navigation, params }) {
-  const image = { uri: params.imagenConvertida };
+  console.log(params);
+  let image = { uri: params.imagenConvertida };
+
   const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =
     React.useState("0");
 
@@ -47,9 +49,9 @@ export default function CardComponent({ navigation, params }) {
       <BusinessCardDataComponent navigation={navigation} params={params} />
       <View style={styles.container}>
         <ImageBackground
+          imageStyle={{ borderRadius: 15 }}
           source={image}
           style={styles.image}
-          imageStyle={{ borderRadius: 15 }}
         >
           <View style={styles.opacity}>
             <AntDesign
@@ -63,24 +65,49 @@ export default function CardComponent({ navigation, params }) {
                 })
               }
             />
-            <View style={styles.dueDate}>
-              <Text>
-                <MaterialIcons name="timer" size={11} color="white" />
-                <CountDownText
-                  style={{ fontWeight: "bold" }}
-                  countType="date"
-                  auto={true}
-                  afterEnd={() => {}}
-                  timeLeft={resultadoMinutosQuedan}
-                  step={-1}
-                  startText=""
-                  endText="Oferta Terminada"
-                  intervalText={(date, hour, min, sec) =>
-                    "Finaliza en: " + min + ":" + sec
-                  }
-                />
-              </Text>
-            </View>
+            {params.agotado == 1 ? (
+              <>
+                <View style={styles.dueDateDeshabilitado}>
+                  <Text>
+                    <MaterialIcons name="timer" size={11} color="white" />
+                    <CountDownText
+                      style={{ fontWeight: "bold" }}
+                      countType="date"
+                      auto={true}
+                      afterEnd={() => {}}
+                      timeLeft={resultadoMinutosQuedan}
+                      step={-1}
+                      startText=""
+                      endText="Oferta Terminada"
+                      intervalText={(date, hour, min, sec) =>
+                        "Finaliza en: " + min + ":" + sec
+                      }
+                    />
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={styles.dueDate}>
+                  <Text>
+                    <MaterialIcons name="timer" size={11} color="white" />
+                    <CountDownText
+                      style={{ fontWeight: "bold" }}
+                      countType="date"
+                      auto={true}
+                      afterEnd={() => {}}
+                      timeLeft={resultadoMinutosQuedan}
+                      step={-1}
+                      startText=""
+                      endText="Oferta Terminada"
+                      intervalText={(date, hour, min, sec) =>
+                        "Finaliza en: " + min + ":" + sec
+                      }
+                    />
+                  </Text>
+                </View>
+              </>
+            )}
             <View style={{ marginTop: 20 }}>
               <Text style={[styles.whiteText, styles.titleOne]}>
                 {params.titulo}
@@ -89,20 +116,41 @@ export default function CardComponent({ navigation, params }) {
                 {params.descripcionCorta}
               </Text>
             </View>
-            <View style={{ marginTop: 20 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("promotiondetail", {
-                    idpromocion: params.id,
-                  })
-                }
-              >
-                <Text style={{ fontWeight: "bold", color: "white" }}>
-                  ¡ Obtener Promoción !
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {params.agotado == 1 ? (
+              <>
+                <View style={{ marginTop: 20 }}>
+                  <TouchableOpacity
+                    style={styles.buttonDisabled}
+                    onPress={() =>
+                      navigation.navigate("promotiondetail", {
+                        idpromocion: params.id,
+                      })
+                    }
+                  >
+                    <Text style={{ fontWeight: "bold", color: "white" }}>
+                      Temporalmente Agotada
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={{ marginTop: 20 }}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() =>
+                      navigation.navigate("promotiondetail", {
+                        idpromocion: params.id,
+                      })
+                    }
+                  >
+                    <Text style={{ fontWeight: "bold", color: "white" }}>
+                      ¡ Obtener Promoción !
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
           </View>
         </ImageBackground>
       </View>
@@ -126,6 +174,17 @@ const styles = StyleSheet.create({
   },
   dueDate: {
     backgroundColor: "#ffbc00",
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 4,
+    paddingBottom: 4,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    position: "absolute",
+    top: 15,
+  },
+  dueDateDeshabilitado: {
+    backgroundColor: "#adadad",
     paddingLeft: 25,
     paddingRight: 25,
     paddingTop: 4,
@@ -160,6 +219,13 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#ffbc00",
+    padding: 7,
+    borderRadius: 15,
+    marginHorizontal: 30,
+  },
+  buttonDisabled: {
+    alignItems: "center",
+    backgroundColor: "#adadad",
     padding: 7,
     borderRadius: 15,
     marginHorizontal: 30,
