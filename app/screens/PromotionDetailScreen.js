@@ -91,12 +91,13 @@ export default function PromotionDetailScreen({ route, navigation }) {
   return (
     <>
       {finalData.objOferta.length === 0 ? <LoadingComponent /> : null}
-      {finalData.objOferta.map((oferta) => (
+      {finalData.objOferta.map((oferta, index) => (
         <LinearGradient
-          style={styles.gradient}
+          style={{flex: 1}}
           colors={["#FC466B", "#3F5EFB"]}
           start={{ x: 0.0, y: 0.25 }}
           end={{ x: 0.5, y: 1.0 }}
+          key={index}
         >
           <SafeAreaView style={styles.container} key={uuid()}>
             <View style={styles.encabezado}>
