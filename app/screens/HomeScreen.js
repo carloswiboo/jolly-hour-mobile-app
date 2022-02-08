@@ -98,7 +98,7 @@ export default function HomeScreen({ navigation, params }) {
       setFinalData(resultado);
       setLoading(false);
     }); */
-  }, []);
+  }, []); 
 
   return (
     <LinearGradient

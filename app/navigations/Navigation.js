@@ -18,11 +18,14 @@ import { Socketio } from "../helpers/Socketio";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 import jwt_decode from "jwt-decode";
+import { CarouselPrincipal } from "../screens/CarouselPrincipal";
 
 const Tab = createBottomTabNavigator();
 const socket = Socketio();
 export default function Navigation() {
   const { loginState } = React.useContext(AuthContext);
+
+
 
   var isLoading = loginState.isLoading;
 

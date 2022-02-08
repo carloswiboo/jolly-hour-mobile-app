@@ -18,7 +18,8 @@ function toTimestamp(strDate) {
   return datum / 1000;
 }
 
-export default function CardComponent({ navigation, params }) {
+export default function CardComponent({ navigation, params, islogged }) {
+  debugger;
   console.log(params);
   let image = { uri: params.imagenConvertida };
 
@@ -46,6 +47,7 @@ export default function CardComponent({ navigation, params }) {
 
   return (
     <View>
+      {islogged == false ? null : null}
       <BusinessCardDataComponent navigation={navigation} params={params} />
       <View style={styles.container}>
         <ImageBackground
@@ -116,39 +118,56 @@ export default function CardComponent({ navigation, params }) {
                 {params.descripcionCorta}
               </Text>
             </View>
-            {params.agotado == 1 ? (
+            {islogged == false ? (
               <>
                 <View style={{ marginTop: 20 }}>
                   <TouchableOpacity
-                    style={styles.buttonDisabled}
-                    onPress={() =>
-                      navigation.navigate("promotiondetail", {
-                        idpromocion: params.id,
-                      })
-                    }
+                    style={styles.button}
+                    onPress={() => navigation.navigate("welcomescreen")}
                   >
                     <Text style={{ fontWeight: "bold", color: "white" }}>
-                      Temporalmente Agotada
+                      Obtener Promoción
                     </Text>
                   </TouchableOpacity>
                 </View>
               </>
             ) : (
               <>
-                <View style={{ marginTop: 20 }}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() =>
-                      navigation.navigate("promotiondetail", {
-                        idpromocion: params.id,
-                      })
-                    }
-                  >
-                    <Text style={{ fontWeight: "bold", color: "white" }}>
-                      ¡ Obtener Promoción !
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                {params.agotado == 1 ? (
+                  <>
+                    <View style={{ marginTop: 20 }}>
+                      <TouchableOpacity
+                        style={styles.buttonDisabled}
+                        onPress={() =>
+                          navigation.navigate("promotiondetail", {
+                            idpromocion: params.id,
+                          })
+                        }
+                      >
+                        <Text style={{ fontWeight: "bold", color: "white" }}>
+                          Temporalmente Agotada
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <View style={{ marginTop: 20 }}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() =>
+                          navigation.navigate("promotiondetail", {
+                            idpromocion: params.id,
+                          })
+                        }
+                      >
+                        <Text style={{ fontWeight: "bold", color: "white" }}>
+                          ¡ Obtener Promoción !
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
               </>
             )}
           </View>
