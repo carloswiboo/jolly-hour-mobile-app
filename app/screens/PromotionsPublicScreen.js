@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  RefreshControl
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,6 +14,7 @@ import { getNowAllPromotions } from "../API/APIPromociones";
 import { Socketio } from "../helpers/Socketio";
 import SkeletonContent from "react-native-skeleton-content";
 import CardComponent from "../components/CardComponent";
+import * as Linking from "expo-linking";
 
 export default function PromotionsPublicScreen({ route, navigation }) {
   const [finalData, setFinalData] = React.useState([]);
@@ -26,11 +27,9 @@ export default function PromotionsPublicScreen({ route, navigation }) {
     });
   }, []);
 
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getNowAllPromotions(null).then((resultado) => {
-       
       setFinalData(resultado);
       setLoading(false);
       setRefreshing(false);
@@ -50,6 +49,16 @@ export default function PromotionsPublicScreen({ route, navigation }) {
           <Text style={styles.subtitleWelcome}>
             Estas son las promociones actuales
           </Text>
+          <View style={{ marginTop: 7, marginBottom: 0 }}>
+            <TouchableOpacity
+              style={styles.buttonMenu}
+              onPress={() => {
+                Linking.openURL("https://help.jollyhour.com.mx/privacy.html");
+              }}
+            >
+              <Text style={{fontWeight: 'bold', color: 'white'}}>Consulta el aviso de Privacidad</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.promotionsContainer}>
           <ScrollView
@@ -62,10 +71,7 @@ export default function PromotionsPublicScreen({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
             {loading === true ? (
@@ -190,7 +196,7 @@ const styles = StyleSheet.create({
   },
   textoPrincipal: {
     marginHorizontal: 20,
-    marginVertical: 60,
+    marginVertical: 40,
     alignItems: "flex-start",
   },
   textWelcome: {

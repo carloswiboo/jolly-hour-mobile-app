@@ -97,164 +97,159 @@ export default function HomeScreen({ navigation, params }) {
       start={{ x: 0.0, y: 0.25 }}
       end={{ x: 0.5, y: 1.0 }}
     >
-     
-        <View style={{paddingTop: 25}}>
-          <HeaderInicioComponent
-            navigation={navigation}
-            params={{ showBackButton: false }}
-            showBackButton={true}
-          />
-        </View>
-        <View style={{ width: "100%" }}>
-          <CategoriesHomeDataComponent
-            setCategorySelected={setCategorySelected}
-          />
-        </View>
-        <View style={styles.ScrollView}>
-          {finalData.length === 0 ? (
-            <>
-              <ScrollView
-                style={{ flex: 1, flexDirection: "row", width: "100%" }}
-                contentContainerStyle={{ flex: 1 }}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                  />
-                }
+      <View style={{ paddingTop: 25 }}>
+        <HeaderInicioComponent
+          navigation={navigation}
+          params={{ showBackButton: false }}
+          showBackButton={true}
+        />
+      </View>
+      <View style={{ width: "100%" }}>
+        <CategoriesHomeDataComponent
+          setCategorySelected={setCategorySelected}
+        />
+      </View>
+      <View style={styles.ScrollView}>
+        {finalData.length === 0 ? (
+          <>
+            <ScrollView
+              style={{ flex: 1, flexDirection: "row", width: "100%" }}
+              contentContainerStyle={{ flex: 1 }}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+              <Image
+                style={{ width: "100%", flex: 1, resizeMode: "contain" }}
+                source={require("../../assets/JollyStarLooking.png")}
+              />
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  marginTop: 10,
+                }}
               >
-                <Image
-                  style={{ width: "100%", flex: 1, resizeMode: "contain" }}
-                  source={require("../../assets/JollyStarLooking.png")}
-                />
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    marginTop: 10,
-                  }}
-                >
-                  Seguiremos buscando promociones
-                </Text>
-              </ScrollView>
-            </>
-          ) : null}
+                Seguiremos buscando promociones
+              </Text>
+            </ScrollView>
+          </>
+        ) : null}
 
-          <ScrollView
-            contentContainerStyle={styles.scrollViewCards}
-            contentInset={{ top: 10 }}
-            automaticallyAdjustContentInsets={true}
-            maximumZoomScale={1}
-            minimumZoomScale={1}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            contentContainerStyle={{
-              justifyContent: "center",
-            }}
-          >
-            {loading == true ? (
-              <>
-                <SkeletonContent
-                  containerStyle={{
-                    flex: 1,
+        <ScrollView
+          contentContainerStyle={styles.scrollViewCards}
+          contentInset={{ top: 10 }}
+          automaticallyAdjustContentInsets={true}
+          maximumZoomScale={1}
+          minimumZoomScale={1}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{
+            justifyContent: "center",
+          }}
+        >
+          {loading == true ? (
+            <>
+              <SkeletonContent
+                containerStyle={{
+                  flex: 1,
+                  width: "100%",
+                  flexDirection: "column",
+                }}
+                animationDirection="horizontalLeft"
+                boneColor="#EDEDED"
+                highlightColor="#E0E0E0"
+                layout={[
+                  {
                     width: "100%",
-                    flexDirection: "column",
-                  }}
-                  animationDirection="horizontalLeft"
-                  boneColor="#EDEDED"
-                  highlightColor="#E0E0E0"
-                  layout={[
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                    {
-                      width: "100%",
-                      height: 170,
-                      marginBottom: 6,
-                      borderRadius: 15,
-                    },
-                  ]}
-                  isLoading={true}
-                />
-              </>
-            ) : (
-              <>
-                {finalData.map((promocion, index) => (
-                  <>
-                    {categorySelected === 0 ? (
-                      <CardComponent
-                        key={index}
-                        navigation={navigation}
-                        params={promocion}
-                      />
-                    ) : categorySelected === promocion.idcategoria ? (
-                      <CardComponent
-                        key={index}
-                        navigation={navigation}
-                        params={promocion}
-                      />
-                    ) : null}
-                  </>
-                ))}
-              </>
-            )}
-          </ScrollView>
-        </View>
-    
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                  {
+                    width: "100%",
+                    height: 170,
+                    marginBottom: 6,
+                    borderRadius: 15,
+                  },
+                ]}
+                isLoading={true}
+              />
+            </>
+          ) : (
+            <>
+              {finalData.map((promocion, index) => (
+                <>
+                  {categorySelected === 0 ? (
+                    <CardComponent
+                      key={index}
+                      navigation={navigation}
+                      params={promocion}
+                    />
+                  ) : categorySelected === promocion.idcategoria ? (
+                    <CardComponent
+                      key={index}
+                      navigation={navigation}
+                      params={promocion}
+                    />
+                  ) : null}
+                </>
+              ))}
+            </>
+          )}
+        </ScrollView>
+      </View>
     </LinearGradient>
   );
 }
@@ -262,7 +257,6 @@ export default function HomeScreen({ navigation, params }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
   },
   backgroundGradient: {
     flex: 1,

@@ -42,6 +42,7 @@ import jwt_decode from "jwt-decode";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import "intl";
 import "intl/locale-data/jsonp/en";
+import * as Linking from "expo-linking";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -446,6 +447,19 @@ export default function WelcomeScreen({ navigation }) {
               <TouchableOpacity onPress={() => openSignUp()}>
                 <Text style={{ color: "#6e24a4" }}> Crear cuenta</Text>
               </TouchableOpacity>
+
+              <View style={{marginTop: 20}}>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://help.jollyhour.com.mx/privacy.html"
+                    );
+                  }}
+                >
+                  <Text style={styles.resultText}>Aviso de Privacidad</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </KeyboardAwareScrollView>
         ) : null}

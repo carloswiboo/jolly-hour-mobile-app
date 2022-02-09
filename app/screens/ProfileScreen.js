@@ -279,7 +279,7 @@ export default function ProfileScreen({ navigation }) {
                   style={styles.buttonMenu}
                   onPress={() => {
                     Linking.openURL(
-                      "https://partners.jollyhour.com.mx/privacy"
+                      "https://help.jollyhour.com.mx/privacy.html"
                     );
                   }}
                 >
