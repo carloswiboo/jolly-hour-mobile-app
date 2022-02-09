@@ -161,7 +161,7 @@ export default function App() {
     <RootSiblingParent>
       <View style={{ flex: 1, backgroundColor: "black" }}>
         <AuthContext.Provider value={{ authContext, loginState }}>
-          <SafeAreaProvider>
+          <SafeAreaProvider >
             <StatusBar style="dark" />
             <Navigation />
           </SafeAreaProvider>
