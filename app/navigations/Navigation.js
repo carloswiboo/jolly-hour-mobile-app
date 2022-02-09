@@ -116,9 +116,7 @@ export default function Navigation() {
                       paddingBottom: 3,
                     },
                     tabBarAllowFontScaling: true,
-                    tabBarStyle: {
-
-                    },
+                    tabBarStyle: {},
                     tabBarIconStyle: {
                       marginTop: 4,
                     },
