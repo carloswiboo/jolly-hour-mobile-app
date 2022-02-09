@@ -7,13 +7,13 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
 const CarouselCardItem = ({ item, index }) => {
   return (
     <View style={styles.container} key={index}>
-      <Image source={{ uri: item.imgUrl }} style={styles.image} />
+      <Image source={item.imgUrl} style={styles.image} />
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    width: ITEM_WIDTH,
+    width: '90%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -23,10 +23,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
+    marginTop: 20
   },
   image: {
     width: ITEM_WIDTH,
     flex: 1,
+    resizeMode: 'contain'
   },
   header: {
     color: "#222",

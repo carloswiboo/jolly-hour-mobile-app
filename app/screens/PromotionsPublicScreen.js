@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  RefreshControl
 } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,13 +17,23 @@ import CardComponent from "../components/CardComponent";
 
 export default function PromotionsPublicScreen({ route, navigation }) {
   const [finalData, setFinalData] = React.useState([]);
-
+  const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-
   React.useEffect(() => {
     getNowAllPromotions(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
+    });
+  }, []);
+
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getNowAllPromotions(null).then((resultado) => {
+       
+      setFinalData(resultado);
+      setLoading(false);
+      setRefreshing(false);
     });
   }, []);
 
@@ -50,6 +61,12 @@ export default function PromotionsPublicScreen({ route, navigation }) {
             minimumZoomScale={1}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
           >
             {loading === true ? (
               <>

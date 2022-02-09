@@ -2,7 +2,7 @@
   "expo": {
     "name": "Jolly Hour",
     "slug": "jolly-hour-mobile-app",
-    "version": "1.0.17",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,13 +22,13 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.jollyhour.jollyhourmobileapp",
-      "buildNumber": "1.0.17",
+      "buildNumber": "2.1.0",
       "usesAppleSignIn": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Usaremos la cámara, ninguna imagen será enviada",
         "NSPhotoLibraryUsageDescription": "Usaremos tu foto para ponerla como perfil, ninguna imagen será enviada",
         "NSPhotoLibraryAddUsageDescription": "Usaremos tu foto para ponerla como perfil, ninguna imagen será enviada",
-        "NSUserTrackingUsageDescription" : "Usaremos tu información para encontrar resultados adecuados para ti!"
+        "NSUserTrackingUsageDescription": "Usaremos tu información para encontrar resultados adecuados para ti!"
       }
     },
     "android": {
@@ -38,7 +38,7 @@
       },
       "package": "com.carloswiboo.jollyhourmobileapp",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 17,
+      "versionCode": 210,
       "useNextNotificationsApi": true
     },
     "web": {

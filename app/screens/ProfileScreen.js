@@ -65,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
-         // alert("Necesitamos permiso para cambiar tu imagen de perfil!");
+          // alert("Necesitamos permiso para cambiar tu imagen de perfil!");
         } else {
           let toast = Toast.show("Acceso para cambiar imagen concedido", {
             duration: Toast.durations.SHORT,
@@ -258,9 +258,7 @@ export default function ProfileScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.buttonMenu}
                   onPress={() => {
-                    Linking.openURL(
-                      "https://jollyhour.com.mx/terminosycondiciones/"
-                    );
+                    Linking.openURL("https://partners.jollyhour.com.mx/terms/");
                   }}
                 >
                   <Text style={styles.resultText}>Términos y Condiciones</Text>
@@ -270,7 +268,7 @@ export default function ProfileScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.buttonMenu}
                   onPress={() => {
-                    Linking.openURL("https://jollyhour.com.mx/ayuda/");
+                    Linking.openURL("https://help.jollyhour.com.mx/ayuda/");
                   }}
                 >
                   <Text style={styles.resultText}>Ayuda</Text>

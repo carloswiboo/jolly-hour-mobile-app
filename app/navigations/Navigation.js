@@ -20,18 +20,20 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import jwt_decode from "jwt-decode";
 import { CarouselPrincipal } from "../screens/CarouselPrincipal";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Tab = createBottomTabNavigator();
 const socket = Socketio();
 export default function Navigation() {
   const { loginState } = React.useContext(AuthContext);
-
-
 
   var isLoading = loginState.isLoading;
 
   const [isLoadingJolly, setLoadingJolly] = React.useState(
     loginState.isLoading
   );
+
+  const [tiempo, setTiempo] = React.useState(0);
 
   React.useEffect(() => {
     if (loginState.userToken != null) {
@@ -61,6 +63,32 @@ export default function Navigation() {
     }
   }, [isLoading]);
 
+  const restarFechas = async () => {
+    var resultadoGuardado = await AsyncStorage.getItem(
+      "fechaCaducidadVentanaIntereses"
+    );
+    var currentDate = new Date();
+    var actualDate = new Date(currentDate.getTime()).toString();
+
+    var diff =   new Date(resultadoGuardado)- new Date(currentDate.getTime());
+
+    var minutes = Math.floor(diff / 1000 / 60);
+
+    console.log("Diferencia: " + minutes);
+
+    console.log("Valor Actual: " + actualDate);
+    console.log("Valor Guardado: " + resultadoGuardado);
+
+    setTiempo(minutes);
+  };
+
+  React.useEffect(() => {
+    restarFechas();
+    return () => {
+      true;
+    };
+  }, []);
+
   return (
     <>
       {isLoading === true ? (
@@ -73,7 +101,7 @@ export default function Navigation() {
             ) : (
               <>
                 <Tab.Navigator
-                  initialRouteName="home"
+                  initialRouteName={tiempo > 0 ? "intereses" : "home"}
                   screenOptions={{
                     tabBarInactiveTintColor: "#ffffff",
                     tabBarActiveTintColor: "#dc3864",

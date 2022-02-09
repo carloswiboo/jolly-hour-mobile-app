@@ -19,8 +19,7 @@ function toTimestamp(strDate) {
 }
 
 export default function CardComponent({ navigation, params, islogged }) {
-  debugger;
-  console.log(params);
+
   let image = { uri: params.imagenConvertida };
 
   const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =

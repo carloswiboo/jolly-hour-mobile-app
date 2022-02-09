@@ -51,7 +51,7 @@ export default function PromotionDetailScreen({ route, navigation }) {
       idusuario: loginState.userToken.id,
       idoferta: params.idpromocion,
     }).then((resultado) => {
-      console.log(resultado);
+    
       const resultadoImagen = resultado.objOferta[0].imagenPromocionConvertida;
       setImage({
         uri: resultadoImagen,
