@@ -161,7 +161,7 @@ export default function ProfileScreen({ navigation }) {
       return;
     }
 
-    await Sharing.shareAsync("popó");
+
   };
 
   return (
@@ -272,6 +272,18 @@ export default function ProfileScreen({ navigation }) {
                   }}
                 >
                   <Text style={styles.resultText}>Ayuda</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.listaDatos}>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://partners.jollyhour.com.mx/privacy"
+                    );
+                  }}
+                >
+                  <Text style={styles.resultText}>Aviso de Privacidad</Text>
                 </TouchableOpacity>
               </View>
               {/*

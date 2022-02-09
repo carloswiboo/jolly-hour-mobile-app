@@ -36,7 +36,6 @@ export default function HomeScreen({ navigation, params }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getNowAllPromotions(null).then((resultado) => {
-       
       setFinalData(resultado);
       setLoading(false);
       setRefreshing(false);
@@ -46,16 +45,9 @@ export default function HomeScreen({ navigation, params }) {
   React.useEffect(() => {
     const socket = Socketio();
 
-
-     
-    
-
     socket.on("connect", () => {
-       
-    //var saludos = user.id;
+      //var saludos = user.id;
       socket.emit("join", { idusuario: loginState.id });
-
-       
     });
     socket.on("refreshOferta", () => {
       setLoading(true);
@@ -79,7 +71,6 @@ export default function HomeScreen({ navigation, params }) {
       });
 
       getNowAllPromotions(null).then((resultado) => {
-         
         setFinalData(resultado);
         setLoading(false);
       });
@@ -89,7 +80,6 @@ export default function HomeScreen({ navigation, params }) {
       console.log(error);
     });
 
-     
     getNowAllPromotions(null).then((resultado) => {
       setFinalData(resultado);
       setLoading(false);
@@ -98,7 +88,7 @@ export default function HomeScreen({ navigation, params }) {
       setFinalData(resultado);
       setLoading(false);
     }); */
-  }, []); 
+  }, []);
 
   return (
     <LinearGradient
@@ -107,8 +97,8 @@ export default function HomeScreen({ navigation, params }) {
       start={{ x: 0.0, y: 0.25 }}
       end={{ x: 0.5, y: 1.0 }}
     >
-      <SafeAreaView style={styles.container}>
-        <View>
+     
+        <View style={{paddingTop: 25}}>
           <HeaderInicioComponent
             navigation={navigation}
             params={{ showBackButton: false }}
@@ -264,7 +254,7 @@ export default function HomeScreen({ navigation, params }) {
             )}
           </ScrollView>
         </View>
-      </SafeAreaView>
+    
     </LinearGradient>
   );
 }
@@ -272,18 +262,27 @@ export default function HomeScreen({ navigation, params }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   backgroundGradient: {
     flex: 1,
     alignItems: "center",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   ScrollView: {
     flex: 1,
+    position: "relative",
+    bottom: 0,
     backgroundColor: "white",
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
     paddingTop: 20,
     paddingHorizontal: 20,
     overflow: "scroll",
+    bottom: 0,
   },
 });

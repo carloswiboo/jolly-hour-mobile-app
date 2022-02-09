@@ -70,7 +70,7 @@ export default function Navigation() {
     var currentDate = new Date();
     var actualDate = new Date(currentDate.getTime()).toString();
 
-    var diff =   new Date(resultadoGuardado)- new Date(currentDate.getTime());
+    var diff = new Date(resultadoGuardado) - new Date(currentDate.getTime());
 
     var minutes = Math.floor(diff / 1000 / 60);
 
@@ -107,6 +107,7 @@ export default function Navigation() {
                     tabBarActiveTintColor: "#dc3864",
                     adaptive: true,
                     tabBarShowLabel: true,
+                    headerShown: false,
                     tabBarActiveBackgroundColor: "#000000",
                     tabBarInactiveBackgroundColor: "#000000",
                     tabBarLabelStyle: {
@@ -116,7 +117,7 @@ export default function Navigation() {
                     },
                     tabBarAllowFontScaling: true,
                     tabBarStyle: {
-                      height: 55,
+
                     },
                     tabBarIconStyle: {
                       marginTop: 4,
@@ -125,18 +126,17 @@ export default function Navigation() {
                 >
                   <Tab.Screen
                     name="home"
+                    component={PromocionesStack}
                     options={{
-                      title: "Inicio",
-                      headerShown: false,
                       tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons
                           name="home"
                           color={color}
                           size={22}
+                          style={{ height: 24, width: 24, fontSize: 24 }}
                         />
                       ),
                     }}
-                    component={PromocionesStack}
                   />
                   <Tab.Screen
                     name="intereses"
@@ -147,7 +147,8 @@ export default function Navigation() {
                         <MaterialCommunityIcons
                           name="bell"
                           color={color}
-                          size={22}
+                          size={24}
+                          style={{ height: 24, width: 24, fontSize: 24 }}
                         />
                       ),
                     }}
@@ -163,7 +164,8 @@ export default function Navigation() {
                         <MaterialCommunityIcons
                           name="heart"
                           color={color}
-                          size={22}
+                          size={24}
+                          style={{ height: 24, width: 24, fontSize: 24 }}
                         />
                       ),
                     }}
@@ -179,7 +181,8 @@ export default function Navigation() {
                         <MaterialCommunityIcons
                           name="account"
                           color={color}
-                          size={22}
+                          size={24}
+                          style={{ height: 24, width: 24, fontSize: 24 }}
                         />
                       ),
                     }}
