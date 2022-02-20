@@ -32,6 +32,7 @@ let imagenModaAccesoriosInactivo = require("../../assets/categoriasServicios/ina
 export const getAllCategorias = async (values) => {
   let url = API + "/services/categoria/getCategorias/";
 
+  debugger;
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -40,6 +41,8 @@ export const getAllCategorias = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
+
+    debugger;
 
     if (response.status === 200) {
       for (const categoria of response.data) {
@@ -74,10 +77,11 @@ export const getAllCategorias = async (values) => {
       return [];
     }
   } catch (error) {
+    debugger;
+
     let errorMessage = error.toJSON();
 
     console.log(errorMessage);
-
 
     console.error(error);
     return [];
@@ -109,6 +113,8 @@ export const getCategorieById = async (idcategoria) => {
 export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
   let url = API + "/services/usuario/addCategoria/";
 
+  debugger;
+
   try {
     const response = await axios.post(
       url,
@@ -136,6 +142,8 @@ export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
 export const getCategoriesByUser = async (token) => {
   let url = API + "/services/usuario/getCategoriasByUser/" + token.userToken.id;
 
+  debugger;
+
   try {
     const response = await axios.get(url, null, {
       headers: {
@@ -147,71 +155,31 @@ export const getCategoriesByUser = async (token) => {
     if (response.status === 200) {
       const finalData = [];
 
+      debugger;
+
       for (const categoriaSeleccionada of response.data.seleccionadas) {
         categoriaSeleccionada.isActive = true;
-
-        if (categoriaSeleccionada.nombre === "Comida y Restaurantes") {
-          categoriaSeleccionada.imagenActiva = imageComidaRestauranteActivo;
-          categoriaSeleccionada.imagenInactiva = imageComidaRestauranteInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Entretenimiento") {
-          categoriaSeleccionada.imagenActiva = imageEntretenimientoActivo;
-          categoriaSeleccionada.imagenInactiva = imageEntretenimientoInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Hoteles y Viajes") {
-          categoriaSeleccionada.imagenActiva = imagenHotelesYViajesActivo;
-          categoriaSeleccionada.imagenInactiva = imagenHotelesYViajesInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Salud y Belleza") {
-          categoriaSeleccionada.imagenActiva = imagenSaludYBellezaActivo;
-          categoriaSeleccionada.imagenInactiva = imagenSaludYBellezaInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Servicios") {
-          categoriaSeleccionada.imagenActiva = imagenServicioActivo;
-          categoriaSeleccionada.imagenInactiva = imagenServicioInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Servicios") {
-          categoriaSeleccionada.imagenActiva = imagenServicioActivo;
-          categoriaSeleccionada.imagenInactiva = imagenServicioInactivo;
-        }
-        if (categoriaSeleccionada.nombre === "Moda y Accesorios") {
-          categoriaSeleccionada.imagenActiva = imagenModaAccesoriosActivo;
-          categoriaSeleccionada.imagenInactiva = imagenModaAccesoriosInactivo;
-        }
+        categoriaSeleccionada.imagenActiva =
+          "data:image/png;base64," +
+          encode(categoriaSeleccionada.imgActiva.data);
+        categoriaSeleccionada.imagenInactiva =
+          "data:image/png;base64," +
+          encode(categoriaSeleccionada.imgInactiva.data);
 
         finalData.push(categoriaSeleccionada);
       }
 
- 
+      debugger;
 
+      
       for (const categoriaNoSeleccionada of response.data.noSeleccionadas) {
         categoriaNoSeleccionada.isActive = false;
-
-        if (categoriaNoSeleccionada.nombre === "Comida y Restaurantes") {
-          categoriaNoSeleccionada.imagenActiva = imageComidaRestauranteActivo;
-          categoriaNoSeleccionada.imagenInactiva =
-            imageComidaRestauranteInactivo;
-        }
-        if (categoriaNoSeleccionada.nombre === "Entretenimiento") {
-          categoriaNoSeleccionada.imagenActiva = imageEntretenimientoActivo;
-          categoriaNoSeleccionada.imagenInactiva = imageEntretenimientoInactivo;
-        }
-        if (categoriaNoSeleccionada.nombre === "Hoteles y Viajes") {
-          categoriaNoSeleccionada.imagenActiva = imagenHotelesYViajesActivo;
-          categoriaNoSeleccionada.imagenInactiva = imagenHotelesYViajesInactivo;
-        }
-        if (categoriaNoSeleccionada.nombre === "Salud y Belleza") {
-          categoriaNoSeleccionada.imagenActiva = imagenSaludYBellezaActivo;
-          categoriaNoSeleccionada.imagenInactiva = imagenSaludYBellezaInactivo;
-        }
-        if (categoriaNoSeleccionada.nombre === "Servicios") {
-          categoriaNoSeleccionada.imagenActiva = imagenServicioActivo;
-          categoriaNoSeleccionada.imagenInactiva = imagenServicioInactivo;
-        }
-        if (categoriaNoSeleccionada.nombre === "Moda y Accesorios") {
-          categoriaNoSeleccionada.imagenActiva = imagenModaAccesoriosActivo;
-          categoriaNoSeleccionada.imagenInactiva = imagenModaAccesoriosInactivo;
-        }
+        categoriaNoSeleccionada.imagenActiva =
+          "data:image/png;base64," +
+          encode(categoriaNoSeleccionada.imgActiva.data);
+        categoriaNoSeleccionada.imagenInactiva =
+          "data:image/png;base64," +
+          encode(categoriaNoSeleccionada.imgInactiva.data);
 
         finalData.push(categoriaNoSeleccionada);
       }

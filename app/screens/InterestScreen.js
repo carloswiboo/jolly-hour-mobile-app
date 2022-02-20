@@ -23,26 +23,29 @@ import {
 import { AuthContext } from "../context/context";
 
 import { useFocusEffect } from "@react-navigation/native";
+import LoadingComponent from "../components/LoadingComponent";
+import LoadingCategoriesComponent from "../components/LoadingCategoriesComponent";
 
 export default function InterestScreen({ navigation }) {
   const [finalData, setFinalData] = React.useState([]);
   const { loginState } = React.useContext(AuthContext);
   const [hasChanged, setHasChanged] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
 
   console.log(loginState);
 
   React.useEffect(() => {
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-
       setFinalData(categoriasDeUsuario);
+      setLoading(false);
     });
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-
         setFinalData(categoriasDeUsuario);
+        setLoading(false);
       });
     }, [])
   );
@@ -55,8 +58,6 @@ export default function InterestScreen({ navigation }) {
           var finalResult = [];
 
           for (const valor of finalData) {
-             
-
             if (valor.id == item.id) {
               valor.isActive = !valor.isActive;
               finalResult.push(valor);
@@ -67,15 +68,19 @@ export default function InterestScreen({ navigation }) {
 
           setFinalData(finalResult);
 
-          anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-           
-          });
+          anadirEliminarCategorie(item.id, loginState).then((resultado) => {});
         }}
       >
         {item.isActive == true ? (
-          <Image style={styles.tinyLogo} source={item.imagenActiva} />
+          <Image
+            style={styles.tinyLogo}
+            source={{ uri: item.imagenActiva }}
+          />
         ) : (
-          <Image style={styles.tinyLogo} source={item.imagenInactiva} />
+          <Image
+            style={styles.tinyLogo}
+            source={{ uri: item.imagenInactiva }}
+          />
         )}
       </TouchableOpacity>
     );
@@ -96,14 +101,20 @@ export default function InterestScreen({ navigation }) {
           </Text>
         </View>
         <View style={styles.categoriesContainer}>
-          <FlatList
-            style={styles.scrollViewContainer}
-            numColumns={3}
-            vertical
-            showsHorizontalScrollIndicator={false}
-            data={finalData}
-            renderItem={renderItem}
-          />
+          {loading == false ? (
+            <>
+              <FlatList
+                style={styles.scrollViewContainer}
+                numColumns={3}
+                vertical
+                showsHorizontalScrollIndicator={false}
+                data={finalData}
+                renderItem={renderItem}
+              />
+            </>
+          ) : (
+            <LoadingCategoriesComponent />
+          )}
         </View>
 
         {/*<View style={styles.containerButtons}>
@@ -186,6 +197,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     flex: 1,
     width: "100%",
+    height: 100,
     resizeMode: "contain",
   },
   overlayTrue: {
