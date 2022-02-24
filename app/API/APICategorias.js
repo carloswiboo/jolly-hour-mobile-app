@@ -32,7 +32,7 @@ let imagenModaAccesoriosInactivo = require("../../assets/categoriasServicios/ina
 export const getAllCategorias = async (values) => {
   let url = API + "/services/categoria/getCategorias/";
 
-  debugger;
+
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -42,7 +42,7 @@ export const getAllCategorias = async (values) => {
       },
     });
 
-    debugger;
+ 
 
     if (response.status === 200) {
       for (const categoria of response.data) {
@@ -77,7 +77,6 @@ export const getAllCategorias = async (values) => {
       return [];
     }
   } catch (error) {
-    debugger;
 
     let errorMessage = error.toJSON();
 
@@ -113,7 +112,7 @@ export const getCategorieById = async (idcategoria) => {
 export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
   let url = API + "/services/usuario/addCategoria/";
 
-  debugger;
+
 
   try {
     const response = await axios.post(
@@ -134,7 +133,7 @@ export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
       return {};
     }
   } catch (error) {
-    debugger;
+  
     console.error(error);
     return {};
   }
@@ -143,7 +142,7 @@ export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
 export const getCategoriesByUser = async (token) => {
   let url = API + "/services/usuario/getCategoriasByUser/" + token.userToken.id;
 
-  debugger;
+
 
   try {
     const response = await axios.get(url, null, {
@@ -156,7 +155,7 @@ export const getCategoriesByUser = async (token) => {
     if (response.status === 200) {
       const finalData = [];
 
-      debugger;
+      
 
       for (const categoriaSeleccionada of response.data.seleccionadas) {
         categoriaSeleccionada.isActive = true;
@@ -170,7 +169,7 @@ export const getCategoriesByUser = async (token) => {
         finalData.push(categoriaSeleccionada);
       }
 
-      debugger;
+     
 
       for (const categoriaNoSeleccionada of response.data.noSeleccionadas) {
         categoriaNoSeleccionada.isActive = false;

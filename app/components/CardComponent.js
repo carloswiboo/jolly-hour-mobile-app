@@ -49,7 +49,7 @@ export default function CardComponent({ navigation, params, islogged }) {
       <BusinessCardDataComponent navigation={navigation} params={params} />
       <View style={styles.container}>
         <ImageBackground
-          imageStyle={{ borderRadius: 15 }}
+          imageStyle={{ borderRadius: 15, height: "100%" }}
           source={image}
           style={styles.image}
         >
@@ -97,13 +97,20 @@ export default function CardComponent({ navigation, params, islogged }) {
                 </View>
               </>
             )}
-            <View style={{ marginTop: 30 }}>
-              <Text style={[styles.whiteText, styles.titleOne]}>
-                {params.titulo}
-              </Text>
-              <Text style={[styles.whiteText, styles.titleTwo]}>
-                {params.descripcionCorta}
-              </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+              }}
+            >
+              <View>
+                <Text style={[styles.whiteText, styles.titleOne]}>
+                  {params.titulo}
+                </Text>
+                <Text style={[styles.whiteText, styles.titleTwo]}>
+                  {params.descripcionCorta}
+                </Text>
+              </View>
             </View>
             {islogged == false ? (
               <>
@@ -122,37 +129,33 @@ export default function CardComponent({ navigation, params, islogged }) {
               <>
                 {params.agotado == 1 ? (
                   <>
-                    <View style={{ marginTop: 20 }}>
-                      <TouchableOpacity
-                        style={styles.buttonDisabled}
-                        onPress={() =>
-                          navigation.navigate("promotiondetail", {
-                            idpromocion: params.id,
-                          })
-                        }
-                      >
-                        <Text style={{ fontWeight: "bold", color: "white" }}>
-                          Temporalmente Agotada
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                      style={styles.buttonDisabled}
+                      onPress={() =>
+                        navigation.navigate("promotiondetail", {
+                          idpromocion: params.id,
+                        })
+                      }
+                    >
+                      <Text style={{ fontWeight: "bold", color: "white" }}>
+                        Temporalmente Agotada
+                      </Text>
+                    </TouchableOpacity>
                   </>
                 ) : (
                   <>
-                    <View style={{ marginTop: 20 }}>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={() =>
-                          navigation.navigate("promotiondetail", {
-                            idpromocion: params.id,
-                          })
-                        }
-                      >
-                        <Text style={{ fontWeight: "bold", color: "white" }}>
-                          ¡ Obtener Promoción !
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        navigation.navigate("promotiondetail", {
+                          idpromocion: params.id,
+                        })
+                      }
+                    >
+                      <Text style={{ fontWeight: "bold", color: "white" }}>
+                        ¡ Obtener Promoción !
+                      </Text>
+                    </TouchableOpacity>
                   </>
                 )}
               </>
@@ -170,10 +173,11 @@ const styles = StyleSheet.create({
   },
   titleOne: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 27,
   },
   titleTwo: {
     fontSize: 18,
+    fontWeight: "300",
   },
   titleThree: {
     fontSize: 14,
@@ -216,6 +220,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
     borderRadius: 15,
     padding: 30,
+    height: 250,
+    alignContent: "center",
   },
   text: {
     color: "grey",
@@ -228,6 +234,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 15,
     marginHorizontal: 30,
+    position: "absolute",
+    bottom: 15,
+    width: "100%",
   },
   buttonDisabled: {
     alignItems: "center",
@@ -235,6 +244,9 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 15,
     marginHorizontal: 30,
+    position: "absolute",
+    bottom: 15,
+    width: "100%",
   },
   heart: {
     position: "absolute",

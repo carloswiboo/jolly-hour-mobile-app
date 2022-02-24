@@ -52,7 +52,6 @@ export const LoginUsuarioApple = async (values) => {
   let url = API + "/auth/usuario/appleLogin";
 
 
-  debugger;
 
   try {
     const response = await axios.post(url, values, {
@@ -62,15 +61,15 @@ export const LoginUsuarioApple = async (values) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-    debugger;
+
     if (response.status === 200) {
       return response;
     } else if (response.status === 401) {
-      debugger;
+     
       return {};
     }
   } catch (error) {
-    debugger;
+  
     console.error(error);
     return {};
   }

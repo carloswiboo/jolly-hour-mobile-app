@@ -32,11 +32,27 @@ export default function InterestScreen({ navigation }) {
   const [hasChanged, setHasChanged] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
 
+  const [tiempo, setTiempo] = React.useState(0);
+  const [countCategoriasActivas, setCountCategoriasActivas] = React.useState(0);
+
+  let contadorActivas = 0;
+
   React.useEffect(() => {
     setFinalData([]);
     setLoading(true);
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
       setFinalData(categoriasDeUsuario);
+      console.log(categoriasDeUsuario);
+
+      for (const categoria of categoriasDeUsuario) {
+        if (categoria.isActive == true) {
+          contadorActivas = contadorActivas + 1;
+        }
+      }
+
+      setCountCategoriasActivas(contadorActivas);
+
+      debugger;
       setLoading(false);
     });
   }, []);
@@ -53,6 +69,27 @@ export default function InterestScreen({ navigation }) {
     }, [])
   );
 
+  const restarFechas = async () => {
+    var resultadoGuardado = await AsyncStorage.getItem(
+      "fechaCaducidadVentanaIntereses"
+    );
+    var currentDate = new Date();
+    var actualDate = new Date(currentDate.getTime()).toString();
+
+    var diff = new Date(resultadoGuardado) - new Date(currentDate.getTime());
+
+    var minutes = Math.floor(diff / 1000 / 60);
+
+    setTiempo(minutes);
+  };
+
+  React.useEffect(() => {
+    restarFechas();
+    return () => {
+      true;
+    };
+  }, []);
+
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -68,6 +105,17 @@ export default function InterestScreen({ navigation }) {
               finalResult.push(valor);
             }
           }
+
+          debugger;
+          let contadorActivas2 = 0;
+          for (const categoria of finalData) {
+            if (categoria.isActive == true) {
+              contadorActivas2 = contadorActivas2 + 1;
+            }
+          }
+
+          debugger;
+          setCountCategoriasActivas(contadorActivas2);
 
           setFinalData(finalResult);
 
@@ -117,6 +165,23 @@ export default function InterestScreen({ navigation }) {
           )}
         </View>
 
+        {countCategoriasActivas > 0 && loading == false && tiempo > 0 ? (
+          <>
+            <TouchableOpacity
+              style={{
+                padding: 15,
+                alignContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                navigation.navigate("home");
+              }}
+            >
+              <Text style={{ color: "white" }}>Iniciar</Text>
+            </TouchableOpacity>
+          </>
+        ) : null}
+
         {/*<View style={styles.containerButtons}>
           <Button
             buttonStyle={styles.buttonOmit}
@@ -152,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 10,
-   paddingTop: 5
+    paddingTop: 5,
   },
   scrollViewContainer: {
     flex: 1,
@@ -177,6 +242,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: "white",
     fontSize: 20,
+    fontWeight: "100",
   },
   buttonOmit: {
     borderRadius: 40,

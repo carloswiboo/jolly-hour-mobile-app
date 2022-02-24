@@ -262,7 +262,7 @@ export default function WelcomeScreen({ navigation }) {
           <View style={stylesWelcomeMessage.welcomeMessageContainer}>
             <Text style={stylesWelcomeMessage.textWelcome}>¡Bienvenido!</Text>
             <Text style={stylesWelcomeMessage.subtitleWelcome}>
-              Nos da mucho gusto
+              ¡Nos da mucho gusto
             </Text>
             <Text style={stylesWelcomeMessage.subtitleWelcome}>
               que estés aquí!
@@ -292,8 +292,8 @@ export default function WelcomeScreen({ navigation }) {
         {isLoginOpen ? (
           <KeyboardAwareScrollView style={stylesContainer.containerLogSignUp}>
             <View style={{ paddingHorizontal: 8 }}>
-              <Text style={loginStyles.titleLogin}>Empecemos</Text>
-              <Text style={loginStyles.titleLogin}>aquí</Text>
+              <Text style={loginStyles.titleLogin}>Empecemos aquí</Text>
+              <Text style={loginStyles.titleLogin}></Text>
             </View>
             <View style={{ paddingVertical: 10 }}>
               <Formik
@@ -412,7 +412,7 @@ export default function WelcomeScreen({ navigation }) {
                         tokenNotificacion: userTokenNotificaciones,
                       }).then((resultado) => {
                         if (resultado.status == 200) {
-                          debugger;
+                        
                           authContext.signIn(resultado.data).then(() => {
                             Restart();
                           });
@@ -424,13 +424,13 @@ export default function WelcomeScreen({ navigation }) {
 
                     // signed in
                   } catch (e) {
-                    debugger;
+                   
                     if (e.code === "ERR_CANCELED") {
                       // handle that the user canceled the sign-in flow
-                      debugger;
+                  
                     } else {
                       // handle other errors
-                      debugger;
+                   
                     }
                   }
                 }}
@@ -443,12 +443,12 @@ export default function WelcomeScreen({ navigation }) {
                 alignItems: "center",
               }}
             >
-              <Text>¿No tienes cuenta?</Text>
+              <Text style={{ fontWeight: "100" }}>¿No tienes cuenta?</Text>
               <TouchableOpacity onPress={() => openSignUp()}>
                 <Text style={{ color: "#6e24a4" }}> Crear cuenta</Text>
               </TouchableOpacity>
 
-              <View style={{marginTop: 20}}>
+              <View style={{ marginTop: 20 }}>
                 <TouchableOpacity
                   style={styles.buttonMenu}
                   onPress={() => {
@@ -457,7 +457,7 @@ export default function WelcomeScreen({ navigation }) {
                     );
                   }}
                 >
-                  <Text style={styles.resultText}>Aviso de Privacidad</Text>
+                  <Text style={{fontWeight: '600'}}>Aviso de Privacidad</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -467,8 +467,8 @@ export default function WelcomeScreen({ navigation }) {
         {isSignUpOpen ? (
           <KeyboardAwareScrollView style={stylesContainer.containerLogSignUp}>
             <View style={{ paddingHorizontal: 8 }}>
-              <Text style={loginStyles.titleLogin}>Crea tu cuenta</Text>
-              <Text style={loginStyles.titleLogin}>aquí</Text>
+              <Text style={loginStyles.titleLogin}>Crea tu cuenta aquí</Text>
+              <Text style={loginStyles.titleLogin}></Text>
             </View>
             <View style={{ paddingVertical: 10 }}>
               <Formik
@@ -570,7 +570,7 @@ export default function WelcomeScreen({ navigation }) {
                 alignItems: "center",
               }}
             >
-              <Text>¿Ya tienes cuenta?</Text>
+              <Text style={{fontWeight: '100'}}>¿Ya tienes cuenta?</Text>
               <TouchableOpacity onPress={() => openLogin()}>
                 <Text style={{ color: "#6e24a4" }}> Iniciar Sesión cuenta</Text>
               </TouchableOpacity>
@@ -676,7 +676,7 @@ const stylesWelcomeMessage = StyleSheet.create({
   subtitleWelcome: {
     color: "white",
     textAlign: "center",
-    fontWeight: "200",
+    fontWeight: "100",
     fontSize: 20,
   },
   buttonBegin: {
@@ -702,7 +702,7 @@ const stylesContainer = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: windowHeight / 1.3,
+    height: windowHeight / 1.7,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     paddingVertical: 40,

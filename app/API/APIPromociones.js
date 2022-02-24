@@ -50,7 +50,7 @@ export const getOfertaValidation = async (values) => {
       },
     });
 
-     debugger;
+    
 
     if (response.status === 200) {
       return response.data;
