@@ -21,8 +21,6 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-
-
 export default function BusinessDetailScreen({ route, navigation }) {
   const { params } = route;
   const { loginState } = React.useContext(AuthContext);
@@ -38,8 +36,6 @@ export default function BusinessDetailScreen({ route, navigation }) {
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
-       
-
       setFinalData(resultado);
       setLoading(false);
     });
@@ -54,7 +50,6 @@ export default function BusinessDetailScreen({ route, navigation }) {
         <LoadingComponent />
       ) : (
         <>
-
           <SafeAreaView style={styles.container} key={uuid()}>
             <View style={styles.encabezado}>
               <ImageBackground
@@ -105,9 +100,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
                   <Text style={{ fontWeight: "bold", fontSize: 20 }}>
                     Descripción:
                   </Text>
-                  <Text>
-                   {finalData.descripcion}
-                  </Text>
+                  <Text>{finalData.descripcion}</Text>
                 </View>
                 <TouchableOpacity
                   style={styles.buttonVerMasInformacion}
@@ -199,7 +192,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
-    marginTop: -17,
+    marginTop: -25,
     flexDirection: "column",
   },
   image: {
@@ -216,6 +209,7 @@ const styles = StyleSheet.create({
   },
   titleTwo: {
     fontSize: 13,
+    marginBottom: 15
   },
   titleThree: {
     fontSize: 14,
