@@ -51,7 +51,6 @@ export default function PromotionDetailScreen({ route, navigation }) {
       idusuario: loginState.userToken.id,
       idoferta: params.idpromocion,
     }).then((resultado) => {
-    
       const resultadoImagen = resultado.objOferta[0].imagenPromocionConvertida;
       setImage({
         uri: resultadoImagen,
@@ -93,13 +92,13 @@ export default function PromotionDetailScreen({ route, navigation }) {
       {finalData.objOferta.length === 0 ? <LoadingComponent /> : null}
       {finalData.objOferta.map((oferta, index) => (
         <LinearGradient
-          style={{flex: 1}}
-          colors={["#FC466B", "#3F5EFB"]}
+          style={{ flex: 1 }}
+          colors={["#000000", "#000000"]}
           start={{ x: 0.0, y: 0.25 }}
           end={{ x: 0.5, y: 1.0 }}
           key={index}
         >
-          <SafeAreaView style={styles.container} key={uuid()}>
+          <View style={styles.container} key={uuid()}>
             <View style={styles.encabezado}>
               <ImageBackground source={image} style={styles.image}>
                 <LinearGradient
@@ -352,7 +351,7 @@ export default function PromotionDetailScreen({ route, navigation }) {
                 </View>
               )}
             </View>
-          </SafeAreaView>
+          </View>
         </LinearGradient>
       ))}
     </>
@@ -367,7 +366,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   encabezado: {
-    flex: 5,
+    flex: 3,
   },
   cuerpo: {
     flex: 7,
@@ -376,7 +375,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     padding: 15,
     paddingTop: 0,
-    marginTop: -10,
+    marginTop: -25,
     flexDirection: "column",
   },
   image: {
