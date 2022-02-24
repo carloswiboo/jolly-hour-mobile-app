@@ -114,16 +114,14 @@ export default function CardComponent({ navigation, params, islogged }) {
             </View>
             {islogged == false ? (
               <>
-                <View style={{ marginTop: 20 }}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate("welcomescreen")}
-                  >
-                    <Text style={{ fontWeight: "bold", color: "white" }}>
-                      Obtener Promoción
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate("welcomescreen")}
+                >
+                  <Text style={{ fontWeight: "bold", color: "white" }}>
+                    Obtener Promoción
+                  </Text>
+                </TouchableOpacity>
               </>
             ) : (
               <>
@@ -208,6 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     borderRadius: 30,
+   
   },
   image: {
     flex: 1,

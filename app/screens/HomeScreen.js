@@ -246,6 +246,9 @@ export default function HomeScreen({ navigation, params }) {
                   ) : null}
                 </>
               ))}
+              <Text></Text>
+              <Text></Text>
+
             </>
           )}
         </ScrollView>

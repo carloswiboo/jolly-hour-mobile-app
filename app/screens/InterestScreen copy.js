@@ -22,14 +22,10 @@ export default function InterestScreen({ navigation }) {
 
   React.useEffect(() => {
     getCategories().then((resultadoSiHay) => {
-       
-
       var resultadoFinal = JSON.parse(resultadoSiHay);
 
       if (resultadoFinal === null) {
         getAllCategorias().then((resultado) => {
-
-
           for (const categoria of resultado) {
             categoria.isActive = false;
           }
@@ -112,7 +108,8 @@ export default function InterestScreen({ navigation }) {
         end={{ x: 0.5, y: 1.0 }}
       >
         <View style={styles.containerTitle}>
-          <Text style={styles.textTitle}>Elige Tus{"\n"}Intereses</Text>
+          <Text style={styles.textTitle}>Elige tus{"\n"}intereses</Text>
+          <Text style={styles.textTitle}>Elige tus{"\n"}intereses</Text>
           <Text style={styles.textSubtitle}>
             Recibirás las mejores promociones conforme los intereses que elijas.
           </Text>

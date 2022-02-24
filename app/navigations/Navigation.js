@@ -123,6 +123,7 @@ export default function Navigation() {
                       name="home"
                       component={PromocionesStack}
                       options={{
+                        title: "Inicio",
                         tabBarIcon: ({ color }) => (
                           <MaterialCommunityIcons
                             name="home"

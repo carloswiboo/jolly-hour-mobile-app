@@ -143,7 +143,8 @@ export default function InterestScreen({ navigation }) {
     >
       <SafeAreaView style={styles.container}>
         <View style={styles.containerTitle}>
-          <Text style={styles.textTitle}>Elige Tus{"\n"}Intereses</Text>
+          <Text style={styles.textTitle}>Elige tus</Text>
+          <Text style={styles.textTitleDos}>intereses</Text>
           <Text style={styles.textSubtitle}>
             Recibirás las mejores promociones conforme los intereses que elijas.
           </Text>
@@ -237,6 +238,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 50,
+  },
+  textTitleDos: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 50,
+    marginTop: -10
   },
   textSubtitle: {
     paddingVertical: 10,
