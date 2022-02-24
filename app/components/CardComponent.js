@@ -19,7 +19,6 @@ function toTimestamp(strDate) {
 }
 
 export default function CardComponent({ navigation, params, islogged }) {
-
   let image = { uri: params.imagenConvertida };
 
   const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =
@@ -55,17 +54,6 @@ export default function CardComponent({ navigation, params, islogged }) {
           style={styles.image}
         >
           <View style={styles.opacity}>
-            <AntDesign
-              style={styles.heart}
-              name="hearto"
-              size={18}
-              color="white"
-              onPress={() =>
-                navigation.navigate("promotiondetail", {
-                  idpromocion: params.id,
-                })
-              }
-            />
             {params.agotado == 1 ? (
               <>
                 <View style={styles.dueDateDeshabilitado}>
@@ -109,7 +97,7 @@ export default function CardComponent({ navigation, params, islogged }) {
                 </View>
               </>
             )}
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 30 }}>
               <Text style={[styles.whiteText, styles.titleOne]}>
                 {params.titulo}
               </Text>
