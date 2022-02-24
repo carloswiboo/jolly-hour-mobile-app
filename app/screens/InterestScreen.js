@@ -32,9 +32,9 @@ export default function InterestScreen({ navigation }) {
   const [hasChanged, setHasChanged] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
 
-  console.log(loginState);
-
   React.useEffect(() => {
+    setFinalData([]);
+    setLoading(true);
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
       setFinalData(categoriasDeUsuario);
       setLoading(false);
@@ -43,6 +43,9 @@ export default function InterestScreen({ navigation }) {
 
   useFocusEffect(
     React.useCallback(() => {
+      setFinalData([]);
+      setLoading(true);
+
       getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
         setFinalData(categoriasDeUsuario);
         setLoading(false);
@@ -72,10 +75,7 @@ export default function InterestScreen({ navigation }) {
         }}
       >
         {item.isActive == true ? (
-          <Image
-            style={styles.tinyLogo}
-            source={{ uri: item.imagenActiva }}
-          />
+          <Image style={styles.tinyLogo} source={{ uri: item.imagenActiva }} />
         ) : (
           <Image
             style={styles.tinyLogo}
@@ -152,10 +152,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 10,
+   paddingTop: 5
   },
   scrollViewContainer: {
     flex: 1,
     width: "100%",
+    paddingTop: 15,
   },
   containerButtons: {
     backgroundColor: "white",

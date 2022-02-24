@@ -1,8 +1,8 @@
 import React from "react";
 import Navigation from "./app/navigations/Navigation";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./app/context/context";
 import { RootSiblingParent } from "react-native-root-siblings";
@@ -27,7 +27,6 @@ export default function App() {
       if (status === "granted") {
         console.log("Yay! I have user permission to track data");
       } else {
-       
       }
     })();
   }, []);
@@ -158,16 +157,18 @@ export default function App() {
   }, []);
 
   return (
-    <RootSiblingParent>
-      <View style={{ flex: 1, backgroundColor: "black" }}>
-        <AuthContext.Provider value={{ authContext, loginState }}>
-          <SafeAreaProvider >
-            <StatusBar style="dark" />
-            <Navigation />
-          </SafeAreaProvider>
-        </AuthContext.Provider>
-      </View>
-      <FlashMessage position="bottom" style={{ zIndex: 90000 }} />
-    </RootSiblingParent>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <SafeAreaProvider>
+        <RootSiblingParent>
+          <View style={{ flex: 1, backgroundColor: "black" }}>
+            <AuthContext.Provider value={{ authContext, loginState }}>
+              <StatusBar style="light" />
+              <Navigation />
+            </AuthContext.Provider>
+          </View>
+          <FlashMessage position="bottom" style={{ zIndex: 90000 }} />
+        </RootSiblingParent>
+      </SafeAreaProvider>
+    </SafeAreaView>
   );
 }

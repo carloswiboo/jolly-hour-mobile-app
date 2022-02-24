@@ -14,7 +14,7 @@ export default function LoadingCategoriesComponent() {
         resizeMode={"contain"}
       />
       <Text style={{ textAlign: "center", fontWeight: 'bold', flex: 1}}>
-        Estamos cargando las categorias... espera un poco
+        Estamos cargando las categorias, espera un poco...
       </Text>
     </View>
   );

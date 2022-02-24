@@ -134,6 +134,7 @@ export const anadirEliminarCategorie = async (idcategoria, idusuario) => {
       return {};
     }
   } catch (error) {
+    debugger;
     console.error(error);
     return {};
   }
@@ -171,7 +172,6 @@ export const getCategoriesByUser = async (token) => {
 
       debugger;
 
-      
       for (const categoriaNoSeleccionada of response.data.noSeleccionadas) {
         categoriaNoSeleccionada.isActive = false;
         categoriaNoSeleccionada.imagenActiva =
