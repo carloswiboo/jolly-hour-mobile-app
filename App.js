@@ -44,7 +44,7 @@ export default function App() {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        alert("Las notificaciones de tu celular están desactivadas, accede a todas las ventajas de Jolly Hour activando las notificaciones");
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;

@@ -134,7 +134,7 @@ export default function ProfileScreen({ navigation }) {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        alert("Las notificaciones de tu celular están desactivadas, accede a todas las ventajas de Jolly Hour activando las notificaciones");
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -204,9 +204,12 @@ export default function ProfileScreen({ navigation }) {
             >
               {finalData.nombre}
             </Text>
+            {
+              /*
             <Text style={{ color: "white", fontWeight: "400", fontSize: 15 }}>
               <Badge status="success" style={{ paddingTop: 40 }} /> Cliente VIP
-            </Text>
+            </Text>*/
+            }
           </View>
 
           <View style={styles.ScrollView}>
