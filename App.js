@@ -1,8 +1,8 @@
 import React from "react";
 import Navigation from "./app/navigations/Navigation";
 import "react-native-gesture-handler";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./app/context/context";
 import { RootSiblingParent } from "react-native-root-siblings";
@@ -12,12 +12,24 @@ import * as yup from "yup";
 import { StatusBar } from "expo-status-bar";
 import { io } from "socket.io-client";
 import FlashMessage from "react-native-flash-message";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
+import { Restart } from "fiction-expo-restart";
 
 export default function App() {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
   };
+
+  React.useEffect(() => {
+    (async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      if (status === "granted") {
+        console.log("Yay! I have user permission to track data");
+      } else {
+      }
+    })();
+  }, []);
 
   async function registerForPushNotificationsAsync() {
     let token;
@@ -32,7 +44,7 @@ export default function App() {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        alert("Las notificaciones de tu celular están desactivadas, accede a todas las ventajas de Jolly Hour activando las notificaciones");
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -145,16 +157,18 @@ export default function App() {
   }, []);
 
   return (
-    <RootSiblingParent>
-      <View style={{ flex: 1, backgroundColor: "black" }}>
-        <AuthContext.Provider value={{ authContext, loginState }}>
-          <SafeAreaProvider>
-            <StatusBar style="dark" />
-            <Navigation />
-          </SafeAreaProvider>
-        </AuthContext.Provider>
-      </View>
-      <FlashMessage position="bottom" style={{ zIndex: 90000 }} />
-    </RootSiblingParent>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <SafeAreaProvider>
+        <RootSiblingParent>
+          <View style={{ flex: 1, backgroundColor: "black" }}>
+            <AuthContext.Provider value={{ authContext, loginState }}>
+              <StatusBar style="light" />
+              <Navigation />
+            </AuthContext.Provider>
+          </View>
+          <FlashMessage position="bottom" style={{ zIndex: 90000 }} />
+        </RootSiblingParent>
+      </SafeAreaProvider>
+    </SafeAreaView>
   );
 }

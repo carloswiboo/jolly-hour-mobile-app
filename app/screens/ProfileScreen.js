@@ -46,6 +46,7 @@ export default function ProfileScreen({ navigation }) {
   React.useEffect(() => {
     let ready = false;
     getDetalleUsuario(null, loginState.userToken.id).then((resultado) => {
+      console.log(resultado);
       setFinalData(resultado);
     });
 
@@ -64,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
-          alert("Necesitamos permiso para cambiar tu imagen de perfil!");
+          // alert("Necesitamos permiso para cambiar tu imagen de perfil!");
         } else {
           let toast = Toast.show("Acceso para cambiar imagen concedido", {
             duration: Toast.durations.SHORT,
@@ -133,7 +134,7 @@ export default function ProfileScreen({ navigation }) {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
+        alert("Las notificaciones de tu celular están desactivadas, accede a todas las ventajas de Jolly Hour activando las notificaciones");
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -160,7 +161,7 @@ export default function ProfileScreen({ navigation }) {
       return;
     }
 
-    await Sharing.shareAsync("popó");
+
   };
 
   return (
@@ -203,9 +204,12 @@ export default function ProfileScreen({ navigation }) {
             >
               {finalData.nombre}
             </Text>
+            {
+              /*
             <Text style={{ color: "white", fontWeight: "400", fontSize: 15 }}>
               <Badge status="success" style={{ paddingTop: 40 }} /> Cliente VIP
-            </Text>
+            </Text>*/
+            }
           </View>
 
           <View style={styles.ScrollView}>
@@ -247,7 +251,7 @@ export default function ProfileScreen({ navigation }) {
                 <Text style={styles.tinyText}>Correo electrónico</Text>
                 <Text style={styles.resultText}>
                   {finalData.email === null
-                    ? "Inicio con Facebook"
+                    ? "Inicio con red social"
                     : finalData.email}
                 </Text>
               </View>
@@ -257,9 +261,7 @@ export default function ProfileScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.buttonMenu}
                   onPress={() => {
-                    Linking.openURL(
-                      "https://jollyhour.com.mx/terminosycondiciones/"
-                    );
+                    Linking.openURL("https://partners.jollyhour.com.mx/terms/");
                   }}
                 >
                   <Text style={styles.resultText}>Términos y Condiciones</Text>
@@ -269,13 +271,25 @@ export default function ProfileScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.buttonMenu}
                   onPress={() => {
-                    Linking.openURL("https://jollyhour.com.mx/ayuda/");
+                    Linking.openURL("https://help.jollyhour.com.mx/ayuda/");
                   }}
                 >
                   <Text style={styles.resultText}>Ayuda</Text>
                 </TouchableOpacity>
               </View>
-
+              <View style={styles.listaDatos}>
+                <TouchableOpacity
+                  style={styles.buttonMenu}
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://help.jollyhour.com.mx/privacy.html"
+                    );
+                  }}
+                >
+                  <Text style={styles.resultText}>Aviso de Privacidad</Text>
+                </TouchableOpacity>
+              </View>
+              {/*
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}
@@ -283,11 +297,14 @@ export default function ProfileScreen({ navigation }) {
                     openShareDialogAsync();
                   }}
                 >
+                 
                   <Text style={styles.resultText}>
                     {tokenNotificacionState}
                   </Text>
                 </TouchableOpacity>
+                
               </View>
+              */}
               <View style={styles.listaDatos}>
                 <TouchableOpacity
                   style={styles.buttonMenu}

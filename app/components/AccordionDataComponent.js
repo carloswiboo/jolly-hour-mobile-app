@@ -24,8 +24,6 @@ const wait = (timeout) => {
 };
 
 export default function AccordionDataComponent(props) {
-
-
    
   const onRefresh = React.useCallback(() => {
     props.setRefreshing(true);
@@ -72,8 +70,11 @@ export default function AccordionDataComponent(props) {
             <BusinessCardDataComponent navigation={props.navigation} params={promocion} />
             <CardComponentMyJollys data={promocion} />
             <View style={{ alignItems: "center" }}>
+            {promocion.agotado == 1 ? (null) : (<>
               <QRCode value={promocion.cadena} />
               <Text style={{ marginTop: 5 }}>{promocion.cadena}</Text>
+            </>) }
+             
             </View>
           </CollapseBody>
         </Collapse>

@@ -23,29 +23,72 @@ import {
 import { AuthContext } from "../context/context";
 
 import { useFocusEffect } from "@react-navigation/native";
+import LoadingComponent from "../components/LoadingComponent";
+import LoadingCategoriesComponent from "../components/LoadingCategoriesComponent";
 
 export default function InterestScreen({ navigation }) {
   const [finalData, setFinalData] = React.useState([]);
   const { loginState } = React.useContext(AuthContext);
   const [hasChanged, setHasChanged] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
 
-  console.log(loginState);
+  const [tiempo, setTiempo] = React.useState(0);
+  const [countCategoriasActivas, setCountCategoriasActivas] = React.useState(0);
+
+  let contadorActivas = 0;
 
   React.useEffect(() => {
+    setFinalData([]);
+    setLoading(true);
     getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
-
       setFinalData(categoriasDeUsuario);
+      console.log(categoriasDeUsuario);
+
+      for (const categoria of categoriasDeUsuario) {
+        if (categoria.isActive == true) {
+          contadorActivas = contadorActivas + 1;
+        }
+      }
+
+      setCountCategoriasActivas(contadorActivas);
+
+      debugger;
+      setLoading(false);
     });
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
-      getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
+      setFinalData([]);
+      setLoading(true);
 
+      getCategoriesByUser(loginState).then((categoriasDeUsuario) => {
         setFinalData(categoriasDeUsuario);
+        setLoading(false);
       });
     }, [])
   );
+
+  const restarFechas = async () => {
+    var resultadoGuardado = await AsyncStorage.getItem(
+      "fechaCaducidadVentanaIntereses"
+    );
+    var currentDate = new Date();
+    var actualDate = new Date(currentDate.getTime()).toString();
+
+    var diff = new Date(resultadoGuardado) - new Date(currentDate.getTime());
+
+    var minutes = Math.floor(diff / 1000 / 60);
+
+    setTiempo(minutes);
+  };
+
+  React.useEffect(() => {
+    restarFechas();
+    return () => {
+      true;
+    };
+  }, []);
 
   const renderItem = ({ item }) => {
     return (
@@ -55,8 +98,6 @@ export default function InterestScreen({ navigation }) {
           var finalResult = [];
 
           for (const valor of finalData) {
-             
-
             if (valor.id == item.id) {
               valor.isActive = !valor.isActive;
               finalResult.push(valor);
@@ -65,17 +106,29 @@ export default function InterestScreen({ navigation }) {
             }
           }
 
+          debugger;
+          let contadorActivas2 = 0;
+          for (const categoria of finalData) {
+            if (categoria.isActive == true) {
+              contadorActivas2 = contadorActivas2 + 1;
+            }
+          }
+
+          debugger;
+          setCountCategoriasActivas(contadorActivas2);
+
           setFinalData(finalResult);
 
-          anadirEliminarCategorie(item.id, loginState).then((resultado) => {
-           
-          });
+          anadirEliminarCategorie(item.id, loginState).then((resultado) => {});
         }}
       >
         {item.isActive == true ? (
-          <Image style={styles.tinyLogo} source={item.imagenActiva} />
+          <Image style={styles.tinyLogo} source={{ uri: item.imagenActiva }} />
         ) : (
-          <Image style={styles.tinyLogo} source={item.imagenInactiva} />
+          <Image
+            style={styles.tinyLogo}
+            source={{ uri: item.imagenInactiva }}
+          />
         )}
       </TouchableOpacity>
     );
@@ -90,21 +143,45 @@ export default function InterestScreen({ navigation }) {
     >
       <SafeAreaView style={styles.container}>
         <View style={styles.containerTitle}>
-          <Text style={styles.textTitle}>Elige Tus{"\n"}Intereses</Text>
+          <Text style={styles.textTitle}>Elige tus</Text>
+          <Text style={styles.textTitleDos}>intereses</Text>
           <Text style={styles.textSubtitle}>
             Recibirás las mejores promociones conforme los intereses que elijas.
           </Text>
         </View>
         <View style={styles.categoriesContainer}>
-          <FlatList
-            style={styles.scrollViewContainer}
-            numColumns={3}
-            vertical
-            showsHorizontalScrollIndicator={false}
-            data={finalData}
-            renderItem={renderItem}
-          />
+          {loading == false ? (
+            <>
+              <FlatList
+                style={styles.scrollViewContainer}
+                numColumns={3}
+                vertical
+                showsHorizontalScrollIndicator={false}
+                data={finalData}
+                renderItem={renderItem}
+              />
+            </>
+          ) : (
+            <LoadingCategoriesComponent />
+          )}
         </View>
+
+        {countCategoriasActivas > 0 && loading == false && tiempo > 0 ? (
+          <>
+            <TouchableOpacity
+              style={{
+                padding: 15,
+                alignContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                navigation.navigate("home");
+              }}
+            >
+              <Text style={{ color: "white" }}>Iniciar</Text>
+            </TouchableOpacity>
+          </>
+        ) : null}
 
         {/*<View style={styles.containerButtons}>
           <Button
@@ -141,10 +218,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 10,
+    paddingTop: 5,
   },
   scrollViewContainer: {
     flex: 1,
     width: "100%",
+    paddingTop: 15,
   },
   containerButtons: {
     backgroundColor: "white",
@@ -160,10 +239,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 50,
   },
+  textTitleDos: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 50,
+    marginTop: -10
+  },
   textSubtitle: {
     paddingVertical: 10,
     color: "white",
     fontSize: 20,
+    fontWeight: "100",
   },
   buttonOmit: {
     borderRadius: 40,
@@ -186,6 +272,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     flex: 1,
     width: "100%",
+    height: 100,
     resizeMode: "contain",
   },
   overlayTrue: {

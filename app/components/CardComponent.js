@@ -18,8 +18,9 @@ function toTimestamp(strDate) {
   return datum / 1000;
 }
 
-export default function CardComponent({ navigation, params }) {
-  const image = { uri: params.imagenConvertida };
+export default function CardComponent({ navigation, params, islogged }) {
+  let image = { uri: params.imagenConvertida };
+
   const [resultadoMinutosQuedan, setResultadoMinutosQuedan] =
     React.useState("0");
 
@@ -44,65 +45,119 @@ export default function CardComponent({ navigation, params }) {
 
   return (
     <View>
+      {islogged == false ? null : null}
       <BusinessCardDataComponent navigation={navigation} params={params} />
       <View style={styles.container}>
         <ImageBackground
+          imageStyle={{ borderRadius: 15, height: "100%" }}
           source={image}
           style={styles.image}
-          imageStyle={{ borderRadius: 15 }}
         >
           <View style={styles.opacity}>
-            <AntDesign
-              style={styles.heart}
-              name="hearto"
-              size={18}
-              color="white"
-              onPress={() =>
-                navigation.navigate("promotiondetail", {
-                  idpromocion: params.id,
-                })
-              }
-            />
-            <View style={styles.dueDate}>
-              <Text>
-                <MaterialIcons name="timer" size={11} color="white" />
-                <CountDownText
-                  style={{ fontWeight: "bold" }}
-                  countType="date"
-                  auto={true}
-                  afterEnd={() => {}}
-                  timeLeft={resultadoMinutosQuedan}
-                  step={-1}
-                  startText=""
-                  endText="Oferta Terminada"
-                  intervalText={(date, hour, min, sec) =>
-                    "Finaliza en: " + min + ":" + sec
-                  }
-                />
-              </Text>
-            </View>
-            <View style={{ marginTop: 20 }}>
-              <Text style={[styles.whiteText, styles.titleOne]}>
-                {params.titulo}
-              </Text>
-              <Text style={[styles.whiteText, styles.titleTwo]}>
-                {params.descripcionCorta}
-              </Text>
-            </View>
-            <View style={{ marginTop: 20 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("promotiondetail", {
-                    idpromocion: params.id,
-                  })
-                }
-              >
-                <Text style={{ fontWeight: "bold", color: "white" }}>
-                  ¡ Obtener Promoción !
+            {params.agotado == 1 ? (
+              <>
+                <View style={styles.dueDateDeshabilitado}>
+                  <Text>
+                    <MaterialIcons name="timer" size={11} color="white" />
+                    <CountDownText
+                      style={{ fontWeight: "bold" }}
+                      countType="date"
+                      auto={true}
+                      afterEnd={() => {}}
+                      timeLeft={resultadoMinutosQuedan}
+                      step={-1}
+                      startText=""
+                      endText="Oferta Terminada"
+                      intervalText={(date, hour, min, sec) =>
+                        "Finaliza en: " + min + ":" + sec
+                      }
+                    />
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={styles.dueDate}>
+                  <Text>
+                    <MaterialIcons name="timer" size={11} color="white" />
+                    <CountDownText
+                      style={{ fontWeight: "bold" }}
+                      countType="date"
+                      auto={true}
+                      afterEnd={() => {}}
+                      timeLeft={resultadoMinutosQuedan}
+                      step={-1}
+                      startText=""
+                      endText="Oferta Terminada"
+                      intervalText={(date, hour, min, sec) =>
+                        "Finaliza en: " + min + ":" + sec
+                      }
+                    />
+                  </Text>
+                </View>
+              </>
+            )}
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+              }}
+            >
+              <View>
+                <Text style={[styles.whiteText, styles.titleOne]}>
+                  {params.titulo}
                 </Text>
-              </TouchableOpacity>
+                <Text style={[styles.whiteText, styles.titleTwo]}>
+                  {params.descripcionCorta}
+                </Text>
+              </View>
             </View>
+            {islogged == false ? (
+              <>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate("welcomescreen")}
+                >
+                  <Text style={{ fontWeight: "bold", color: "white" }}>
+                    Obtener Promoción
+                  </Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                {params.agotado == 1 ? (
+                  <>
+                    <TouchableOpacity
+                      style={styles.buttonDisabled}
+                      onPress={() =>
+                        navigation.navigate("promotiondetail", {
+                          idpromocion: params.id,
+                        })
+                      }
+                    >
+                      <Text style={{ fontWeight: "bold", color: "white" }}>
+                        Temporalmente Agotada
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        navigation.navigate("promotiondetail", {
+                          idpromocion: params.id,
+                        })
+                      }
+                    >
+                      <Text style={{ fontWeight: "bold", color: "white" }}>
+                        ¡ Obtener Promoción !
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+              </>
+            )}
           </View>
         </ImageBackground>
       </View>
@@ -116,10 +171,11 @@ const styles = StyleSheet.create({
   },
   titleOne: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 27,
   },
   titleTwo: {
     fontSize: 18,
+    fontWeight: "300",
   },
   titleThree: {
     fontSize: 14,
@@ -135,10 +191,22 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 15,
   },
+  dueDateDeshabilitado: {
+    backgroundColor: "#adadad",
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 4,
+    paddingBottom: 4,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    position: "absolute",
+    top: 15,
+  },
   container: {
     flex: 1,
     flexDirection: "column",
     borderRadius: 30,
+   
   },
   image: {
     flex: 1,
@@ -151,6 +219,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
     borderRadius: 15,
     padding: 30,
+    height: 250,
+    alignContent: "center",
   },
   text: {
     color: "grey",
@@ -163,6 +233,19 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 15,
     marginHorizontal: 30,
+    position: "absolute",
+    bottom: 15,
+    width: "100%",
+  },
+  buttonDisabled: {
+    alignItems: "center",
+    backgroundColor: "#adadad",
+    padding: 7,
+    borderRadius: 15,
+    marginHorizontal: 30,
+    position: "absolute",
+    bottom: 15,
+    width: "100%",
   },
   heart: {
     position: "absolute",

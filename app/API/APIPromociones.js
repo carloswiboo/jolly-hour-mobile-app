@@ -36,6 +36,34 @@ export const getNowAllPromotions = async (values) => {
     return [];
   }
 };
+
+export const getOfertaValidation = async (values) => {
+
+ 
+  let url = API + "/services/oferta/ofertaValidation/";
+  try {
+    const response = await axios.get(url, values, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+
+    
+
+    if (response.status === 200) {
+      return response.data;
+    } else if (response.status === 401) {
+      return {status: 0};
+    }
+  } catch (error) {
+
+    console.error(error);
+    return {status: 0};
+  }
+};
+
 export const getAllPromociones = async (values) => {
   let url = API + "/services/oferta/getOfertas";
   try {

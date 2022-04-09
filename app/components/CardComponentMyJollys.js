@@ -4,6 +4,22 @@ import { StyleSheet, Text, View, ImageBackground } from "react-native";
 export default function CardComponentMyJollys(props) {
   return (
     <View style={styles.container}>
+      {props.data.agotado == 1 ? (
+        <>
+          <View
+            style={{
+              width: "100%",
+              alignContent: "center",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ color: "red" }}>
+              Promoción temporalmente agotada
+            </Text>
+          </View>
+        </>
+      ) : null}
       <ImageBackground
         source={{ uri: props.data.imagenConvertida }}
         style={styles.image}

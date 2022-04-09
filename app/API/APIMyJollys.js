@@ -4,7 +4,7 @@ import { API } from "./../constants/ApiConnection";
 
 export const getDetailJollys = async (idusuario, values) => {
   let url = API + "/services/usuario/misJollys/" + idusuario;
-
+  var armandoFinal= [];
   try {
     const response = await axios.get(url, values, {
       headers: {
@@ -25,7 +25,18 @@ export const getDetailJollys = async (idusuario, values) => {
           "data:image/png;base64," + encode(promocion.logoEmpresa.data);
       }
 
-      return response.data;
+      for (const promocionIteracion of response.data) {
+        if(promocionIteracion.finalizado == 1)
+        {
+
+        }
+        else
+        {
+          armandoFinal.push(promocionIteracion)
+        }
+      }
+
+      return armandoFinal;
     } else if (response.status === 401) {
       return {};
     }

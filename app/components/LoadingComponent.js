@@ -5,20 +5,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoadingComponent() {
   return (
-    <SafeAreaView style={styles.container}>
-      <LinearGradient
-        style={styles.gradient}
-        colors={["#FC466B", "#3F5EFB"]}
-        start={{ x: 0.0, y: 0.25 }}
-        end={{ x: 0.5, y: 1.0 }}
-      >
+    <LinearGradient
+      style={styles.gradient}
+      colors={["#FC466B", "#3F5EFB"]}
+      start={{ x: 0.0, y: 0.25 }}
+      end={{ x: 0.5, y: 1.0 }}
+    >
+      <SafeAreaView style={styles.container}>
         <Image
           source={require("../../assets/jollylogoapp.png")}
           style={{ width: 50, height: 60, marginBottom: 10 }}
         />
         <Text style={{ color: "white" }}>Consultando Información.</Text>
-      </LinearGradient>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 

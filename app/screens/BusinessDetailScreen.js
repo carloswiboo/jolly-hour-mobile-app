@@ -36,8 +36,6 @@ export default function BusinessDetailScreen({ route, navigation }) {
   React.useEffect(() => {
     let ready = false;
     getDetailEmpresa(params.idempresa, null).then((resultado) => {
-       
-
       setFinalData(resultado);
       setLoading(false);
     });
@@ -102,9 +100,7 @@ export default function BusinessDetailScreen({ route, navigation }) {
                   <Text style={{ fontWeight: "bold", fontSize: 20 }}>
                     Descripción:
                   </Text>
-                  <Text>
-                   {finalData.descripcion}
-                  </Text>
+                  <Text>{finalData.descripcion}</Text>
                 </View>
                 <TouchableOpacity
                   style={styles.buttonVerMasInformacion}
@@ -184,7 +180,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#3F5EFB",
   },
   encabezado: {
     flex: 5,
@@ -196,7 +192,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
-    marginTop: -17,
+    marginTop: -25,
     flexDirection: "column",
   },
   image: {
@@ -213,6 +209,7 @@ const styles = StyleSheet.create({
   },
   titleTwo: {
     fontSize: 13,
+    marginBottom: 15
   },
   titleThree: {
     fontSize: 14,
